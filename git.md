@@ -178,7 +178,7 @@ Es decir, ver la diferencia entre tu copia de trabajo y el ultimo commit
 
 - Fork on GitHub (click Fork button)
 - Clone to computer `$ git clone git@github.com:Stolz/CodeIgniter.git`
-- Don't forget to cd into your repo: `$ cd diaspora/ `
+- Don't forget to cd into your repo: `$ cd CodeIgniter/ `
 - Set up remote upstream `$ git remote add upstream git://github.com/EllisLab/CodeIgniter.git`
 - Create a branch for new issue `$ git checkout -b new-feature`
 - Develop on issue branch. [Time passes, the main repository accumulates new commits]
