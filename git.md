@@ -174,6 +174,22 @@ Es decir, ver la diferencia entre tu copia de trabajo y el ultimo commit
 
     git push origin HEAD
 
+# GitHub workflow
+
+- Fork on GitHub (click Fork button)
+- Clone to computer `$ git clone git@github.com:Stolz/CodeIgniter.git`
+- Don't forget to cd into your repo: `$ cd diaspora/ `
+- Set up remote upstream `$ git remote add upstream git://github.com/EllisLab/CodeIgniter.git`
+- Create a branch for new issue `$ git checkout -b new-feature`
+- Develop on issue branch. [Time passes, the main repository accumulates new commits]
+- Commit changes to issue branch. `$ git add . ; git commit -m 'commit message'`
+- Fetch upstream `$ git fetch upstream`
+- Update local master `$ git checkout master; git pull upstream master`
+- Repeat steps 5-8 till dev is complete
+- Rebase issue branch `$ git checkout new-feature; git rebase master`
+- Push branch to GitHub `$ git push origin new-feature`
+- Issue pull request (Click Pull Request button)
+
 # - to-do -
 
 REF <http://progit.org/book/es/ch1-3.html>
