@@ -190,7 +190,68 @@ Es decir, ver la diferencia entre tu copia de trabajo y el ultimo commit
 - Push branch to GitHub `$ git push origin new-feature`
 - Issue pull request (Click Pull Request button)
 
+
+You might benefit from the workflow Scott Chacon describes in Pro Git. In this workflow, you have two branches that always exist, master and develop.
+
+master represents the most stable version of your project and you only ever deploy to production from this branch.
+
+develop contains changes that are in progress and may not necessarily be ready for production.
+
+From the develop branch, you create topic branches to work on individual features and fixes. Once your feature/fix is ready to go, you merge it into develop, at which point you can test how it interacts with other topic branches that your coworkers have merged in. Once develop is in a stable state, merge it into master. It should always be safe to deploy to production from master.
+
+Scott describes these long-running branches as "silos" of code, where code in a less stable branch will eventually "graduate" to one considered more stable after testing and general approval by your team.
+
+Step by step, your workflow under this model might look like this:
+
+    You need to fix a bug.
+    Create a branch called myfix that is based on the develop branch.
+    Work on the bug in this topic branch until it is fixed.
+    Merge myfix into develop. Run tests.
+    You discover your fix conflicts with another topic branch hisfix that your coworker merged into develop while you were working on your fix.
+    Make more changes in the myfix branch to deal with these conflicts.
+    Merge myfix into develop and run tests again.
+    Everything works fine. Merge develop into master.
+    Deploy to production from master any time, because you know it's stable.
+
+For more details on this workflow, check out the Branching Workflows chapter in Pro Git.
+
+
+
 # - to-do -
+
+
+If you have a master branch and a develop and you need to merge changes from master into develop, and eventually merge everything from develop into master then the best approach is git rebase. It allows you to pull changes from master into your development branch, but leave all of your development work "on top of" (later in the commit log) the stuff from master. When your new work is complete, the merge back to master is then very straightforward. Be careful with rebase. If you're sharing your develop branch with anybody, rebase can make a mess of things. Rebase is good only for your own local branches. Rule of thumb, if you've pushed the branch to origin, don't use rebase. Instead, use merge.
+
+This workflow works best for me:
+
+	git checkout -b develop
+
+...make some changes...
+
+...notice master has been updated...
+
+	git checkout master
+	git pull
+
+...bring those changes back into develop...
+
+	git checkout develop
+	git rebase master
+
+...make some more changes...
+
+...commit them to develop...
+
+...merge them into master...
+
+	git checkout master
+	git pull git merge develop
+
+
+
+
+
+
 
 REF <http://progit.org/book/es/ch1-3.html>
 REF <http://book.git-scm.com/5_customizing_git.html>
