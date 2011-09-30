@@ -70,7 +70,7 @@ Ext4 tiene activado el diario de transacciones o _journaling_ por defecto. El jo
 
 Para desactivar el journaling a la hora de crear el sistema de ficheros
 
-	mkfs.ext4 -O dir_index,^has_journal -m 0 -E stride=128,stripe-width=128 -O  /dev/sdaX
+	mkfs.ext4 -O dir_index,^has_journal -m 0 -E stride=128,stripe-width=128 /dev/sdaX
 
 Si elsistema de ficheros ya estaba creado usar `tune2fs` para desactivarlo
 
@@ -82,7 +82,7 @@ Además, añadir a `/etc/fstab` la opción __data=writeback__ a las particiones 
 __Nota:__ Ext4 sin journaling es más rápido que Ext2, evitar la tentación de usar Ext2 para no tener journaling.
 
 
-Otra pactica útil para reducir aun más las escrituras es desactivar el registro de los tiempos de acceso de los archivos y directorios añadiendo a `/etc/fstab` las opciones __noatime,nodiratime__.
+Otra práctica útil para reducir aun más las escrituras es desactivar el registro de los tiempos de acceso de los archivos y directorios añadiendo a `/etc/fstab` las opciones __noatime,nodiratime__.
 
 Por último, se recomienda no llenar los sistema de ficheros por encima del 75% de capacidad para asegurar la máxima eficacia de uso por el kernel.
 
