@@ -12,8 +12,7 @@ Hay que asegurarse que la controladora de discos de la placa base no haga cuello
 
 En mi caso, el Crucial M4 (firmware 002) tiene una velocidad de 415MB/s de lectura y 175Mb/s de escritura, por lo que necesito una controladora SATA 600.
 
-Además, el soporte AHCI debe estar activado en el kernel y en la BIOS.
-
+Además, el soporte AHCI debe estar activado en el kernel(SATA_AHCI) y en la BIOS. Si tu placa base tiene algún tipo de cacheo de bus y en tu sistema vas a tener solo discos SSD, cambia el ajuste de la BIOS de `Write Through` a `Write Back`.
 
 
 Tamaños de página y de borrado de bloque
@@ -56,9 +55,17 @@ Sistema de ficheros
 
 Para crear el sistema de ficheros también hay que intentar que quede alineado indicando el tamaño del strip. Hay que usar un valor que sea el número de sectores de 4K que entran en el __erase block size__. Para un erase block size de 512K:  512K/4K = 128
 
-	mkfs.ext4 -O dir_index -m 0 -E stride=128,stripe-width=128  /dev/sdaX
+	mkfs.ext4 -O dir_index -m 0 -c 300 -i 3m -E stride=128,stripe-width=128  /dev/sdaX
 
-El kernel solporta __TRIM__ desde la versión 2.6.33. Para activar el soporte trim en Ext4 hay que añadir a `/etc/fstab` la opción __discard__ a las particiones del SSD. Para saber si TRIM esta funcionando, estudiar los mensajes tras ejecutar
+El kernel solporta __TRIM__ desde la versión 2.6.33. Para ver si nuestro disco lo soporta ejecutar
+
+	hdparm -I /dev/sda
+
+Deberíamos tener una línea así (incluido el asterisco)
+
+	* Data Set Management TRIM supported
+
+Para activar el soporte trim en Ext4 hay que añadir a `/etc/fstab` la opción __discard__ a las particiones del SSD. Para saber si TRIM esta funcionando, estudiar los mensajes tras ejecutar
 
 	dmesg | grep -i discard
 
@@ -70,17 +77,22 @@ Ext4 tiene activado el diario de transacciones o _journaling_ por defecto. El jo
 
 Para desactivar el journaling a la hora de crear el sistema de ficheros
 
-	mkfs.ext4 -O dir_index,^has_journal -m 0 -E stride=128,stripe-width=128 /dev/sdaX
+	mkfs.ext4 -O dir_index,^has_journal -m 0 -c 300 -i 3m -E stride=128,stripe-width=128 /dev/sdaX
 
-Si elsistema de ficheros ya estaba creado usar `tune2fs` para desactivarlo
+Si el sistema de ficheros ya estaba creado usar `tune2fs` para desactivarlo
 
-	tune2fs /dev/sdaX -o data=writeback
+	tune2fs sdaX -o data=writeback
 
 Además, añadir a `/etc/fstab` la opción __data=writeback__ a las particiones del SSD.
 
+Por último comprobar que el sistema se ha creado correctamente
 
-__Nota:__ Ext4 sin journaling es más rápido que Ext2, evitar la tentación de usar Ext2 para no tener journaling.
+	e2fsck -f sdaX
 
+Si tenemos problemas para montar la unidad en modo escritura, activar la siguiente opción
+
+	Enable the block layer
+		Support for large (2TB+) block devices and files (LBDAF)
 
 Otra práctica útil para reducir aun más las escrituras es desactivar el registro de los tiempos de acceso de los archivos y directorios añadiendo a `/etc/fstab` las opciones __noatime,nodiratime__.
 
@@ -103,6 +115,20 @@ Para comprobar cual esta activado ejecutar
 	cat /sys/block/sdX/queue/scheduler
 
 
+hdparm
+------
+
+Para los discos SSD usar este ajuste
+
+	hdparm -W1 /dev/sdaX
+
+Para los discos convencionales usar
+
+	hdparm -W0 /dev/sda
+
+En Gentoo estos ajsutes se pueden hacer permanentes en `/etc/conf.d/hdparm`
+
+
 Memoria de intercambio SWAP
 ---------------------------
 
@@ -116,7 +142,7 @@ Otra forma de de aumentar el rendimiento y evitar las escrituras en disco es usa
 
 Tmpfs es un sistema de ficheros que guarda todos los archivos en la memoria virtual (RAM) en vez de en el disco duro. Si se desmonta, todo lo almacenado en él se pierde. El tamaño aumenta o disminuye dinámicamente para adaptarse a los archivos que contiene. Si crece por encima del tamaño físico de nuestra RAM puede empezar a usar SWAP por lo que conviene establecerle un límite con la opción __size__ en `/etc/fstab`. Si no guardamos nada en él, no ocupa RAM.
 
-Una buena práctica para discos SSD es montar en tmpfs todo lo que sea prescindible y realice escrituras constantes, por ejemplo __/tmp /usr/tmp /var/tmp y /var/log__. Por ejemplo
+Una buena práctica para discos SSD es montar en tmpfs todo lo que sea prescindible y realice escrituras constantes, por ejemplo __/tmp /usr/tmp /var/tmp ~/.kde4/tmp-$HOSTNAME y /var/log__. Por ejemplo
 
 	none	/tmp	tmpfs	nodev,nosuid,noatime,size=1000M,mode=1777	0	0
 
@@ -134,9 +160,20 @@ Podemos cambiar el tamaño al vuelo
 El valor por defecto de `PORTAGE_TMPDIR` apunta a /var/tmp (se puede cambiar en `/etc/make.conf`) por lo que si esa ruta ya está montada en RAM (o es un enlace a /dev/shm) no hace falta indicar nada para que Portage lo use. Lo que sí es útil es añadir la opción `--fail-clean=y` a la variable `EMERGE_DEFAULT_OPTS` de `/etc/make.conf` para que se borren los temporales tras una compilación fallida.
 
 
+Firefox
+-------
+
 Mover la cache de Firefox a RAM:
 
 	about:config -> new -> browser.cache.disk.parent_directory -> /dev/shm
+
+Otra opción es desactivar la cache
+
+	about:config -> browser.cache.disk.enable -> false
+
+Desactivar el sistema de restaurado de sesiones en caso de fallo (ya que escribe constantemente en disco)
+
+	about:config -> browser.sessionstore.enabled -> false
 
 
 Secure erase
