@@ -22,4 +22,4 @@ Create file `/etc/msmtprc`
 
 ### Send
 
-	(echo "Subject: SUBJECT"; echo; echo "MENSSAGE") | msmtp destination_address@example.com
+	(echo "Subject: SUBJECT"; echo; echo "MESSAGE") | msmtp destination_address@example.com
