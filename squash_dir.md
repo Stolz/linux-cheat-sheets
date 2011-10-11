@@ -80,6 +80,7 @@ Create the corresponding config file `/etc/conf.d/squash_portage` with the conte
 	DIRECTORY="/usr/portage"
 	DIR_SQUASH="/mnt/raid/0/squash/portage.readonly"
 	DIR_CHANGE="/mnt/raid/0/squash/portage.changes"
+	FILE_SQFS="/mnt/raid/0/squash/portage.sqfs"
 	COMPRESSION="lzo"
 
 Start the service
