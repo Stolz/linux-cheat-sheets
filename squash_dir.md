@@ -2,12 +2,16 @@
 squash_dir is an init-script that when started uses the in-kernel squashfs (together with aufs or unionfs-fuse or others*) to mount 
 a squashed directory rewritable and when stopped, recompresses the new directory.
 
-*right now it can use:
-sys-fs/aufs2
-sys-fs/unionfs-fuse
-sys-fs/funionfs
-sys-fs/unionfs
-sys-fs/aufs
+It comes very handy for people who is running low on disk space or using SSD disk drives. The access to the squashed dir is similar and usually is even faster than the normal method, pependig on the nature of the compressed data.
+
+[*] right now it can use:
+
+ - sys-fs/aufs2
+ - sys-fs/unionfs-fuse
+ - sys-fs/funionfs
+ - sys-fs/unionfs
+ - sys-fs/aufs
+
 
 ## Kernel modules
 
@@ -36,7 +40,7 @@ The easiest way of installing squash_dir is using the mv overlay via layman
 	emerge --sync
 
 
-If you use eix, you can alternatively run `eix-sync`. In order to automatically updaye v overlay with eix-sync create the file `/etc/eix-sync.conf` with the next content:
+If you use eix, you can alternatively run `eix-sync`. In order to automatically update mv overlay with eix-sync create the file `/etc/eix-sync.conf` with the next content:
 
 	mv
 
@@ -67,7 +71,7 @@ There are plenty more available configuration variables. Check the README file i
 
 # Examples
 
-__NOTE:__ I use squash_dir to make room in my SSD drive and avoid extra writes. All my squashed files and dirs are stored in a rotational disks raid. I've plenty room in the raid so I've used lzo compression for all the examples because it uses to be the fastest one and I don't want to wait too much in every shutdown in case there are changes in my squashed dirs. If you are running low of disk space consider using other options such "xz". Whatever compression method you use, make sure `sys-fs/squashfs-tools` and kernel are compiled with corresponding options.
+__NOTE:__ I use squash_dir to make room in my SSD drive and avoid extra writes. All my squashed files and dirs are stored in a rotational disks raid. I've plenty room in the raid so I've used lzo compression for all the examples because it uses to be the fastest one and I don't want to wait too much in every shutdown in case there are changes in my squashed dirs. If you are running low on disk space consider using other options such "xz". Whatever compression method you use, make sure `sys-fs/squashfs-tools` and kernel are compiled with corresponding options.
 
 
 ## Compress Portage tree
