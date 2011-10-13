@@ -67,7 +67,7 @@ There are plenty more available configuration variables. Check the README file i
 
 # Examples
 
-__NOTE: __ I use squash_dir to make room in my SSD drive and avoid extra writes. All my squashed files and dirs are stored in a rotational disks raid. I've plenty room in the raid so I've used lzo compression for all the examples because it uses to be the fastest one and I don't want to wait too much in every shutdown in case there are changes in my squashed dirs. If you are running low of disk space consider using other options such "xz". Whatever compression method you use, make sure `sys-fs/squashfs-tools` and kernel are compiled with corresponding options.
+__NOTE:__ I use squash_dir to make room in my SSD drive and avoid extra writes. All my squashed files and dirs are stored in a rotational disks raid. I've plenty room in the raid so I've used lzo compression for all the examples because it uses to be the fastest one and I don't want to wait too much in every shutdown in case there are changes in my squashed dirs. If you are running low of disk space consider using other options such "xz". Whatever compression method you use, make sure `sys-fs/squashfs-tools` and kernel are compiled with corresponding options.
 
 
 ## Compress Portage tree
@@ -95,7 +95,7 @@ Start the service
 
 ## Compress kernel sources
 
-The kernel sources is also a good candidate to be compressed with squash_dir. It also  has thousand of small files that can be easily recovered.
+The kernel sources dir is also a good candidate to be compressed with squash_dir. It also has thousand of small files that can be easily recovered.
 
 Create the symlink
 
@@ -146,7 +146,7 @@ Create the symlink
 
 Create the corresponding config file `/etc/conf.d/squash_doc` with the content:
 
-	DIRECTORY="/usr/src"
+	DIRECTORY="/usr/share/doc"
 	DIR_SQUASH="/mnt/raid/0/squash/doc.readonly"
 	DIR_CHANGE="/mnt/raid/0/squash/doc.changes"
 	FILE_SQFS="/mnt/raid/0/squash/doc.sqfs"
