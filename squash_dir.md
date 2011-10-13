@@ -2,7 +2,7 @@
 squash_dir is an init-script that when started uses the in-kernel squashfs (together with aufs or unionfs-fuse or others*) to mount 
 a squashed directory rewritable and when stopped, recompresses the new directory.
 
-It comes very handy for people who is running low on disk space or using SSD disk drives. The access to the squashed dir is similar and usually is even faster than the normal method, pependig on the nature of the compressed data.
+It comes very handy for people who is running low on disk space or using SSD disk drives. The access to the squashed dir is similar and usually is even faster than the normal method, dependig on the nature of the compressed data.
 
 [*] right now it can use:
 
