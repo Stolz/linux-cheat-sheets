@@ -61,13 +61,18 @@ To compress a dir you need to:
 	rc-update add squash_NAME default
 	/etc/init.d/squash_NAME start
 
-An optional variabel you can use in the config file is `COMPRESSION` for specify the compression method used by mksquashfs. If empty, the default mksquashfs algorithm (currently: "gzip") is used. Other possible values are "gzip", "xz", "lzo". If this variable is not specified, it defaults to that algorithm which is presumably best compressing (which is currently "xz"). "lzo" uses to be the fastest one. I you chose "xz" or "lzo" make sure you also enable corresponding kernel option for squashfs.
+An optional variabel you can use in the config file is `COMPRESSION` for specify the compression method used by mksquashfs. If empty, the default mksquashfs algorithm (currently: "gzip") is used. Other possible values are "gzip", "xz", "lzo". If this variable is not specified, it defaults to that algorithm which is presumably best compressing (which is currently "xz"). "lzo" uses to be the fastest one. If you chose "xz" or "lzo" make sure you also enable corresponding kernel option for squashfs.
 
 There are plenty more available configuration variables. Check the README file included in squash_dir package for more information.
 
 # Examples
 
+__NOTE: __ I use squash_dir to make room in my SSD drive and avoid extra writes. All my squashed files and dirs are stored in a rotational disks raid. I've plenty room in the raid so I've used lzo compression for all the examples because it uses to be the fastest one and I don't want to wait too much in every shutdown in case there are changes in my squashed dirs. If you are running low of disk space consider using other options such "xz". Whatever compression method you use, make sure `sys-fs/squashfs-tools` and kernel are compiled with corresponding options.
+
+
 ## Compress Portage tree
+
+The Portage tree is the perfect candidate to be compressed with squash_dir because it has thousand of small text files that can be easily recovered in case something bad happens.
 
 First you need to make sure both DISTDIR (by default /usr/portage/distfiles) and PKGDIR (by default /usr/portage/packages) are set to a place other than PORTDIR (by default /usr/portage/), because it makes no sense to keep them compressed by squash_dir. Both variables can be set in `/etc/make.conf`.
 
@@ -87,3 +92,67 @@ Start the service
 
 	rc-update add squash_portage default
 	/etc/init.d/squash_portage start
+
+## Compress kernel sources
+
+The kernel sources is also a good candidate to be compressed with squash_dir. It also  has thousand of small files that can be easily recovered.
+
+Create the symlink
+
+	ln -s /etc/init.d/squash_dir /etc/init.d/squash_kernel
+
+Create the corresponding config file `/etc/conf.d/squash_kernel` with the content:
+
+	DIRECTORY="/usr/src"
+	DIR_SQUASH="/mnt/raid/0/squash/kernel.readonly"
+	DIR_CHANGE="/mnt/raid/0/squash/kernel.changes"
+	FILE_SQFS="/mnt/raid/0/squash/kernel.sqfs"
+	COMPRESSION="lzo"
+
+Start the service
+
+	rc-update add squash_kernel default
+	/etc/init.d/squash_kernel start
+
+
+## Compress /var/db
+
+The directory `/var/db` could be a perfect candidate to be squashed but it's rather vital to your system. If it is lost you have practically completely messed up your system. It's up to you to take the risk of using squash_dir with it. If you decide to go on, at least a backup of the previous compressed data should always be kept using the `FILE_SQFS_OLD` config variable. I don't recomend to squash it but if you decide to do so, here is a possible configuration to use:
+
+
+Create the symlink
+
+	ln -s /etc/init.d/squash_dir /etc/init.d/squash_db
+
+Create the corresponding config file `/etc/conf.d/squash_db` with the content (Note here I'm using my raid1, not my raid0'):
+
+	DIRECTORY="/var/db"
+	DIR_SQUASH="/mnt/raid/1/squash/db.readonly"
+	DIR_CHANGE="/mnt/raid/1/squash/db.changes"
+	FILE_SQFS="/mnt/raid/1/squash/db.sqfs"
+	FILE_SQFS_OLD="/mnt/raid/1/squash/db.sqfs.bak"
+	COMPRESSION="lzo"
+
+Start the service
+
+	rc-update add squash_db default
+	/etc/init.d/squash_db started
+
+## Compress docs
+
+Create the symlink
+
+	ln -s /etc/init.d/squash_dir /etc/init.d/squash_doc
+
+Create the corresponding config file `/etc/conf.d/squash_doc` with the content:
+
+	DIRECTORY="/usr/src"
+	DIR_SQUASH="/mnt/raid/0/squash/doc.readonly"
+	DIR_CHANGE="/mnt/raid/0/squash/doc.changes"
+	FILE_SQFS="/mnt/raid/0/squash/doc.sqfs"
+	COMPRESSION="lzo"
+
+Start the service
+
+	rc-update add squash_doc default
+	/etc/init.d/squash_doc start
