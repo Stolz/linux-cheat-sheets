@@ -160,3 +160,15 @@ Start the service
 
 	rc-update add squash_doc default
 	/etc/init.d/squash_doc start
+
+## And more ...
+
+Same for:
+
+	/usr/share/gtk-doc/
+	/usr/share/man/
+	/usr/share/mime/
+	/usr/share/sgml/
+	/usr/share/fonts
+	/usr/share/locale
+	/usr/share/myspell
