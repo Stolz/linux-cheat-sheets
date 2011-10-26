@@ -85,9 +85,13 @@ Si el sistema de ficheros ya estaba creado usar `tune2fs` para desactivarlo
 
 Además, añadir a `/etc/fstab` la opción __data=writeback__ a las particiones del SSD.
 
-Por último comprobar que el sistema se ha creado correctamente
+Por último comprobar que el sistema se ha creado correctamente ...
 
 	e2fsck -f /dev/sdaX
+	
+... y que las opciones que hemos indicado se han gaurdado en el sistema de ficheros
+
+	tune2fs -l /dev/sdaX
 
 Si tenemos problemas para montar la unidad en modo escritura en sistemas 32 bits activar la siguiente opción
 
