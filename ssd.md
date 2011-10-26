@@ -75,13 +75,13 @@ Si sale algo como _discard not supported_ entonces TRIM está fallando.
 Ext4 tiene activado el diario de transacciones o _journaling_ por defecto. El journaling realiza escrituras constantes en el disco, lo cual acorta la vida útil del disco SSD y reduce ligeramente el rendimiento. Podemos desactivarlo pero entonces,  __un reinicio inesperado puede causar que los archivos modificados recientemente se corrompan__.
 
 
-Para desactivar el journaling a la hora de crear el sistema de ficheros
+Para desactivar el journaling si el sistema de ficheros ya estaba creado usar `tune2fs` para desactivarlo
+
+	tune2fs /dev/sdaX -o journal_data_writeback
+
+Si no estaba creado, se puede hacer al mismo tiempo que se crea (auqneu en lso foros algunos reportan que no funciona, por lo que hay que usar tune2fs como en la línea anterior)
 
 	mkfs.ext4 -O dir_index,^has_journal -m 0 -E stride=128,stripe-width=128 /dev/sdaX
-
-Si el sistema de ficheros ya estaba creado usar `tune2fs` para desactivarlo
-
-	tune2fs /dev/sdaX -o journal_data_writeback -c 300 -i 3m
 
 Además, añadir a `/etc/fstab` la opción __data=writeback__ a las particiones del SSD.
 
