@@ -77,19 +77,19 @@ Ext4 tiene activado el diario de transacciones o _journaling_ por defecto. El jo
 
 Para desactivar el journaling a la hora de crear el sistema de ficheros
 
-	mkfs.ext4 -O dir_index,^has_journal -m 0 -c 300 -i 3m -E stride=128,stripe-width=128 /dev/sdaX
+	mkfs.ext4 -O dir_index,^has_journal -m 0 -E stride=128,stripe-width=128 /dev/sdaX
 
 Si el sistema de ficheros ya estaba creado usar `tune2fs` para desactivarlo
 
-	tune2fs sdaX -o data=writeback
+	tune2fs /dev/sdaX -o journal_data_writeback -c 300 -i 3m
 
 Además, añadir a `/etc/fstab` la opción __data=writeback__ a las particiones del SSD.
 
 Por último comprobar que el sistema se ha creado correctamente
 
-	e2fsck -f sdaX
+	e2fsck -f /dev/sdaX
 
-Si tenemos problemas para montar la unidad en modo escritura, activar la siguiente opción
+Si tenemos problemas para montar la unidad en modo escritura en sistemas 32 bits activar la siguiente opción
 
 	Enable the block layer
 		Support for large (2TB+) block devices and files (LBDAF)
