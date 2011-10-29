@@ -80,6 +80,12 @@ Para desactivar el _journaling_ al crear el sistema de ficheros:
 
 Si ya estaba creado entonces usar el comando `tune2fs` con los mismos parámetros (el sistema de ficheros debe estar desmontado).
 
+Para comprobar que se ha desactivado:
+
+	dmesg | grep EXT4
+
+Debería aparecer algo como _EXT4-fs (sdaX): mounted filesystem without journal_.
+
 Si no queremos desactivar el _journaling_, otra opción con menor penalización del rendimiento es usar __data=writeback__. Esta opción hace que los datos sean escritos en el sistema de ficheros tras escribir los metadatos de del _journaling_ (el comportamiento por defecto __data=ordered__ es es el contrario, los datos se escriben antes que los metadatos). Usando data=writeback __un reinicio inesperado puede causar pérdida de los últimos cambios realizados__ en los ficheros abiertos, pero no que el sistema de ficheros se corrompa.
 
 Para activar data=writeback, el sistema de ficheros debe haber sido creado con _journaling_ (por defecto así es en ext4) y luego, estando desmontado, hay que ejecutar:
@@ -129,7 +135,7 @@ Otro ajuste que aumenta el rendimiento es montar con la opción __nobarrier__ ( 
 Resumen de lo que suelo usar
 
 	mkfs.ext4 -E discard -j -L gentoo -m 0 -O dir_index,has_journal /dev/sdaX
-	tune2fs -c 300 -e remount-ro -i 3m -j -L gentoo -m 0 -o journal_data_writeback,nobarrier,discard,commit=900 -O dir_index,has_journal /dev/sdaX
+	tune2fs -c 300 -e remount-ro -i 3m -j -L gentoo -m 0 -o journal_data_writeback,nobarrier,discard,commit=500 -O dir_index,has_journal /dev/sdaX
 
 ### Comprobación final
 
@@ -231,6 +237,43 @@ Para verificar la cache:
 Desactivar el sistema de restaurado de sesiones en caso de fallo (ya que escribe constantemente en disco)
 
 	about:config -> browser.sessionstore.enabled -> false
+
+
+Benchmark (Prueba de rendimiento)
+---------------------------------
+
+Para saber el rendimiento real se recomienda repetir las pruebas varias veces y sacar la media.
+
+### hdparm
+
+Los resultados son idependientes de la alineación de las particiones y del sistema de ficheros.
+
+Prueba de lectura secuencial
+
+	hdparm -Tt /dev/sdX
+
+### dd
+
+Los resultados dependen de la alineación de las particiones y del sistema de ficheros. Debe ser ejecutados en un directorio montado en el SSD con al menos 1.1 GB de espacio libre.
+
+Prueba de escritua
+
+	dd if=/dev/zero of=tempfile bs=1M count=1024 conv=fdatasync,notrunc
+
+Prueba de lectura no cacheada
+
+	echo 3 > /proc/sys/vm/drop_caches
+	dd if=tempfile of=/dev/null bs=1M count=1024
+
+
+Prueba de lectura cacheada
+
+	dd if=tempfile of=/dev/null bs=1M count=1024
+
+### Otros
+
+ - app-benchmarks/bonnie++
+ - palimpsest (con interfaz gráfica. Parte del paquete sys-apps/gnome-disk-utility)
 
 
 Secure erase
