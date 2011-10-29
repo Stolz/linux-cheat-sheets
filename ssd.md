@@ -53,9 +53,42 @@ Todos los números de la columna _Comienzo_ deben ser divisibles por 2048.
 Sistema de ficheros
 -------------------
 
-Para crear el sistema de ficheros también hay que intentar que quede alineado indicando el tamaño del strip. Hay que usar un valor que sea el número de sectores de 4K que entran en el __erase block size__. Para un erase block size de 512K:  512K/4K = 128
+Existen diversos sistemas de ficheros muy prometedores para SSD como por ejemplo Btrfs o NILFS pero parece que no son los suficientemente maduros aun por lo que me limitaré a usar Ext4, que también da muy buenos resultados.
 
-	mkfs.ext4 -O dir_index -m 0 -c 300 -i 3m -E stride=128,stripe-width=128  /dev/sdaX
+Existen varios ajustes de Ext4 a considerar.
+
+### Tamaño del strip
+
+Hay que intentar que el sistema de ficheros quede alineado indicando el tamaño del strip. El valor a usar es el número de sectores de 4K que entran en el __erase block size__ de nuestro disco. Por ejemplo, para un erase block size de 512K: 512K/4K = 128.
+
+El comando para crear el sistema de ficheros sería:
+
+	mkfs.ext4 -E stride=128,stripe-width=128 [...] /dev/sdaX
+
+Si ya estaba creado entonces usar el comando `tune2fs` con los mismos parámetros (el sistema de ficheros debe estar desmontado).
+
+
+### Journaling
+
+Ext4 tiene activado el diario de transacciones o _journaling_ por defecto. El _journaling_ guarda información sobre los cambios que se realizan en el sistema de ficheros antes de que estos cambios se produzcan de forma que en caso de fallo del sistema o de energía es posible recuperar los datos. El problema es que el journaling realiza escrituras constantes en el disco, lo cual acorta la vida útil del disco SSD y reduce ligeramente su rendimiento.
+
+Tenemos la posibilidad de desactivar el _journaling_ pero entonces __un reinicio inesperado puede causar que el sistema de ficheros se corrompa__. Es decisión nuestra tener un sistema más lento pero más fiable o más rápido pero menos fiable en caso de fallos.
+
+Para desactivar el _journaling_ al crear el sistema de ficheros:
+
+	mkfs.ext4 -O ^has_journal [...] /dev/sdaX
+
+Si ya estaba creado entonces usar el comando `tune2fs` con los mismos parámetros (el sistema de ficheros debe estar desmontado).
+
+Si no queremos desactivar el _journaling_, otra opción con menor penalización del rendimiento es usar __data=writeback__. Esta opción hace que los datos sean escritos en el sistema de ficheros tras escribir los metadatos de del _journaling_ (el comportamiento por defecto __data=ordered__ es es el contrario, los datos se escriben antes que los metadatos). Usando data=writeback __un reinicio inesperado puede causar pérdida de los últimos cambios realizados__ en los ficheros abiertos, pero no que el sistema de ficheros se corrompa.
+
+Para activar data=writeback, el sistema de ficheros debe haber sido creado con _journaling_ (por defecto así es en ext4) y luego, estando desmontado, hay que ejecutar:
+
+	tune2fs -o journal_data_writeback [...] /dev/sdaX
+
+Además, añadir a `/etc/fstab` la opción __data=writeback__ a las particiones del SSD.
+
+### TRIM
 
 El kernel solporta __TRIM__ desde la versión 2.6.33. Para ver si nuestro disco lo soporta ejecutar
 
@@ -65,25 +98,41 @@ Deberíamos tener una línea así (incluido el asterisco)
 
 	* Data Set Management TRIM supported
 
-Para activar el soporte trim en Ext4 hay que añadir a `/etc/fstab` la opción __discard__ a las particiones del SSD. Para saber si TRIM esta funcionando, estudiar los mensajes tras ejecutar
+Para activar el soporte trim en Ext4 hay que añadir a `/etc/fstab` la opción __discard__ a las particiones del SSD.
+
+Para hacer uso de __discard__ desde el momento en en que creamos el sistema de ficheros ejecutar:
+
+	mkfs.ext4 -E discard [...] /dev/sdaX
+
+Podemos hacer que el sistema se monte con esta opción por defecto ejecutarndo (el sistema de ficheros debe estar desmontado)
+
+	tune2fs -o discard [...] /dev/sdaX
+
+
+Para saber si TRIM esta funcionando, estudiar los mensajes tras ejecutar
 
 	dmesg | grep -i discard
 
 Si sale algo como _discard not supported_ entonces TRIM está fallando.
 
+### noatime
 
-Ext4 tiene activado el diario de transacciones o _journaling_ por defecto. El journaling realiza escrituras constantes en el disco, lo cual acorta la vida útil del disco SSD y reduce ligeramente el rendimiento. Podemos desactivarlo pero entonces,  __un reinicio inesperado puede causar que los archivos modificados recientemente se corrompan__.
+Otra práctica útil para reducir aun más las escrituras es desactivar el registro de los tiempos de acceso de los archivos y directorios añadiendo a `/etc/fstab` las opciones __noatime,nodiratime__.
+
+### barrier
+
+Otro ajuste que aumenta el rendimiento es montar con la opción __nobarrier__ ( o equivalentemente barrier=0). Algo totalmente desaconsejado si tu sistema no tiene algún tipo de batería o S.A.I.
 
 
-Para desactivar el journaling si el sistema de ficheros ya estaba creado usar `tune2fs` para desactivarlo
+### Otros ajustes
 
-	tune2fs /dev/sdaX -o journal_data_writeback
+Resumen de lo que suelo usar
 
-Si no estaba creado, se puede hacer al mismo tiempo que se crea (auqneu en lso foros algunos reportan que no funciona, por lo que hay que usar tune2fs como en la línea anterior)
+	mkfs.ext4 -E discard -j -L gentoo -m 0 -O dir_index,has_journal /dev/sdaX
+	tune2fs -c 300 -e remount-ro -i 3m -j -L gentoo -m 0 -o journal_data_writeback,nobarrier,discard,commit=900 -O dir_index,has_journal /dev/sdaX
 
-	mkfs.ext4 -O dir_index,^has_journal -m 0 -E stride=128,stripe-width=128 /dev/sdaX
+### Comprobación final
 
-Además, añadir a `/etc/fstab` la opción __data=writeback__ a las particiones del SSD.
 
 Por último comprobar que el sistema se ha creado correctamente ...
 
@@ -98,9 +147,9 @@ Si tenemos problemas para montar la unidad en modo escritura en sistemas 32 bits
 	Enable the block layer
 		Support for large (2TB+) block devices and files (LBDAF)
 
-Otra práctica útil para reducir aun más las escrituras es desactivar el registro de los tiempos de acceso de los archivos y directorios añadiendo a `/etc/fstab` las opciones __noatime,nodiratime__.
 
-Por último, se recomienda no llenar los sistema de ficheros por encima del 75% de capacidad para asegurar la máxima eficacia de uso por el kernel.
+
+Un último consejo: se recomienda no llenar los sistema de ficheros por encima del 75% de capacidad para asegurar al kernel la máxima eficacia de uso.
 
 
 Planificador de disco
@@ -174,6 +223,10 @@ Mover la cache de Firefox a RAM:
 Otra opción es desactivar la cache
 
 	about:config -> browser.cache.disk.enable -> false
+
+Para verificar la cache:
+
+	about:cache
 
 Desactivar el sistema de restaurado de sesiones en caso de fallo (ya que escribe constantemente en disco)
 
