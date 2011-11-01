@@ -2,7 +2,7 @@
 
 Cómo configurar [La Fonera](http://wiki.fon.com/wiki/La_Fonera) como un AP (WPA-PSK) que haga de puente entre las dos interfaces, partiendo de la configuración que viene por defecto tras instalar  el firmware [OpenWrt](http://kamikaze.openwrt.org/) KAMIKAZE 7.09.
 
-## Configurar el acceso a Internet a travós del puerto Ethernet
+## Configurar el acceso a Internet a través del puerto Ethernet
 
 Modificar `/etc/config/network` para que quede de esta forma
 
