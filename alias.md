@@ -34,7 +34,7 @@
 
 	alias sd='svn diff | kompare -o -'
 	alias st='svn status'
-	alias gt='git status -s'
+	alias gs='git status -s'
 	alias su='sudo su'
 	alias kate='/usr/bin/kate -u'
 
