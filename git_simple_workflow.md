@@ -3,8 +3,9 @@ Workflow for CodeIgniter and GitHub
 
 This is my simple Git workflow for CodeIgniter. I never work on the master branch, instead I like to make a branch for every single issue/bug/feature so I always start a new branch for each. This gives me the ability to:
 
-- always have deployable code in the master branch,
+- always have deployable code in the master branch.
 - be able to abandon branches that turn out wrong and always head back to master.
+- apply quick bug fixes to the master without affecting branches with work in progress.
 
 ## Fork and clone
 
@@ -31,7 +32,7 @@ So for creating a branch to work on a new issue/bug/feature
 	git branch my_new_branch
 	git checkout my_new_branch
 
-A shortcut for the above command is
+A shortcut for the above commands is
 
 	git checkout -b my_new_branch
 
@@ -52,6 +53,11 @@ When the issue/bug/feature you are working on is done, it's time to merge the ch
 	git pull
 	git checkout my_new_branch
 	git rebase master
+
+A shortcut for the above commands is
+
+	git fetch origin master
+	git rebase origin/master
 
 I use rebase instead of merge to integrate the master branch changes but keeping your changes on top. You can also use __rebase -i__ to to group several of your commits into a single commit. Read further for more details.
 
@@ -79,11 +85,9 @@ Git will display an editor window with a list of the commits to be modified. For
 	git fetch upstream
 	git merge upstream/master
 
+¿conflicts?
 
-Then push the commits to your forked project
-
-	git push origin master
-
+	git mergetool
 
 
 http://reinh.com/blog/2009/03/02/a-git-workflow-for-agile-teams.html
