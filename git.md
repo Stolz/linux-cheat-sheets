@@ -70,6 +70,20 @@ Esto no altera nuestros ficheros
 
     git merge
 
+En caso de que existan conflictos podemos usar una herramienta externa para resolverlos de forma más visual
+
+	git mergetool
+
+git mergetool soporta varias herramientas en intentará usar alguna de las que se encuentre instalada. Para indicar una herramiento en concreto:
+
+	git mergetool -t <herramienta>
+
+También podemos indicar qué herramienta usar por defecto para mergetool
+
+	git config --global merge.tool <herramienta>
+
+Las herramientas soportadas son: araxis, bc3, diffuse, ecmerge, emerge, gvimdiff, kdiff3, meld, opendiff, p4merge, tkdiff, tortoisemerge, vimdiff y xxdiff.
+
 ### Descargar e incorporar los cambios del repositorio remoto a la copia local 
 
 Equivale a `git fetch` + `git merge`
@@ -116,6 +130,20 @@ El parámetro `--cached` es un alias de `--staged`
 Es decir, ver la diferencia entre tu copia de trabajo y el ultimo commit
 
     git diff HEAD
+
+### Usar una herramienta externa para ver las diferencias
+
+	git difftool
+
+git difftool es un frontend para git diff y acepta los mismos parámetros. Soporta varias herramientas e intentará usar alguna de las que se encuentre instalada. Para indicar una herramiento en concreto:
+
+	git difftool -t <herramienta>
+
+También podemos indicar qué herramienta usar por defecto para mergetool
+
+	git config --global diff.tool <herramienta>
+
+Las herramientas soportadas son: araxis, bc3, diffuse, emerge, ecmerge, gvimdiff, kdiff3, kompare, meld, opendiff, p4merge, tkdiff, vimdiff and xxdiff.
 
 ### Para revertir los cambios
 
