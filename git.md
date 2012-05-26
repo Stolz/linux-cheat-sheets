@@ -35,7 +35,7 @@ Con el parámetro `--global` afectan a todos los repositorios, de lo contrario s
 
 ### Push solo de rama actual por defecto
 
-Por defecto push envía todas las ramas que existan en _origin_. Para hacer que por defecto push no implique todas las ramas sino solo la actual
+Por defecto push envía todas las ramas. Para hacer que por defecto envíe solo la actual
 
     git config --global push.default current
 
@@ -46,7 +46,7 @@ Acepta comentarios con `#`, comodines con `*` y excepciones con `!`.
 
 ## Crear/importar repositorio
 
-### Crear proyecto repositorio
+### Crear repositorio para un nuevo proyecto
 
     mkdir <proyecto>
     cd <proyecto>
@@ -74,7 +74,7 @@ En caso de que existan conflictos podemos usar una herramienta externa para reso
 
 	git mergetool
 
-git mergetool soporta varias herramientas en intentará usar alguna de las que se encuentre instalada. Para indicar una herramiento en concreto:
+`git mergetool` soporta varias herramientas en intentará usar alguna de las que se encuentre instalada. Para indicar una herramiento en concreto:
 
 	git mergetool -t <herramienta>
 

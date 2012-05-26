@@ -1,7 +1,7 @@
 Workflow for CodeIgniter and GitHub
 ===================================
 
-This is my simple Git workflow for CodeIgniter. I never work on the master branch, instead I like to make a branch for every single issue/bug/feature so I always start a new branch for each. This gives me the ability to:
+This is my simple Git workflow for CodeIgniter. I never work on the master branch, instead I like to make a branch for every single issue/bug/feature so I always start a new branch for each and all my commits are in the working branch, never in the master branch. This gives me the ability to:
 
 - always have deployable code in the master branch.
 - be able to abandon branches that turn out wrong and always head back to master.
@@ -49,6 +49,8 @@ When you are happy with the changes you made, push them to your remote for other
 
 When the issue/bug/feature you are working on is done, it's time to merge the changes to the master branch.
 
+Before merging the changes of your working branch to the master branch, it's a good practice to to integrate any commits to master branch into my current branch. That's done using `git rebase`. Rebasing your working branch before putting into master is really important because it allows you to make sure your new code still works and if it doesn't, you can can deal with any merge issues before the code goes to your master branch.
+
 	git checkout master
 	git pull
 	git checkout my_new_branch
@@ -59,7 +61,12 @@ A shortcut for the above commands is
 	git fetch origin master
 	git rebase origin/master
 
-I use rebase instead of merge to integrate the master branch changes but keeping your changes on top. You can also use __rebase -i__ to to group several of your commits into a single commit. Read further for more details.
+`rebase` integrate any commits to master branch into my current branch but keeping your changes on top of the changes made to the master branch. You can also use __rebase -i__ to to group several of your commits into a single commit (read further for more details).
+
+After deailing with any possible conflicts and making sure your new code works, it's time to merge your branch into master.
+
+	git checkout master
+	git merge my_new_branch
 
 Optionally, delete the finsihed branch
 
