@@ -1,4 +1,4 @@
-# Comunem
+# Common
 
 	alias df='pydf'
 	alias grep='grep --colour=auto --exclude-dir=.svn --exclude=*.svn-base --exclude-dir=.git'
@@ -29,6 +29,7 @@
 	fi
 	}
 
+	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo  -ne "\033[1;31m:(\033[0m\n";fi'
 
 # User
 
