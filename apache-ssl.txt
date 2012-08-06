@@ -1,0 +1,53 @@
+#Generar clave privada
+cd /etc/ssl/apache2/
+openssl genrsa -out dominio.com.key 2048
+chmod 600 dominio.com.key
+
+#Generar una peticion de certificiado
+openssl req -new -key dominio.com.key -out dominio.com.csr
+
+
+Ir a www.cacert.org y
+-Crear una cuenta y acceder a ella
+-Dar de alta un dominio y verificarlo con el enlace que mandal al email
+-Solicitar un certificado de servidor proporcionado el contenido del archivo /etc/ssl/apache2/dominio.com.csr
+-Guardar el texto del certificado en /etc/ssl/apache2/dominio.com.crt
+
+
+Configurar apache:
+<IfDefine SSL>
+<IfDefine SSL_DEFAULT_VHOST>
+<IfModule ssl_module>
+
+		Listen 443
+		NameVirtualHost *:443
+
+		<VirtualHost *:443>
+
+			ServerName dominio.com
+			ServerAlias www.dominio.com
+			DocumentRoot /var/www/dominio.com/htdocs
+
+
+			## SSL Engine Switch:
+			SSLEngine on
+			SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP:+eNULL
+
+			## Server Certificate:
+			SSLCertificateFile /etc/ssl/apache2/dominio.com.crt
+
+			## Server Private Key:
+			SSLCertificateKeyFile /etc/ssl/apache2/dominio.com.key
+
+			## ssl-accurate-shutdown:  This forces an accurate shutdown when the connection is closed
+			<IfModule setenvif_module>
+					BrowserMatch ".*MSIE.*" \
+							nokeepalive ssl-unclean-shutdown \
+							downgrade-1.0 force-response-1.0
+			</IfModule>
+
+		</VirtualHost>
+
+</IfModule>
+</IfDefine>
+</IfDefine>

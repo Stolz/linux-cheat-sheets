@@ -1,0 +1,11 @@
+MOD_REWRITE
+
+--> url --> PROCESAR REGLA --> ¿Cumple patrón? -----+--> ¿Tiene condiciones? -----> REEMPLAZAR
+                ^                   |           sí  ^            |sí           no         |
+                |                   |no             |            v                        |
+                |                   |               +<----  ¿cumple condición?            |
+                |                   |               |  sí        |no                      |
+                |                   |               |            v                        |
+                |                   |               +-----  ¿la codición tiene flag OR?   |
+                |                   v                  sí                                 |
+                +-------------------+-----------------------------------------------------+
