@@ -26,18 +26,19 @@ Creamos el fichero `/var/www/example.com/htdocs/phpMyAdmin/config.inc.php` con e
 
 	$cfg['blowfish_secret'] = 'PONER_AQUI_UNA_FRASE_ALEATORIA_DE_HASTA_46_CARACTERES_QUE_SE_USARA_PARA_CIFRAR_LA_CONTRASENA_DE_LA_COOKIE';
 
+
+	// F.I.R.S.T. S.E.R.V.E.R.
+
 	$i=1;
-	$cfg['Servers'][$i]['verbose'] = 'BBDD de example.com';
+	$cfg['Servers'][$i]['verbose'] = 'Servidor example.com';
 	$cfg['Servers'][$i]['auth_type'] = 'cookie';
 	$cfg['Servers'][$i]['hide_db'] = 'information_schema';
 	$cfg['Servers'][$i]['connect_type'] = 'socket';
-
-	/* User for advanced features */
+	/* PMA (advanced features) DB settings */
 	$cfg['Servers'][$i]['controluser'] = 'pma';
-	$cfg['Servers'][$i]['controlpass'] = 'foobar';
-
-	/* Advanced phpMyAdmin features */
+	$cfg['Servers'][$i]['controlpass'] = 'FOOBAR';
 	$cfg['Servers'][$i]['pmadb'] = 'phpmyadmin';
+	/* PMA tables names */
 	$cfg['Servers'][$i]['bookmarktable'] = 'pma_bookmark';
 	$cfg['Servers'][$i]['relation'] = 'pma_relation';
 	$cfg['Servers'][$i]['table_info'] = 'pma_table_info';
@@ -48,18 +49,30 @@ Creamos el fichero `/var/www/example.com/htdocs/phpMyAdmin/config.inc.php` con e
 	$cfg['Servers'][$i]['tracking'] = 'pma_tracking';
 	$cfg['Servers'][$i]['designer_coords'] = 'pma_designer_coords';
 	$cfg['Servers'][$i]['userconfig'] = 'pma_userconfig';
+	$cfg['Servers'][$i]['recent'] = 'pma_recent';
+	$cfg['Servers'][$i]['table_uiprefs'] = 'pma_table_uiprefs';
 
+	/*
+	// S.E.C.O.N.D. S.E.R.V.E.R.
+
+	$i=2;
+	$cfg['Servers'][$i]['verbose'] = 'Otro servidor example2.com';
+	$cfg['Servers'][$i]['host'] = 'example2.com';
+	$cfg['Servers'][$i]...
+	*/
+
+__Nota:__ Tras hacer cambios en este fichero es necesario desconectarse de phpMyAdmin y volver a inicar sesión para que los cambios tengan efecto.
 
 ### Crear el usario y la base de datos para guardar la configuración de phpmyadmin y tener opciones avanzadas
 
-`foobar` es la contraseña que hemos indicado antes en la variable `controlpass` del archivo `config.inc.php`
+`FOOBAR` es la contraseña que hemos indicado antes en la variable `controlpass` del archivo `config.inc.php`
 
 	mysql -p
 	CREATE DATABASE IF NOT EXISTS `phpmyadmin`  DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 	GRANT SELECT, INSERT, DELETE, UPDATE ON `phpmyadmin`.* TO 'pma'@localhost IDENTIFIED BY 'foobar';
 	flush privileges;
 	USE phpmyadmin;
-	source /var/www/example.com/htdocs/phpMyAdmin/scripts/create_tables.sql
+	source /var/www/example.com/htdocs/phpMyAdmin/examples/create_tables.sql
 	quit
 
 
@@ -84,24 +97,3 @@ Creamos el fichero `/var/www/example.com/htdocs/phpMyAdmin/config.inc.php` con e
 ### Desinstalar version antigua
 
 	emerge --prune -a  phpmyadmin
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
