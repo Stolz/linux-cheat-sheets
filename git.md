@@ -44,6 +44,31 @@ Por defecto push envía todas las ramas. Para hacer que por defecto envíe solo 
 Crear en la raíz de la copia de trabajo el fichero `.gitignore` con el listado de ficheros a ignorar.
 Acepta comentarios con `#`, comodines con `*` y excepciones con `!`.
 
+### Ignorar cambios en archivos para evitar publicar datos sensibles
+
+En ocasiones es útil evitar que ciertos cambios en archivos sean confirmados, por ejemplo para evitar hacer un `commit` y posterior `push` de contraseñas de base de datos o claves API. Para ello se puede marcar los archivos cuyos cambios queremos que sean ignorados con el flag `--assume-unchanged`.
+
+	git update-index --assume-unchanged <archivo>
+
+Para restablecer el flag
+
+	git update-index --no-assume-unchanged <archivo>
+
+Los archivos con el flag activado no serán preparados con `git commit -a`. Sin embargo si añadimos específicamente el archivo con `git add <archivo>` sí sera preparado pero cualquier `merge` de dicho commit dará un fallo para que podamos encargarnos de él a mano.
+
+Para facilitar el uso podemos definir los siguienes alias
+
+	[alias]
+			ignore = !git update-index --assume-unchanged
+			unignore = !git update-index --no-assume-unchanged
+			ignored = !git ls-files -v | grep ^[a-z]
+
+De forma que es posible hacer
+
+	git ignore <archivo>
+	git unignore <archivo>
+	git ignored #Ver listado de archivos ignorados
+
 ## Crear/importar repositorio
 
 ### Crear repositorio para un nuevo proyecto
