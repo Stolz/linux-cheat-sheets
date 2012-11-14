@@ -97,7 +97,7 @@ Esto no altera nuestros ficheros
 
 En caso de que existan conflictos podemos usar una herramienta externa para resolverlos de forma más visual
 
-	git mergetool
+	git mergetool -y
 
 `git mergetool` soporta varias herramientas en intentará usar alguna de las que se encuentre instalada. Para indicar una herramiento en concreto:
 
@@ -305,7 +305,7 @@ This workflow works best for me:
 
 
 
-
+REF <http://rogerdudler.github.com/git-guide/index.es.html>
 REF <http://progit.org/book/es/ch1-3.html>
 REF <http://book.git-scm.com/5_customizing_git.html>
 REF servidor <http://wiki.dreamhost.com/Git>
@@ -334,3 +334,20 @@ ca: git config -global alias.ca commit -a
 git rebase command. Rebase allows you to easily change a series of commits, reordering, editing, or squashing commits together into a single commit.<http://help.github.com/rebase/>
 
 [Licencia](LICENCIA.md)
+
+
+
+flujo de trabajo:
+
+tu repositorio local esta compuesto por tres "árboles" administrados por git. el primero es tu ""Directorio de trabajo"" el cual contiene los archivos. el segundo es el Index el cual actua como un área intermedia y finalmente el HEAD el cual apunta a el último commit realizado.
+
+Puedes proponer cambios (agregarlos a el Index) usando
+	git add <filename>
+
+Para confirmar (hacer commit) estos cambios usa
+	git commit -m "Commit message"
+Ahora el archivo esta incluído en el HEAD de tu copia local, pero aún no en tu repositorio remoto.
+
+Para enviar esos cambios a tu repositorio remoto ejecuta (Reemplaza master por la rama a la cual desees enviar tus cambios.)
+	git push origin master
+
