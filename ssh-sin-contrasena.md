@@ -74,3 +74,6 @@ Añadir a ~/.bashrc
 			start_agent
 		fi
 	fi
+
+Para integrar ssh-agent en KDE, edita /etc/kde/startup/agent-startup.sh y /etc/kde/shutdown/agent-shutdown.sh y descomenta las líneas que hacen referencia a ssh-agent.
+
