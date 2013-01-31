@@ -1,0 +1,457 @@
+<snippets namespace="" license="LGPL v2+" filetypes="HTML;PHP/PHP;PHP (HTML)" snippetlicense="public domain" authors="Javi (twitter:@Stolz)" name="Stolz Codeigniter Snippets">
+ <item>
+  <displayprefix></displayprefix>
+  <match>controller</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>&lt;?php if( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class ${Controller_name} extends CI_Controller {
+
+	function __construct()
+	{
+		parent::__construct();
+	}
+
+	function index()
+	{
+		%{cursor}
+	}
+}
+
+/* End of file ${Controller_name/./\l\0/}.php */
+/* Location: ./application/controllers/${Controller_name/./\l\0/}.php */</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>controller+template</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>class ${Controller_name} extends CI_Controller {
+
+	function __construct()
+	{
+		parent::__construct();
+	}
+
+	function index()
+	{
+		$data = array(
+			'title'	=> _('%{cursor}')
+		);
+		$this->load->view('template', $data);
+	}
+}
+
+/* End of file ${Controller_name/./\l\0/}.php */
+/* Location: ./application/controllers/${Controller_name/./\l\0/}.php */</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>controller+template+auth</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>&lt;?php if( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class ${Controller_name} extends CI_Controller {
+
+	function __construct()
+	{
+		parent::__construct();
+
+		//If user is not logged in, redirect to login page
+		if( ! $this->user = $this->session->user_is_logged())
+			redirect('login');
+
+		//Information available in any view file
+		$this->load->vars(array(
+			'user' => $this->user,
+		));
+	}
+
+	function index()
+	{
+		$data = array(
+			'title'	=> _('%{cursor}')
+		);
+		$this->load->view('template', $data);
+	}
+}
+
+/* End of file ${Controller_name/./\l\0/}.php */
+/* Location: ./application/controllers/${Controller_name/./\l\0/}.php */</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>model</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>&lt;?php if( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class ${Model_name}_model extends CI_Model {
+
+	function __construct()
+	{
+		parent::__construct();
+	}
+
+	function index()
+	{
+		%{cursor}
+	}
+}
+
+/* End of file ${Model_name/./\l\0/}.php */
+/* Location: ./application/models/${Model_name/./\l\0/}_model.php */</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>library</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>&lt;?php if( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class ${Library_name} {
+
+	//protected $CI;
+
+	function __construct($params)
+	{
+		//$this->CI =&amp; get_instance();
+
+		//to-do Do something with $params
+	}
+
+	function index()
+	{
+		%{cursor}
+	}
+}
+
+/* End of file ${Library_name/./\u\0/}.php */
+/* Location: ./application/libraries/${Library_name/./\u\0/}.php */</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>library</match>
+  <displaypostfix>(extends CI_)</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>&lt;?php if( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class MY_${Library_name} extends CI_${Library_name/./\u\0/} {
+
+	//protected $CI;
+
+	function __construct($params)
+	{
+		parent::__construct($params);
+		//$this->CI =&amp; get_instance();
+	}
+
+	function index()
+	{
+		%{cursor}
+	}
+}
+
+/* End of file ${Library_name/./\u\0/}.php */
+/* Location: ./application/libraries/MY_${Library_name/./\u\0/}.php */</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>loadlibrary</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->load->library('%{library}');
+$this->%{library}->%{cursor}();</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>loadlibrary</match>
+  <displaypostfix>(with alias)</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->load->library('%{library}', '', '%{alias}');
+$this->%{alias}->%{cursor}();</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>loadview</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->load->view('%{viewfile}', $data);</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>loadview</match>
+  <displaypostfix>(return output)</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$output = $this->load->view('%{viewfile}', $data, TRUE);</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>loadmodel</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->load->model('%{model}_model');
+$this->%{model}->%{cursor}();</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>loadmodel</match>
+  <displaypostfix>(with alias)</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->load->model('%{model}_model', '%{alias}');
+$this->%{alias}->%{cursor}();</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>loadhelper</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->load->helper('%{helper}');</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>loadhelper</match>
+  <displaypostfix>(multiple)</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->load->helper(array('%{helper}'));</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>helper</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>&lt;?php if( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+if( ! function_exists('%{function}'))
+{
+	function %{function@}()
+	{
+		return %{cursor};
+	}
+}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>firephp</match>
+  <displaypostfix>log</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->firephp->log(%{cursor}); //to-do remove</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>firephp</match>
+  <displaypostfix>info</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->firephp->info(%{cursor}); //to-do remove</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>firephp</match>
+  <displaypostfix>warn</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->firephp->warn(%{cursor}); //to-do remove</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>firephp</match>
+  <displaypostfix>error</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->firephp->error(%{cursor}); //to-do remove</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>debug</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->debug->d(%{cursor}); //to-do remove</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>debug</match>
+  <displaypostfix>DM</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->debug->dm(%{cursor}); //to-do remove</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>validation</match>
+  <displaypostfix>load &amp; check</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->load->library('form_validation');
+$this->form_validation->set_error_delimiters('&lt;small class="error">', '&lt;/small>');
+$this->form_validation->set_rules('field_name', _('Field_label'), 'trim|required|max_length[64]');
+if($this->form_validation->run())
+{
+	%{cursor}
+}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>validation</match>
+  <displaypostfix>rule</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->form_validation->set_rules('%{field_name}', _('%{Field_label}'), 'trim|required|max_length[64]');</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>callback</match>
+  <displaypostfix>form_validation</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>/**
+ * Callback function
+ *
+ * Usage: $this->form_validation->set_rules('fieldname', _('Fieldlabel'), 'callback__%{function_name}[$compare_against]');
+ *
+ * @param	string	$received_data user input via $_POST or $_GET
+ * @param	string	$compare_against (optional) parameter provided in the validation rule call
+ * @return	bool	TRUE on succes FALSE on failure
+ */
+function _%{function_name@}($received_data, $compare_against = NULL)
+{
+	if(%{cursor}check_something($received_data, $compare_against))
+		return TRUE;
+
+	$this->form_validation->set_message('_%{function_name}', _('Error:%{function_name}'));
+	return FALSE;
+}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>assets</match>
+  <displaypostfix>plain load</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->load->library('assets');</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>assets</match>
+  <displaypostfix>load with assets</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->load->library('assets', array('foundation'));</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>assets</match>
+  <displaypostfix>add</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->assets->add('%{cursor}');</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>assets</match>
+  <displaypostfix>css</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->assets->add_css('%{cursor}');</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>assets</match>
+  <displaypostfix>js</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->assets->add_js('%{cursor}');</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>assets</match>
+  <displaypostfix>build css</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->assets->build_css();</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>assets</match>
+  <displaypostfix>build js</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->assets->build_js();</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>pagination</match>
+  <displaypostfix>set-up</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>//Set pagination
+$this->load->library('pagination', $config = array(
+	'per_page'		=> 10,
+	'table_header'	=> array(_('Header1'), _('Header2')),
+	'overwrite_with_post'	=> TRUE,
+	'accepted_url_options'	=> array(
+		'orderby'	=> range(1, 10),	//Accepted values for 'orderby' (1 is the default)
+		'type'	=> array('foo', 'bar'),	//Accepted values for 'type' ('foo' is the default)
+		'dummy'	=> NULL),				//'dummy' accepts any value
+)));
+
+$this->pagination->total_rows = $this->my_model->count_all_items($this->pagination->url_options);
+$items = $this->my_model->get_items($this->pagination->url_options, $this->pagination->per_page, $this->pagination->offset);
+</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>pagination</match>
+  <displaypostfix>table headers</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>&lt;?php foreach($this->pagination->table_header('orderby') as $header): ?>&lt;th>&lt;?= $header ?>&lt;/th>&lt;?php endforeach ?></fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>pagination</match>
+  <displaypostfix>links</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>&lt;?= $this->pagination->create_links(); ?></fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>update</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->set('created', 'NOW()', FALSE)->where('id', $id)->limit(1)->update('%{table}', array('name' => 'foo', 'age' => 10));</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>insert</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->set('created', 'NOW()', FALSE)->insert('%{table}', array('name' => 'foo', 'age' => 10));</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>insert_batch</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$data[] = array('name' => 'foo', 'age' => 11);
+$data[] = array('name' => 'bar', 'age' => 22);
+$this->db->insert_batch('%{table}', $data);</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>delete</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->where('id', 5)->limit(1)->delete('%{table}');</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>transactions</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->trans_begin();
+try
+{
+	if( ! %{cursor})
+		throw new Exception(_('Failed condition'));
+
+	if($this->db->trans_status() === FALSE)
+		throw new Exception(_('Failed transaction'));
+
+	// Everithing went well :)
+	return $this->db->trans_commit();
+}
+catch (Exception $e)
+{
+	$this->db->trans_rollback();
+	//error_log($e->getMessage());
+	return FALSE;
+}</fillin>
+ </item>
+</snippets>
