@@ -1,19 +1,8 @@
 # squash_dir
-squash_dir is an init-script that when started uses the in-kernel squashfs (together with aufs or unionfs-fuse or others*) to mount 
-a squashed directory rewritable and when stopped, recompresses the new directory.
-
-It comes very handy for people who is running low on disk space or using SSD disk drives. The access to the squashed dir is similar and usually is even faster than the normal method, dependig on the nature of the compressed data.
-
-[*] right now it can use:
-
- - sys-fs/aufs2
- - sys-fs/unionfs-fuse
- - sys-fs/funionfs
- - sys-fs/unionfs
- - sys-fs/aufs
+squash_dir is an init-script for OpenRC (used e.g. by Gentoo) which allows to keep a directory compressed by the in-kernel squashfs but simultaneously allows to write on it. Every time you boot your computer your squashed directory is mounted writable and if you made any changes to it it's recompressed when you shutdown your computer.
 
 
-## Kernel modules
+## Required kernel modules
 
 	Device Drivers --->
 	  Block Devices --->
@@ -29,26 +18,51 @@ In order to get `loop` kernel module automatically loaded at boot edit `/etc/con
 
 	modules="loop"
 
-## Required programas
+## Unionfs implementations
+
+Together with squashfs, squash_dir needs to use a unionfs implementation. You have to choose one of:
+
+ - [aufs](http://aufs.sourceforge.net).
+ - [overlayfs](http://git.kernel.org/?p=linux/kernel/git/mszeredi/vfs.git) 
+ - [unionfs-fuse](http://podgorny.cz/moin/UnionFsFuse) (unionfs-fuse-0.25 or newer is required).
+ - [unionfs](http://www.fsl.cs.sunysb.edu/project-unionfs.html).
+ - [funionfs](http://bugs.gentoo.org/show_bug.cgi?id=151673)
+ - [dtrx](http://brettcsmith.org/2007/dtrx/)
+
+
+Some of them are available in Gentoo in the official Portage tree or via overlays. Search for
+
+ - sys-fs/aufs2
+ - sys-fs/aufs3
+ - sys-fs/aufs (from 'mv' overlay)
+ - sys-fs/unionfs-fuse
+ - sys-fs/funionfs
+ - sys-fs/unionfs
+
+After you install one of them, make sure to apply the kernel patch they include and recompile your kernel. If the choosed ebuild has the USE="kernel-patch" and you enable it, the patch will be automatically applied to your kernel sources at /usr/src/linux.
+
+
+## Installation
 
 The easiest way of installing squash_dir is using the mv overlay via layman
-
 
 	emerge -n layman
 	layman -f
 	layman -a mv
 	emerge --sync
 
-
 If you use eix, you can alternatively run `eix-sync`. In order to automatically update mv overlay with eix-sync create the file `/etc/eix-sync.conf` with the next content:
 
 	mv
 
-## Installation
-
-Now the mv overlay is ready. To install squash_dir
+Now the mv overlay is ready. To install squash_dir (make sure you enable the suitable USE according to the Unionfs implementation you installed in the previous step)
 
 	emerge -av sys-fs/squash_dir
+
+TIP: If you want to see a progress bar while squash_dir is (de)compressing:
+
+	echo "sys-fs/squashfs-tools progress-redirect" >> /etc/portage
+	emerge -1 squashfs-tools
 
 
 ## Usage
