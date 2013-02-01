@@ -251,7 +251,7 @@ function ${function_name}()
   <match>new</match>
   <displaypostfix>(new stdClass object)</displaypostfix>
   <displayarguments></displayarguments>
-  <fillin>$obj = new stdClass();</fillin>
+  <fillin>%{cursor}$obj = new stdClass();</fillin>
  </item>
  <item>
   <displayprefix></displayprefix>
@@ -291,5 +291,12 @@ function ${function_name}()
   <displaypostfix></displaypostfix>
   <displayarguments></displayarguments>
   <fillin>$this->%{cursor};</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>new</match>
+  <displaypostfix>(other class)</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$obj = new ${cursor}();</fillin>
  </item>
 </snippets>

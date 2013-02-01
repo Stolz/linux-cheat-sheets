@@ -1,4 +1,4 @@
-<snippets namespace="" license="LGPL v2+" filetypes="HTML;PHP/PHP;PHP (HTML)" snippetlicense="public domain" authors="Javi (twitter:@Stolz)" name="Stolz Codeigniter Snippets">
+<snippets namespace="" license="LGPL v2+" filetypes="PHP/PHP;PHP (HTML)" snippetlicense="public domain" authors="Javi (twitter:@Stolz)" name="Stolz Codeigniter Snippets">
  <item>
   <displayprefix></displayprefix>
   <match>controller</match>
@@ -95,7 +95,7 @@ class ${Model_name}_model extends CI_Model {
 		parent::__construct();
 	}
 
-	function index()
+	function %{function}()
 	{
 		%{cursor}
 	}
@@ -122,7 +122,7 @@ class ${Library_name} {
 		//to-do Do something with $params
 	}
 
-	function index()
+	function %{function}()
 	{
 		%{cursor}
 	}
@@ -148,7 +148,7 @@ class MY_${Library_name} extends CI_${Library_name/./\u\0/} {
 		//$this->CI =&amp; get_instance();
 	}
 
-	function index()
+	function %{function}()
 	{
 		%{cursor}
 	}
@@ -178,14 +178,14 @@ $this->%{alias}->%{cursor}();</fillin>
   <match>loadview</match>
   <displaypostfix></displaypostfix>
   <displayarguments></displayarguments>
-  <fillin>$this->load->view('%{viewfile}', $data);</fillin>
+  <fillin>$this->load->view('%{cursor}', $data);</fillin>
  </item>
  <item>
   <displayprefix></displayprefix>
   <match>loadview</match>
   <displaypostfix>(return output)</displaypostfix>
   <displayarguments></displayarguments>
-  <fillin>$output = $this->load->view('%{viewfile}', $data, TRUE);</fillin>
+  <fillin>$output = $this->load->view('%{cursor}', $data, TRUE);</fillin>
  </item>
  <item>
   <displayprefix></displayprefix>
@@ -208,14 +208,14 @@ $this->%{alias}->%{cursor}();</fillin>
   <match>loadhelper</match>
   <displaypostfix></displaypostfix>
   <displayarguments></displayarguments>
-  <fillin>$this->load->helper('%{helper}');</fillin>
+  <fillin>$this->load->helper('%{cursor}');</fillin>
  </item>
  <item>
   <displayprefix></displayprefix>
   <match>loadhelper</match>
   <displaypostfix>(multiple)</displaypostfix>
   <displayarguments></displayarguments>
-  <fillin>$this->load->helper(array('%{helper}'));</fillin>
+  <fillin>$this->load->helper(array('%{cursor}', ''));</fillin>
  </item>
  <item>
   <displayprefix></displayprefix>
@@ -281,7 +281,7 @@ if( ! function_exists('%{function}'))
   <displayarguments></displayarguments>
   <fillin>$this->load->library('form_validation');
 $this->form_validation->set_error_delimiters('&lt;small class="error">', '&lt;/small>');
-$this->form_validation->set_rules('field_name', _('Field_label'), 'trim|required|max_length[64]');
+$this->form_validation->set_rules('field_name', _('Field_label'), 'trim|strip_tags|required|matches[foo]|is_unique[table.field]|min_length[33]|max_length[33]|exact_length[33]|greater_than[33]|less_than[33]|alpha|alpha_numeric|alpha_dash|numeric|integer|decimal|is_natural|is_natural_no_zero|valid_email|valid_emails|valid_ip|valid_base64');
 if($this->form_validation->run())
 {
 	%{cursor}
@@ -292,7 +292,7 @@ if($this->form_validation->run())
   <match>validation</match>
   <displaypostfix>rule</displaypostfix>
   <displayarguments></displayarguments>
-  <fillin>$this->form_validation->set_rules('%{field_name}', _('%{Field_label}'), 'trim|required|max_length[64]');</fillin>
+  <fillin>$this->form_validation->set_rules('%{field_name}', _('%{Field_label}'), 'trim|strip_tags|required|matches[foo]|is_unique[table.field]|min_length[33]|max_length[33]|exact_length[33]|greater_than[33]|less_than[33]|alpha|alpha_numeric|alpha_dash|numeric|integer|decimal|is_natural|is_natural_no_zero|valid_email|valid_emails|valid_ip|valid_base64');</fillin>
  </item>
  <item>
   <displayprefix></displayprefix>
@@ -313,7 +313,7 @@ function _%{function_name@}($received_data, $compare_against = NULL)
 	if(%{cursor}check_something($received_data, $compare_against))
 		return TRUE;
 
-	$this->form_validation->set_message('_%{function_name}', _('Error:%{function_name}'));
+	$this->form_validation->set_message('_%{function_name}', _('Error: %{function_name}'));
 	return FALSE;
 }</fillin>
  </item>
@@ -329,7 +329,7 @@ function _%{function_name@}($received_data, $compare_against = NULL)
   <match>assets</match>
   <displaypostfix>load with assets</displaypostfix>
   <displayarguments></displayarguments>
-  <fillin>$this->load->library('assets', array('foundation'));</fillin>
+  <fillin>$this->load->library('assets', array('%{cursor}'));</fillin>
  </item>
  <item>
   <displayprefix></displayprefix>
@@ -391,7 +391,7 @@ $items = $this->my_model->get_items($this->pagination->url_options, $this->pagin
   <match>pagination</match>
   <displaypostfix>table headers</displaypostfix>
   <displayarguments></displayarguments>
-  <fillin>&lt;?php foreach($this->pagination->table_header('orderby') as $header): ?>&lt;th>&lt;?= $header ?>&lt;/th>&lt;?php endforeach ?></fillin>
+  <fillin>&lt;?php foreach($this->pagination->table_header('%{cursor}') as $header): ?>&lt;th>&lt;?= $header ?>&lt;/th>&lt;?php endforeach ?></fillin>
  </item>
  <item>
   <displayprefix></displayprefix>
@@ -405,14 +405,14 @@ $items = $this->my_model->get_items($this->pagination->url_options, $this->pagin
   <match>update</match>
   <displaypostfix></displaypostfix>
   <displayarguments></displayarguments>
-  <fillin>$this->db->set('created', 'NOW()', FALSE)->where('id', $id)->limit(1)->update('%{table}', array('name' => 'foo', 'age' => 10));</fillin>
+  <fillin>$this->db->set('created', 'NOW()', FALSE)->where('id', $id)->limit(1)->update('%{cursor}', array('name' => 'foo', 'age' => 10));</fillin>
  </item>
  <item>
   <displayprefix></displayprefix>
   <match>insert</match>
   <displaypostfix></displaypostfix>
   <displayarguments></displayarguments>
-  <fillin>$this->db->set('created', 'NOW()', FALSE)->insert('%{table}', array('name' => 'foo', 'age' => 10));</fillin>
+  <fillin>$this->db->set('created', 'NOW()', FALSE)->insert('%{cursor}', array('name' => 'foo', 'age' => 10));</fillin>
  </item>
  <item>
   <displayprefix></displayprefix>
@@ -421,14 +421,14 @@ $items = $this->my_model->get_items($this->pagination->url_options, $this->pagin
   <displayarguments></displayarguments>
   <fillin>$data[] = array('name' => 'foo', 'age' => 11);
 $data[] = array('name' => 'bar', 'age' => 22);
-$this->db->insert_batch('%{table}', $data);</fillin>
+$this->db->insert_batch('%{cursor}', $data);</fillin>
  </item>
  <item>
   <displayprefix></displayprefix>
   <match>delete</match>
   <displaypostfix></displaypostfix>
   <displayarguments></displayarguments>
-  <fillin>$this->db->where('id', 5)->limit(1)->delete('%{table}');</fillin>
+  <fillin>$this->db->where('id', 5)->limit(1)->delete('%{cursor}');</fillin>
  </item>
  <item>
   <displayprefix></displayprefix>
@@ -444,7 +444,7 @@ try
 	if($this->db->trans_status() === FALSE)
 		throw new Exception(_('Failed transaction'));
 
-	// Everithing went well :)
+	// Everything went well :)
 	return $this->db->trans_commit();
 }
 catch (Exception $e)

@@ -1,0 +1,505 @@
+<snippets namespace="" license="LGPL v2+" filetypes="PHP/PHP;PHP (HTML)" snippetlicense="public domain" authors="Javi (twitter:@Stolz), Durham Hale (github.com/durhamhale),  jdfwarrior (sourceforge.net/projects/cibundle)" name="Stolz Codeigniter Query Builder (formerly Active Record) Snippets">
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbaffected</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->affected_rows();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbcountallresults</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->count_all_results('${table_name}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbcountall</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->count_all('${table_name}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>db</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->%{cursor}();</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbclose</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->close();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbconnect</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$db = $this->load->database('${group_name}', TRUE);</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbprefix</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->dbprefix('${table_name}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbreconnect</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->reconnect();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbdelete</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->delete('${table_name}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbdistinct</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->distinct();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbemptytable</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->empty_table('${table_name}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbescapelikestr</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->escape_like_str(%{cursor});</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbescapestr</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->escape_str(%{cursor});</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbescape</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->escape(%{cursor});</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbfielddata</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$fields = $this->db->field_data('${table_name}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbfieldexists</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->field_exists('${field_name}', '${table_name}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbflushcache</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->flush_cache();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbfrom</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->from('${table}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbget</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->get('${table}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbgetwhere</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->get_where('${table_name}', array('${field}' => '${value}'), ${limit}, ${offset});%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbgroupby</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->group_by('${field}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbhaving</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->having('${field}', '${value}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbinsertbatch</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->insert_batch('${table_name}', array(
+	array(
+		'${field}' => '${value}',
+		'${field}' => '${value}',
+		'${field}' => '${value}'
+	),
+	array(
+		'${field}' => '${value}',
+		'${field}' => '${value}',
+		'${field}' => '${value}'
+	)
+));%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbinsertid</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->insert_id();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbinsertstr</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$query = $this->db->insert_string('${table_name}', array(
+	'${field}' => '${value}',
+	'${field}' => '${value}',
+	'${field}' => '${value}'
+));%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbinsert</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->insert('${table_name}', array(
+	'${field}' => '${value}',
+	'${field}' => '${value}',
+	'${field}' => '${value}'
+));%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbjoin</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->join('${table_name}', '${table.field} = ${table.field}', '${join_type}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dblastquery</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->last_query();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dblike</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->like('${field}', '${value}', '${wildcard_position}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dblimit</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->limit('${limit}', '${offset}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dblistfields</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$fields = $this->db->list_fields('${table_name}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dblisttables</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$tables = $this->db->list_tables();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbnotlike</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->not_like('${field}', '${value}', '${wildcard_position}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dborderby</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->order_by('${field}', '${direction}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dborhaving</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->or_having('${field}', '${value}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dborlike</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->or_like('${field}', '${value}', '${wildcard_position}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbornotlike</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->or_not_like('${field}', '${value}', '${wildcard_position}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dborwherein</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->or_where_in('${field}', array('${value}', '${value}', '${value}'));%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dborwherenotin</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->or_where_not_in('${field}', array('${value}', '${value}', '${value}'));%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dborwhere</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->or_where('${field}', '${value}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbplatform</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->platform();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbprotect</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->protect_identifiers('${table_name}', TRUE);%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbquery</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$result = $this->db->query('${sql}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbselectavg</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->select_avg('${field}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbselectmax</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->select_max('${field}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbselectmin</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->select_min('${field}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbselectsum</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->select_sum('${field}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbselect</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->select('${fields}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbsetprefix</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->set_dbprefix('${table_name}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbset</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->set('${field}', '${value}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbsimple</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$result = $this->db->simple_query('${sql}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbstartcache</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->start_cache();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbstopcache</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->stop_cache();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbtransstrict</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->trans_strict(${FALSE});%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbtableexists</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->table_exists('${table_name}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbtransbegin</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->trans_begin();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbtranscommit</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->trans_commit();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbtranscomplete</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->trans_complete();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbtransrollback</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->trans_rollback();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbtransoff</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->trans_off();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbtransstart</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->trans_start();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbtransstatus</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->trans_status();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbtruncate</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->truncate('${table_name}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbupdatestr</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$query = $this->db->update_string('${table_name}', array(
+	'${field}' => '${value}',
+	'${field}' => '${value}',
+	'${field}' => '${value}'
+), ${where_str}');%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbupdate</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->update('${table_name}', array(
+	'${field}' => '${value}',
+	'${field}' => '${value}',
+	'${field}' => '${value}'
+));%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbversion</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->version();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbwherein</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->where_in('${field}', array('${value}', '${value}', '${value}'));%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>dbwhere</match>
+  <displaypostfix></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$this->db->where('${field}', '${value}');%{cursor}</fillin>
+ </item>
+</snippets>
