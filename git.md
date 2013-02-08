@@ -1,6 +1,6 @@
 # Git cheat sheet
 
-## Instalación, configuración y ayuda 
+## Instalación, configuración y ayuda
 
 ### Instalación en Gentoo
     emerge -av git
@@ -42,7 +42,16 @@ Por defecto push envía todas las ramas. Para hacer que por defecto envíe solo 
 ### Ignorar archivos
 
 Crear en la raíz de la copia de trabajo el fichero `.gitignore` con el listado de ficheros a ignorar.
-Acepta comentarios con `#`, comodines con `*` y excepciones con `!`.
+Acepta comentarios con `#`, comodines con `*` y excepciones con `!`. Ej:
+
+	#Ignore editor backup files
+	*~
+	.*~
+	.old
+
+	#Ignore chache (but exlude README.html)
+	cache/*
+	!cache/README.html
 
 ### Ignorar cambios en archivos para evitar publicar datos sensibles
 
@@ -109,30 +118,45 @@ También podemos indicar qué herramienta usar por defecto para mergetool
 
 Las herramientas soportadas son: araxis, bc3, diffuse, ecmerge, emerge, gvimdiff, kdiff3, meld, opendiff, p4merge, tkdiff, tortoisemerge, vimdiff y xxdiff.
 
-### Descargar e incorporar los cambios del repositorio remoto a la copia local 
+### Descargar e incorporar los cambios del repositorio remoto a la copia local
 
 Equivale a `git fetch` + `git merge`
 
     git pull [ -n | --dry-run]
 
-## Obtener información del repositorio 
+## Obtener información del repositorio
 
 ### Para ver el log del repositorio
 
-El segundo comando es lo mismo pero de forma gráfica
+    git log
 
-    git log [--stat]
-    gitview
+Eyecandy
+
+	git log --decorate=short --oneline --graph --stat
+
+También existen visores gráficos incluídos
+
+    gitview #Requiere USE="python"
+	gitk #Requiere USE="tk"
+	git gui
 
 ### Ver estado de nuestra copia de trabajo
 
-    git status [-s para verlo resumido]
+    git status [-s para verlo resumido -b para ver la rama actual]
 
 ## Hacer cambios
 
-### Añadir, borrar renombrar archivo/s
+Tu repositorio local esta compuesto por tres "árboles" administrados por git. El primero es tu ""Directorio de trabajo"" el cual contiene los archivos. el segundo es el `Index` el cual actua como un área intermedia y finalmente el `HEAD` el cual apunta a el último commit realizado.
+
+
+### Añadir
+
+Para añadir archivos al `Index` (también llamado proponer cambios)
 
     git add <archivos>
+
+Para borrar renombrar archivo/s
+
     git rm <archivos>
     git mv <archivos>
 
@@ -160,7 +184,7 @@ Es decir, ver la diferencia entre tu copia de trabajo y el ultimo commit
 
 	git difftool
 
-git difftool es un frontend para git diff y acepta los mismos parámetros. Soporta varias herramientas e intentará usar alguna de las que se encuentre instalada. Para indicar una herramiento en concreto:
+`git difftool` es un frontend para git diff y acepta los mismos parámetros. Soporta varias herramientas e intentará usar alguna de las que se encuentre instalada. Para indicar una herramiento en concreto:
 
 	git difftool -t <herramienta>
 
@@ -202,6 +226,16 @@ Las herramientas soportadas son: araxis, bc3, diffuse, emerge, ecmerge, gvimdiff
 
     git branch -r
 
+### Ver ramas ya incorporadas a la rama actual
+
+    git branch --merged
+
+Las ramas mostradas es seguro borrarlas.
+
+### Ver ramas no incorporadas a la rama actual
+
+    git branch --no-merged
+
 ### Crear nueva rama
 
     git branch <nuevarama>
@@ -227,7 +261,7 @@ Las herramientas soportadas son: araxis, bc3, diffuse, emerge, ecmerge, gvimdiff
 
     git push origin HEAD
 
-# GitHub workflow
+# CodeIgniter GitHub workflow
 
 - Fork on GitHub (click Fork button)
 - Clone to computer `$ git clone git@github.com:Stolz/CodeIgniter.git`
@@ -243,6 +277,8 @@ Las herramientas soportadas son: araxis, bc3, diffuse, emerge, ecmerge, gvimdiff
 - Push branch to GitHub `$ git push origin new-feature`
 - Issue pull request (Click Pull Request button)
 
+
+## workflow
 
 You might benefit from the workflow Scott Chacon describes in Pro Git. In this workflow, you have two branches that always exist, master and develop.
 
@@ -270,7 +306,7 @@ For more details on this workflow, check out the Branching Workflows chapter in 
 
 
 
-# - to-do -
+## workflow 2
 
 
 If you have a master branch and a develop and you need to merge changes from master into develop, and eventually merge everything from develop into master then the best approach is git rebase. It allows you to pull changes from master into your development branch, but leave all of your development work "on top of" (later in the commit log) the stuff from master. When your new work is complete, the merge back to master is then very straightforward. Be careful with rebase. If you're sharing your develop branch with anybody, rebase can make a mess of things. Rebase is good only for your own local branches. Rule of thumb, if you've pushed the branch to origin, don't use rebase. Instead, use merge.
@@ -302,7 +338,7 @@ This workflow works best for me:
 
 
 
-
+----------
 
 
 REF <http://rogerdudler.github.com/git-guide/index.es.html>
@@ -310,44 +346,7 @@ REF <http://progit.org/book/es/ch1-3.html>
 REF <http://book.git-scm.com/5_customizing_git.html>
 REF servidor <http://wiki.dreamhost.com/Git>
 
-git blame archivo
-
-###Crear una nueva etiqueta
-git tag "v1.3"
-git push --tags
-
-###Some nice aliases:
-gb = git branch
-gba = git branch -a
-gc = git commit -v
-gd = git diff | mate
-gl = git pull
-gp = git push
-gst = git status
-
-###Git aliases
-st: git config -global alias.st status
-ci: git config -global alias.ci commit
-ca: git config -global alias.ca commit -a
-
 
 git rebase command. Rebase allows you to easily change a series of commits, reordering, editing, or squashing commits together into a single commit.<http://help.github.com/rebase/>
 
 [Licencia](LICENCIA.md)
-
-
-
-flujo de trabajo:
-
-tu repositorio local esta compuesto por tres "árboles" administrados por git. el primero es tu ""Directorio de trabajo"" el cual contiene los archivos. el segundo es el Index el cual actua como un área intermedia y finalmente el HEAD el cual apunta a el último commit realizado.
-
-Puedes proponer cambios (agregarlos a el Index) usando
-	git add <filename>
-
-Para confirmar (hacer commit) estos cambios usa
-	git commit -m "Commit message"
-Ahora el archivo esta incluído en el HEAD de tu copia local, pero aún no en tu repositorio remoto.
-
-Para enviar esos cambios a tu repositorio remoto ejecuta (Reemplaza master por la rama a la cual desees enviar tus cambios.)
-	git push origin master
-
