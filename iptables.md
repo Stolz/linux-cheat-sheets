@@ -236,6 +236,9 @@ Ejemplo: Redireccionar el puerto 1111 al puerto 2222 de la IP 172.16.0.98
 	# Limpiar todas las reglas y cadenas existentes
 	iptables -F
 	iptables -X
+	# Si además tienes IP forwarding activado (echo 1 > /proc/sys/net/ipv4/ip_forward)
+	#iptables -F -t nat
+	#iptables -X -t nat
 
 	# Politica por defecto si un paquete no corresponde a ninguna de las reglas que definiremos luego:
 	#  - Rechazar todo lo que entre para nosotros
@@ -262,6 +265,7 @@ Ejemplo: Redireccionar el puerto 1111 al puerto 2222 de la IP 172.16.0.98
 	# ===========
 	# Aceptar la entrada de todo lo que provenga de la interfaz loopback (lo)
 	iptables -A INPUT -i lo -j ACCEPT
+
 
 	echo ping ICMP
 	# ============
@@ -370,12 +374,14 @@ Ejemplo: Redireccionar el puerto 1111 al puerto 2222 de la IP 172.16.0.98
 	# Activar la siguiente solo si usamos 'Microsoft Active Directory'
 	#iptables -A INPUT -p tcp --dport 445  -m state --state NEW-j ACCEPT
 
+
 	echo Distcc
 	# =========
 	#Para el servidor
 	iptables -A INPUT -p tcp --dport 3632 -m state --state NEW -j ACCEPT
 	#Si usas Avahi (zeroconf) para descubrir máquinas disponibles
 	iptables -A INPUT -p udp --dport 5353 -d 224.0.0.251 -j ACCEPT
+
 
 	echo MSN
 	# ======
@@ -408,10 +414,23 @@ Ejemplo: Redireccionar el puerto 1111 al puerto 2222 de la IP 172.16.0.98
 	#iptables -A INPUT -p udp --dport 8767 -j ACCEPT
 
 
-	echo Otros
-	# ========
+	#echo Ventrilo
+	# ===========
+	#iptables -A INPUT -p tcp --dport 3784 -m state --state NEW -j ACCEPT
+	#iptables -A INPUT -p udp --dport 3784 -m state --state NEW -j ACCEPT
+
+
+	#echo Murmur (Mumble)
+	# ================
+	#iptables -A INPUT -p tcp --dport 64738 -m state --state NEW -j ACCEPT
+	#iptables -A INPUT -p udp --dport 64738 -m state --state NEW -j ACCEPT
+
+
+	echo Denegar acceso
+	# =================
 	# Denegar el acceso a todos los servicios a una determinada IP
 	#iptables -I INPUT 1 -s 11.22.33.44 -j DROP
+
 
 	echo Log de rechazados
 	# ====================
@@ -419,11 +438,19 @@ Ejemplo: Redireccionar el puerto 1111 al puerto 2222 de la IP 172.16.0.98
 	iptables -N LOGDROP
 	iptables -A LOGDROP -m limit --limit 3/minute --limit-burst 3 -j LOG --log-level 2 --log-prefix "Firewall: "
 	iptables -A LOGDROP -j DROP
-
 	#Todos los paquetes que no hayan concididos con alguna de las reglas anteriores y llegen hasta aqui, los enviamos a la nueva tabla
 	iptables -A INPUT -j LOGDROP
 
+
+	echo
+	echo Guardando reglas....
 	/etc/init.d/iptables save
+	echo
+
+	echo =====Puertos ========================================================
+	iptables -L -n
+	echo ==== Redirecciones ==================================================
+	iptables -L -t nat -n
 
 
 ## Desactivar IPtables (aceptar todo)
@@ -433,4 +460,6 @@ Ejemplo: Redireccionar el puerto 1111 al puerto 2222 de la IP 172.16.0.98
 	iptables -P OUTPUT ACCEPT
 	iptables -F
 	iptables -X
-
+	# Si además tienes IP forwarding activado (echo 1 > /proc/sys/net/ipv4/ip_forward)
+	#iptables -F -t nat
+	#iptables -X -t nat
