@@ -340,6 +340,19 @@ This workflow works best for me:
 
 ----------
 
+Bash alias
+
+	alias ga='git add'
+	alias gb='git branch'
+	alias gc='git commit -v'
+	alias gd='git diff'
+	alias gds='git diff --staged'
+	alias gdt='git difftool -y'
+	alias gdts='git difftool -y --staged'
+	alias gl='git log --decorate=short --oneline --graph --stat'
+	alias gs='git status -bs'
+
+
 
 REF <http://rogerdudler.github.com/git-guide/index.es.html>
 REF <http://progit.org/book/es/ch1-3.html>
