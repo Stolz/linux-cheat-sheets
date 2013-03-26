@@ -1,6 +1,7 @@
-<snippets namespace="" license="LGPL v2+" filetypes="PHP/PHP;PHP (HTML)" snippetlicense="public domain" authors="Javi (twitter:@Stolz)" name="Stolz PHP Snippets">
+<snippets namespace="" license="LGPL v2+" filetypes="PHP/PHP;PHP (HTML)" authors="Javi (twitter:@Stolz)" name="Stolz PHP Snippets">
+ <script></script>
  <item>
-  <displayprefix></displayprefix>
+  <displayprefix>(open)</displayprefix>
   <match>php</match>
   <displaypostfix>&lt;?php</displaypostfix>
   <displayarguments></displayarguments>
@@ -248,13 +249,6 @@ function ${function_name}()
  </item>
  <item>
   <displayprefix></displayprefix>
-  <match>new</match>
-  <displaypostfix>(new stdClass object)</displaypostfix>
-  <displayarguments></displayarguments>
-  <fillin>%{cursor}$obj = new stdClass();</fillin>
- </item>
- <item>
-  <displayprefix></displayprefix>
   <match>array</match>
   <displaypostfix>(1 line)</displaypostfix>
   <displayarguments></displayarguments>
@@ -293,10 +287,31 @@ function ${function_name}()
   <fillin>$this->%{cursor};</fillin>
  </item>
  <item>
+  <displayprefix>(close)</displayprefix>
+  <match>php</match>
+  <displaypostfix>?></displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>?>${cursor}</fillin>
+ </item>
+ <item>
   <displayprefix></displayprefix>
   <match>new</match>
-  <displaypostfix>(other class)</displaypostfix>
+  <displaypostfix>Class (chain)</displaypostfix>
   <displayarguments></displayarguments>
-  <fillin>$obj = new ${cursor}();</fillin>
+  <fillin>$%{object} = (new %{object/./\u\0/})->%{method_or_attr}%{cursor};</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>new</match>
+  <displaypostfix>Class</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$${object} = new ${object/./\u\0/}();%{cursor}</fillin>
+ </item>
+ <item>
+  <displayprefix></displayprefix>
+  <match>new</match>
+  <displaypostfix>stdClass</displaypostfix>
+  <displayarguments></displayarguments>
+  <fillin>$%{object} = new stdClass();%{cursor}</fillin>
  </item>
 </snippets>
