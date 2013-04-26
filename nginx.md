@@ -168,21 +168,9 @@ Para que los cambios tengan efectos
 				error_log /var/log/nginx/example.com/error_log info;
 			}
 	}
----------------------------------
-Mas informacion
-http://wiki.nginx.org/Configuration
-http://blog.martinfjordvald.com/2010/07/nginx-primer/
-http://blog.martinfjordvald.com/2011/02/nginx-primer-2-from-apache-to-nginx/
-Para la config de Codeigniter mirar http://wiki.nginx.org/ExpressionEngine
-------------------------------
-Para quitar el www del nombre:
 
-server {
-  server_name www.domain.com;
-  return 301 $scheme://domain.com$request_uri;
-}
-server {
-  server_name domain.com;
-  [...]
-}------------------
-to-do hacer una config por defecto super restrictiva igual que he hecho en Apache
+## webapp-config
+
+Editar /etc/vhosts/webapp-config y establecer
+
+	vhost_server="nginx"
