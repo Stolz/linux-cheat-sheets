@@ -155,7 +155,7 @@ Para poder indicar rangos de puertos en una regla no es necesario activar nada, 
 
 	iptables -A INPUT -p tcp --sport 500:550  -j ACCEPT
 
-Pero para poder indicar una lista de puertos no consecutivos tenemos que añadir una nueva opción:
+Pero para poder indicar una lista de puertos no correlativos tenemos que añadir una nueva opción:
 
 	Networking  --->
 	[*] Networking support
@@ -173,7 +173,7 @@ Con esta configuración podremos hacer reglas con un aspecto similar a este:
 
 	iptables -A INPUT -p tcp -m multiport --sport http,https  -j ACCEPT
 
-__NOTA:__ Con esta sintaxis es en algunos servidores algunos puertos aletorios a veces no se abren (comprobado con nmap), pero en cambio con esta otra sintaxis si van:
+__NOTA:__ Con esta sintaxis es en algunos servidores algunos puertos aletorios a veces no se abren (comprobado con nmap), pero en cambio con esta otra sintaxis sí van:
 
 	iptables -A INPUT -p tcp --match multiport --dports http,https -m state --state NEW -j ACCEPT
 
