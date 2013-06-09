@@ -26,6 +26,7 @@ Para iniciar el servicio
 	/etc/init.d/iptables start
 
 Para añadirlo al inicio de sistema
+
 	rc-update add iptables default
 
 ## Sintaxis de una regla

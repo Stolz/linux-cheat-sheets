@@ -1,15 +1,29 @@
-# Common
+# Alias
 
+## Common
+
+	alias car='cat'
 	alias df='pydf'
-	alias grep='grep --colour=auto --exclude-dir=.svn --exclude=*.svn-base --exclude-dir=.git'
-	alias g='grep'
 	alias l='locate -i'
-	alias joe='joe --wordwrap'
-	alias jeo=j
 	alias ls='ls -lh --color'
 	alias la='ls -a'
+	alias netstat='netstat -pultanW'
+	alias s='ssh'
 	alias top='htop'
+
+	alias grep='grep --colour=auto --exclude-dir=.svn --exclude=*.svn-base --exclude-dir=.git'
+	alias g='grep'
+	alias egrep='egrep --colour=auto'
+	alias fgrep='fgrep --colour=auto'
+
 	alias descomprimir='aunpack'
+	alias comprimir='apack'
+
+	#Editor
+	alias joe='joe --wordwrap'
+	alias j='joe'
+	alias jeo='joe'
+	alias kate='/usr/bin/kate -u'
 
 	function man () {
 	if which konqueror >& /dev/null && [ $TERM != linux ] && \
@@ -31,16 +45,31 @@
 
 	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo  -ne "\033[1;31m:(\033[0m\n";fi'
 
-# User
+## User
 
+	alias su='sudo su'
+	alias tv="disper -e"
+
+	#Git
+	alias ga='git add'
+	alias gb='git branch'
+	alias gc='git commit -v'
+	alias gd='git diff'
+	alias gds='git diff --staged'
+	alias gdt='git difftool -y'
+	#alias gdt='git difftool --dir-diff'
+	alias gdts='git difftool -y --staged'
+	#alias gdts='git difftool --dir-diff --staged'
+	alias gl='git log --decorate=short --oneline --graph --stat'
+	alias gs='git status -bs'
+
+	#SVN
 	alias sd='svn diff | kompare -o -'
 	alias st='svn status'
-	alias gs='git status -s'
-	alias su='sudo su'
-	alias kate='/usr/bin/kate -u'
 
-# Root
+## Root
 
 	alias modprobe='modprobe -v'
 	alias rmmod='rmmod -v'
-	alias rescan='rescan-scsi-bus --color'
+	alias rescan-scsi-bus='rescan-scsi-bus --color'
+	alias rescan='rescan-scsi-bus'

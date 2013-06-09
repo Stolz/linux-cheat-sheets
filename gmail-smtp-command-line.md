@@ -17,7 +17,7 @@ Create file `/etc/msmtprc`
 	auth on
 	user foo@gmail.com
 	from foo@gmail.com
-	password FOO_GAMIL_YOUR_PASSWORD
+	password YOUR_GMAIL_PASSWORD
 	logfile /var/log/msmtp.log
 
 ### Send
