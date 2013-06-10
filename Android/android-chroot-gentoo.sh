@@ -1,5 +1,5 @@
 # Script to launch a Linux chroot in Android
-# If any parameter is given, Zygote and all Android services will be stopped
+# If any parameter is given, Android Stak will be stopped
 
 # Config
 export device=/dev/block/mmcblk0p5 #what to mount
