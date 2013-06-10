@@ -1,7 +1,12 @@
+# Script to launch a Linux chroot in Android
+# If any parameter is given, Zygote and all Android services will be stopped
+
 # Config
 export device=/dev/block/mmcblk0p5 #what to mount
 export mount_point=/mnt/sdcard #where to mount it
 export chroot_dir=$mount_point/gentoo #chroot destination
+
+# DO NOT MODIFY BELOW HERE !
 
 error_exit() {
 	echo ---------------
@@ -41,7 +46,7 @@ b grep -qs "$chroot_dir/sys " /proc/mounts     || b mount -t sysfs sysfs "$chroo
 b sysctl -w net.ipv4.ip_forward=1 || error_exit "Unable to forward network"
 
 # Stop Zygote and all the Android services to have more RAM in our chroot
-stop
+if [[ -n  $1 ]]; then stop; fi
 
 # Chroot
 #b chroot $chroot_dir /bin/bash -l -c "/usr/sbin/env-update; source /etc/profile;bash"
@@ -53,7 +58,7 @@ for pid in `b lsof | b grep -s $chroot_dir | b sed -e's/  / /g' | b cut -d' ' -f
 sleep 5
 
 # Restart Zygote
-start
+if [[ -n  $1 ]]; then start; fi
 
 # b umount $chroot_dir/sdcard || echo "Error: Unable to umount $chroot_dir/sdcard"
 b umount $chroot_dir/sys || echo "Error: Unable to umount $chroot_dir/sys"

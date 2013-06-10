@@ -25,7 +25,7 @@ El método chroot o jaula consiste en iniciar nuestro dispositivo Android de for
 
 La principal ventaja de este método es que al usar el kernel original de nuestro dispositivo tenemos soporte para todo el hardware instalado (Wifi, Bluetooth, GPS, ...). En teoria sería posible compilar nuestro propio kernel de Android desde Gentoo pero debido a que los fabricantes no suelen liberar  los drivers de sus dispositivos perderíamos el soporte para gran parte del hardware.
 
-Otra ventaja es que no se altera el sistema original Android. Los dos sistemas pueden convivir y ejecutarse a la vez. No obstante, si se desea se pueden detener de forma fácil todos los procesos y servicos de Android que no esten destinados a dar soporte de harware para así tener más memoria disponible para Gentoo. Una vez detenido el chroot Gentoo los servicios de android son restaurados y se peude seguir usando el dispositivo con la interfaz Android.
+Otra ventaja es que no se altera el sistema original Android. Los dos sistemas pueden convivir y ejecutarse a la vez. No obstante, si se desea se pueden detener de forma fácil todos los procesos y servicios de Android que no esten destinados a dar soporte de harware para así tener más memoria disponible para Gentoo. Una vez detenido el chroot Gentoo los servicios de android son restaurados y se peude seguir usando el dispositivo con la interfaz Android.
 
 La desventaja de este método es que al no iniciar Gentoo mediante `/sbin/init` no tenemos disponibles todas las caracteríasticas de OpenRC y los servicios tienen que ser iniciados a mano.
 
@@ -58,7 +58,7 @@ Recompilar el kernel con `CONFIG_BINFMT_MISC=m` y reiniciar. Después instalar q
 	echo "QEMU_USER_TARGETS=arm" >> /etc/portage/make.conf
 	emerge app-emulation/qemu-user
 
-Recuerda asignar un valor a `QEMU_USER_TARGETS` acorde con la arquitectura de tu dispositivo Android. Si tienes problemas para compilar qemu-user prueba suando  la versión 4.13-r2 de `sys-apps/texinfo`.
+Recuerda asignar un valor a `QEMU_USER_TARGETS` acorde con la arquitectura de tu dispositivo Android. Si tienes problemas para compilar qemu-user prueba usando la versión 4.13-r2 de `sys-apps/texinfo`.
 
 Edita `/etc/init.d/qemu-binfmt` y en la sección *"register the interpreter for each cpu except for the native on"* elimina o comenta todos los bloques *"if..fi"* exceptuando el que hace referencia a la arquitectura de tu dispositivo Android (en mi caso `qemu-static-arm-binfmt`). Esto es necesario porque al asignar la variable `QEMU_USER_TARGETS` solo hemos compilado soporte para este intérprete que es el único que necesitamos. Si no borramos el resto al intentar lanzar el servicio qemu-binfmt dará fallo.
 
