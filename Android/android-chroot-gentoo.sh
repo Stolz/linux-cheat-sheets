@@ -1,13 +1,42 @@
+# Script to launch a Linux chroot in Android
+# If any parameter is given, Zygote and all Android services will be stopped
+
 # Config
 export device=/dev/block/mmcblk0p5 #what to mount
 export mount_point=/mnt/sdcard #where to mount it
 export chroot_dir=$mount_point/gentoo #chroot destination
+
+# DO NOT MODIFY BELOW HERE !
 
 error_exit() {
 	echo ---------------
 	echo "Error: $1"
 	echo ---------------
 	exit 1
+}
+
+function start_android()
+{
+	echo "Starting Android Stack"
+	start
+}
+
+function stop_android()
+{
+	echo "Stopping Android Stack"
+	#Next command will stop the Android Stack
+	#stop
+
+	#But I want to keep the service adbd so I stop the rest individually
+	setprop ctl.stop zygote
+	setprop ctl.stop media
+	setprop ctl.stop drm
+	setprop ctl.stop debuggerd
+	setprop ctl.stop gps-daemon
+	setprop ctl.stop keystore
+	setprop ctl.stop vold
+	setprop ctl.stop surfaceflinger
+	setprop ctl.stop installd
 }
 
 mount -o rw,remount /system || error_exit "Unable to mount /system rw"
@@ -21,7 +50,7 @@ busybox grep -qs "$mount_point " /proc/mounts || busybox mount $device $mount_po
 [ -d "$chroot_dir" ] || error_exit "Unable to find chroot dir at $chroot_dir"
 mkdir -p "$chroot_dir/sdcard"
 
-# Use our own busybox (Android Market's are buggy!)
+# Use our own busybox (Android Market ones are buggy!)
 [ -f "$chroot_dir/static-bin/busybox" ] || error_exit "Unable to find custom busybox at $chroot_dir/busybox"
 [ -x "$chroot_dir/static-bin/busybox" ] || error_exit "Custom $chroot_dir/busybox is not executable"
 unalias b
@@ -38,13 +67,13 @@ b grep -qs "$chroot_dir/sys " /proc/mounts     || b mount -t sysfs sysfs "$chroo
 # b grep -qs "$chroot_dir/sdcard " /proc/mounts  || b mount -o bind /sdcard "$chroot_dir/sdcard"   || error_exit "Unable to bind $chroot_dir/sdcard"
 
 # Sets up network forwarding
-b sysctl -w net.ipv4.ip_forward=1 || error_exit "Unable to forward network"
+b sysctl -n -w net.ipv4.ip_forward=1 || error_exit "Unable to forward network"
 
-# Stop Zygote and all the Android services to have more RAM in our chroot
-stop
+# Stop Android Stack
+if [[ -n  $1 ]]; then stop_android ; fi
 
 # Chroot
-#b chroot $chroot_dir /bin/bash -l -c "/usr/sbin/env-update; source /etc/profile;bash"
+# b chroot $chroot_dir /usr/bin/env -i HOME=/root USER=root PATH=/sbin:/bin:/usr/sbin:/usr/bin TERM=linux /usr/bin/screen -R -e "^Ee" /bin/bash -l
 b chroot $chroot_dir /usr/bin/env -i HOME=/root USER=root PATH=/sbin:/bin:/usr/sbin:/usr/bin TERM=linux /bin/bash -l
 
 # Shut down chroot
@@ -52,8 +81,8 @@ echo "Shutting down chroot"
 for pid in `b lsof | b grep -s $chroot_dir | b sed -e's/  / /g' | b cut -d' ' -f2`; do b kill -9 $pid >/dev/null 2>&1; done
 sleep 5
 
-# Restart Zygote
-start
+# Restart Android Stack
+if [[ -n  $1 ]]; then start_android; fi
 
 # b umount $chroot_dir/sdcard || echo "Error: Unable to umount $chroot_dir/sdcard"
 b umount $chroot_dir/sys || echo "Error: Unable to umount $chroot_dir/sys"
