@@ -1,3 +1,5 @@
+#!/system/bin/sh
+
 # Script to launch a Linux chroot in Android
 # If any parameter is given, Android Stak will be stopped
 
