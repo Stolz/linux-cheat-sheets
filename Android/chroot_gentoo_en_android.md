@@ -96,6 +96,7 @@ Para automatizar el proceso crear el script `/sbin/chroot-qemu-android.sh` con e
 	#Entrar en la jaula
 	chroot $CHROOT /bin/bash --login
 
+
 	#Desmontar
 	cd /
 	pidof qemu-static-arm || umount $CHROOT/distfiles $CHROOT/usr/portage $CHROOT/tmp $CHROOT/sys $CHROOT/proc $CHROOT/dev/pts $CHROOT/dev
@@ -180,6 +181,8 @@ Si no tienes problemas de espacio en tu SD (El sistema básico de Gentoo, sin Po
 ## Iniciar Gentoo en Android
 
 Para automatizar el proceso crear el script `$CHOST/gentoo.sh` con el siguiente contenido (recuerda modificar las variables $device, $mount_point y $chroot_dir acorde a tu caso).
+
+	#!/system/bin/sh
 
 	# Config
 	export device=/dev/block/mmcblk0p5 #what to mount
