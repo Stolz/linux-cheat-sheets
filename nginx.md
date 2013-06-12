@@ -49,13 +49,25 @@ Para instalar PHP-FPM
 
 Cambiar la configuración global de PHP editar `/etc/php/fpm-phpVERSION/php.ini`.
 
-Para usar PHP-FPM con unix sockets en vez de TCP editar `/etc/php/fpm-phpVERSION/php-fpm.conf` y cambiar
+Para usar PHP-FPM con unix sockets en vez de TCP editar `/etc/php/fpm-phpVERSION/php-fpm.conf` y establecer
 
-	listen = 127.0.0.1:9000
+	[global]
+	pid = /var/run/php-fpm-php5.5.pid
+	error_log = /tmp/nginx/php-fpm.log
 
-por
+	[www]
+	listen = /var/run/php-fpm.socket
+	listen.owner = nginx
+	listen.group = nginx
+	listen.mode = 0660
+	listen.allowed_clients = 127.0.0.1
 
-	listen = /run/php5-fpm.socket
+	user = nginx
+	group = nginx
+
+	pm = ondemand
+	pm.max_children = 50
+
 
 Para iniciar el sevidor PHP-FPM (Si todo ha ido bien se debe de haber creado el socket en /run/php5-fpm.socket)
 
