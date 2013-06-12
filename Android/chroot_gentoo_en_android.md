@@ -25,7 +25,7 @@ El método chroot o jaula consiste en iniciar nuestro dispositivo Android de for
 
 La principal ventaja de este método es que al usar el kernel original de nuestro dispositivo tenemos soporte para todo el hardware instalado (Wifi, Bluetooth, GPS, ...). En teoria sería posible compilar nuestro propio kernel de Android desde Gentoo pero debido a que los fabricantes no suelen liberar  los drivers de sus dispositivos perderíamos el soporte para gran parte del hardware.
 
-Otra ventaja es que no se altera el sistema original Android. Los dos sistemas pueden convivir y ejecutarse a la vez. No obstante, si se desea se pueden detener de forma fácil todos los procesos y servicios de Android que no esten destinados a dar soporte de harware para así tener más memoria disponible para Gentoo. Una vez detenido el chroot Gentoo los servicios de android son restaurados y se puede seguir usando el dispositivo con la interfaz Android.
+Otra ventaja es que no se altera el sistema original Android. Los dos sistemas pueden convivir y ejecutarse a la vez. No obstante, si se desea se pueden detener de forma fácil todos los procesos y servicios de Android que no esten destinados a dar soporte de harware para así tener más memoria disponible para Gentoo. En dicho caso, una vez detenido el chroot Gentoo los servicios de android son restaurados y se puede seguir usando el dispositivo con la interfaz Android.
 
 La desventaja de este método es que al no iniciar Gentoo mediante `/sbin/init` no tenemos disponibles todas las caracteríasticas de OpenRC y los servicios tienen que ser iniciados a mano.
 
@@ -80,7 +80,7 @@ Para automatizar el proceso crear el script `/sbin/chroot-qemu-android.sh` con e
 		exit 1
 	fi
 
-	export CHROOT=/mnt/lineal/chroot/arm
+	export CHROOT=/mi/chroot/arm
 
 	#Iniciar Qemu
 	[[ -f /proc/sys/fs/binfmt_misc/arm ]] || /etc/init.d/qemu-binfmt restart
@@ -95,7 +95,6 @@ Para automatizar el proceso crear el script `/sbin/chroot-qemu-android.sh` con e
 
 	#Entrar en la jaula
 	chroot $CHROOT /bin/bash --login
-
 
 	#Desmontar
 	cd /
@@ -121,13 +120,17 @@ Antes de instalar nada recuerda elegir un perfil adecuado. En mi caso
 
 	eselect profile set default/linux/arm/13.0/armv7a
 
-Usa el comando `emerge` para instalar todo que quieras pero no olvides instalar dhcpcd, busybox y dropbear
+Siguiendo el handbook usa el comando `emerge` para instalar todo que quieras pero no olvides instalar busybox y dropbear
 
 	USE="static" emerge busybox
-	emerge dropbear dhcpcd
+	emerge dropbear
 	mkdir -p /etc/dropbear/
 	/usr/bin/dropbearkey -t rsa -f /etc/dropbear/dropbear_rsa_host_key
 	/usr/bin/dropbearkey -t dss -f /etc/dropbear/dropbear_dss_host_key
+
+Si piensas conectar a redes además instala un cliente dhcp y wpa_supplicant
+
+	emerge dhcpcd wpa_supplicant
 
 No olvides asignar contraseña al usuario root dentro del chroot.
 
@@ -154,29 +157,37 @@ Si la ROM de tu dispositivo Android soporta ext4 es recomendable usarlo en vez d
 
 ## Copiar Gentoo a la tarjeta SD
 
-Se tiene que copiar el contenido de $CHROOT a la tarjeta SD. En mi caso en vez de copiar todo a la raiz de la tarjeta SD lo voy a copiar a una subcarpeta "gentoo" para poder seguir usando la tarjeta SD desde Android sin interferir con Gentoo.
+Se tiene que copiar el contenido de $CHROOT a la tarjeta SD y una vez hecho se tiene que usar algún sistema para mantener ambos sincronizados. El sistema básico de Gentoo sin Portage pero con todas las dependencias para poder compilar es de algo menos de 1GB.
 
-Tienes varias formas de hacerlo. Puedes montar la tarjeta SD en tu ordenador y copiarlo desde ahí (conservando permisos) o puedes copiarlo por red.
+Tanto para copiar como para mantener sincronizadas las jaulas tienes varias formas de hacerlo. Puedes hacer las copias bien montando la tarjeta SD en tu ordenador o bien por red. En ambos casos recuerda conservar los permisos.
 
-Una vez copiado debes buscar la forma que más te convenga para mantener sincronizadas las copias del ordenador y las del dispositivo Android.
+No es necesario copiar todo a la raiz de la tarjeta SD. E mi caso voy a copiarlo a una subcarpeta "gentoo" para poder seguir usando la tarjeta SD desde Android sin interferir con Gentoo.
 
-Una opción es añadir `FEATURES="buildpkg"` en el make.conf de la jaula Qemu y luego instalar en Android usando `emerge -K`, pero ello implicaría tener montado por red $PKGDIR y $PORTDIR en Android.
+Una opción es añadir `FEATURES="buildpkg"` al make.conf de la jaula Qemu y luego en la jaula de tu dispositivo Android usar `emerge -K` para instalar los paquetes binarios pero esto es muy engorroso. Además de ser necesario tener montado por red $PKGDIR y $PORTDIR en Android ejecutar dos veces emerge se hace tedioso.
 
-Si no tienes problemas de espacio en tu SD (El sistema básico de Gentoo, sin Portage pero con todas las dependencias para poder compilar es de menos de 1GB) mi consejo es que uses el comando rsync para mantener ambas versiones sincronizadas por SSH.
+Mi consejo es que para mantener sincronizadas ambas jaulas uses el comando rsync que sirve para hacer copias incrementales en local o por red:
 
 	rsync $CHROOT root@tablet:/mnt/sdcard/gentoo/ --recursive --archive --human-readable --delete --progress --stats \
-	--exclude /dev/* \
-	--exclude /proc/* \
-	--exclude /sys/* \
-	--exclude /tmp/* \
-	--exclude /run/* \
-	--exclude usr/portage/* \
-	--exclude var/tmp/* \
-	--exclude distfiles/ \
-	--exclude usr/share/doc \
-	--exclude usr/share/gtk-doc \
-	--exclude usr/share/info \
-	--exclude usr/share/man
+	--exclude=/dev/* \
+	--exclude=/proc/* \
+	--exclude=/run/* \
+	--exclude=/sys/* \
+	--exclude=/tmp/* \
+	--exclude=/var/log/*.log \
+	--exclude=/var/log/*/*.log \
+	--exclude=/var/log/*/*/*.log \
+	--exclude=distfiles/ \
+	--exclude=etc/mtab \
+	--exclude=lost+found \
+	--exclude=packages/ \
+	--exclude=root/.bash_history \
+	--exclude=usr/portage/* \
+	--exclude=usr/share/doc/* \
+	--exclude=usr/share/gtk-doc/ \
+	--exclude=usr/share/info/* \
+	--exclude=usr/share/man/* \
+	--exclude=usr/tmp/* \
+	--exclude=var/tmp/*
 
 ## Iniciar Gentoo en Android
 
@@ -238,14 +249,14 @@ Para automatizar el proceso crear el script `$CHOST/gentoo.sh` con el siguiente 
 	for pid in `b lsof | b grep -s $chroot_dir | b sed -e's/  / /g' | b cut -d' ' -f2`; do b kill -9 $pid >/dev/null 2>&1; done
 	sleep 5
 
-	# Restart Zygote
-	start
-
 	# b umount $chroot_dir/sdcard || echo "Error: Unable to umount $chroot_dir/sdcard"
 	b umount $chroot_dir/sys      || echo "Error: Unable to umount $chroot_dir/sys"
 	b umount $chroot_dir/proc     || echo "Error: Unable to umount $chroot_dir/proc"
 	b umount $chroot_dir/dev/pts  || echo "Error: Unable to umount $chroot_dir/dev/pts"
 	b umount $chroot_dir/dev      || echo "Error: Unable to umount $chroot_dir/dev"
+
+	# Restart Zygote
+	start
 
 ----
 
@@ -273,9 +284,10 @@ Tras los pasos anteriores, cada vez que necesitemso iniciar Gentoo en nuestro di
 
 Para que Gentoo se inicie automáticamente al encender el dispositivo Android existen varias formas. Si la ROM Android que usas soporta `init.d` puedes crear el archivo `/system/etc/init.d/99gentoo-chroot` con el siguiente contenido
 
-	/data/gentoo.sh
+	#!/system/bin/sh
+	/system/bin/logwrapper /data/gentoo.sh
 
 Si tu ROM no soporta `init.d` puedes instalarte cualquiera de las varias aplicaciones de gestión de scripts disponibles en el Market de Android.
 
-Otra opción es modificar el fichero `/init.rc` para que ejecute `/data/gentoo.sh`. La forma de hacer esto depende de cada dispositivo pero en general implica modificar el _ramdisk_ original de tu dispositivo y reflashearlo mediante _fastboot_ o desde el _recovery_. Existe mucha información al respecto en [Xda-developers](http://forum.xda-developers.com/).
+Otra opción es modificar el fichero `/init.rc` para que ejecute `/data/gentoo.sh` como un servicio. La forma de hacer esto depende de cada dispositivo pero en general implica modificar el _ramdisk_ original de tu dispositivo y reflashearlo mediante _fastboot_ o desde el _recovery_. Existe mucha información al respecto en [Xda-developers](http://forum.xda-developers.com/).
 
