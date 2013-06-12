@@ -95,8 +95,7 @@ Triggers of this form occur when the property <name> is set to the specific valu
 	device-added-<path>
 	device-removed-<path>
 
-Triggers of these forms occur when a device node is added
-or removed.
+Triggers of these forms occur when a device node is added or removed.
 
 	service-exited-<name>
 

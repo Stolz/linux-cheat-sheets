@@ -25,20 +25,27 @@ function start_android()
 
 function stop_android()
 {
+	#switch off screen
+	input keyevent 26
+
 	echo "Stopping Android Stack"
 	#Next command will stop the Android Stack
 	#stop
 
-	#But I want to keep the service adbd so I stop the rest individually
-	setprop ctl.stop zygote
-	setprop ctl.stop media
-	setprop ctl.stop drm
-	setprop ctl.stop debuggerd
-	setprop ctl.stop gps-daemon
-	setprop ctl.stop keystore
-	setprop ctl.stop vold
-	setprop ctl.stop surfaceflinger
-	setprop ctl.stop installd
+	#But I want to keep the service adbd so I stop the rest individually (disable all "onrestart restart" of your init.rc)
+
+	stop keystore
+	stop installd
+	stop drm
+	stop media
+	stop debuggerd
+	stop netd
+	stop vold
+	stop servicemanager
+	stop gps-daemon
+	stop dbus
+	stop zygote
+	#stop surfaceflinger
 }
 
 mount -o rw,remount /system || error_exit "Unable to mount /system rw"
@@ -72,7 +79,10 @@ b grep -qs "$chroot_dir/sys " /proc/mounts     || b mount -t sysfs sysfs "$chroo
 b sysctl -n -w net.ipv4.ip_forward=1 || error_exit "Unable to forward network"
 
 # Stop Android Stack
-if [[ -n  $1 ]]; then stop_android ; fi
+if [[ -n  $1 ]]; then
+	echo Stopping Android Stack
+	stop_android
+fi
 
 # Chroot
 # b chroot $chroot_dir /usr/bin/env -i HOME=/root USER=root PATH=/sbin:/bin:/usr/sbin:/usr/bin TERM=linux /usr/bin/screen -R -e "^Ee" /bin/bash -l
@@ -84,7 +94,10 @@ for pid in `b lsof | b grep -s $chroot_dir | b sed -e's/  / /g' | b cut -d' ' -f
 sleep 5
 
 # Restart Android Stack
-if [[ -n  $1 ]]; then start_android; fi
+if [[ -n  $1 ]]; then
+	echo Starting Android Stack
+	start_android;
+fi
 
 # b umount $chroot_dir/sdcard || echo "Error: Unable to umount $chroot_dir/sdcard"
 b umount $chroot_dir/sys || echo "Error: Unable to umount $chroot_dir/sys"
