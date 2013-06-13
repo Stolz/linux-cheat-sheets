@@ -2,12 +2,13 @@
 
 ## Common
 
-	alias car='cat'
+/etc/profile.d/alias.sh
+
 	alias df='pydf'
 	alias l='locate -i'
 	alias ls='ls -lh --color'
 	alias la='ls -a'
-	alias netstat='netstat -pultanW'
+	alias netstat='netstat -plutanW'
 	alias s='ssh'
 	alias top='htop'
 
@@ -22,8 +23,13 @@
 	#Editor
 	alias joe='joe --wordwrap'
 	alias j='joe'
-	alias jeo='joe'
 	alias kate='/usr/bin/kate -u'
+
+	#Common mistakes
+	alias car='cat'
+	alias vf='cd'
+	alias jeo='joe'
+	alias cd..='cd ..'
 
 	function man () {
 	if which konqueror >& /dev/null && [ $TERM != linux ] && \
@@ -47,27 +53,42 @@
 
 ## User
 
+$HOME/.bashrc
+
 	alias su='sudo su'
 	alias tv="disper -e"
 
 	#Git
 	alias ga='git add'
 	alias gb='git branch'
+	alias gba='git branch -a'
 	alias gc='git commit -v'
+	alias gcm='git commit -vm'
 	alias gd='git diff'
 	alias gds='git diff --staged'
 	alias gdt='git difftool -y'
 	#alias gdt='git difftool --dir-diff'
 	alias gdts='git difftool -y --staged'
 	#alias gdts='git difftool --dir-diff --staged'
-	alias gl='git log --decorate=short --oneline --graph --stat'
+	alias gl='git log --decorate=short --graph --stat --oneline' #--no-merges
+	alias gll='git log --decorate=short --graph --stat' # --oneline --no-merges
 	alias gs='git status -bs'
+	alias gr='git remote'
+	alias grv='git remote -v'
+	alias gmt='git mergetool'
+	alias gmty='git mergetool -y'
+	alias gr='git remote'
+	alias grv='git remote -v'
+	alias gmt='git mergetool'
+	alias gmty='git mergetool -y'
 
 	#SVN
 	alias sd='svn diff | kompare -o -'
 	alias st='svn status'
 
 ## Root
+
+/root/.bashrc
 
 	alias modprobe='modprobe -v'
 	alias rmmod='rmmod -v'
