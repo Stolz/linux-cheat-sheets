@@ -8,7 +8,7 @@ La explicación de las USE escogidas:
 
 - **http** Lo minimo para poder servir webs por HTTP (ports, locations, error pages, aliases, ...).
 - **pcre** Para poder usar expresiones regulares en la directiva "location" y en el modulo "rewrite".
-- **sss** Para poder servir HTTPS.
+- **ssl** Para poder servir HTTPS.
 - **syslog** Para poder enviar los logs a syslog. De momento no lo voy a activar porque pienso hacer log en archivos .log ordinarios.
 - **access** Para poder permitir/denegar el acceso por IP con las directivas "allow" y "deny".
 - **auth_basic** Para poder usar HTTP Basic Authentication (que el navegador te pida usuario y contraseña).
