@@ -8,11 +8,11 @@ La explicación de las USE escogidas:
 
 - **http** Lo minimo para poder servir webs por HTTP (ports, locations, error pages, aliases, ...).
 - **pcre** Para poder usar expresiones regulares en la directiva "location" y en el modulo "rewrite".
-- **sss** Para poder servir HTTPS.
+- **ssl** Para poder servir HTTPS.
 - **syslog** Para poder enviar los logs a syslog. De momento no lo voy a activar porque pienso hacer log en archivos .log ordinarios.
 - **access** Para poder permitir/denegar el acceso por IP con las directivas "allow" y "deny".
 - **auth_basic** Para poder usar HTTP Basic Authentication (que el navegador te pida usuario y contraseña).
-- **autoindex** Para poder generar páginas con el índide del contenudo de un directorio cuando no se encuentra archivo index.
+- **autoindex** Para poder generar páginas con el índide del contenido de un directorio cuando no se encuentra archivo index.
 - **fastcgi**  la usamos para servir PHP.
 - **map** Para crear grupos de variables que se pueden reutilizar luego en plantillas de archivos de configuración. De momento no la activo pero puede ser util par aconfigurar VHOSTs sin tener que rescribir configs repetidas.
 - **referer**  Sirve para poder limitar por Referer. De momento no lo activo pero puede ser util en el futuro
