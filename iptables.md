@@ -1,6 +1,6 @@
 # netfilter/iptables por la via rápida
 
-###  Instalación en Gentoo
+### Instalación en Gentoo
 
 	emerge iptables
 
@@ -109,70 +109,59 @@ Solo los típicos, consula la documentación para ver todos
 
 ## Configurar el kernel
 
-
 ### Configuración básica
 
 Estas son las opciones mínimas para usar IPTABLES como firewall (es decir, dar soporte a la tabla filter):
 
-	Networking  --->
-	[*] Networking support
-		Networking options  --->
-		[*] Network packet filtering framework (Netfilter)  --->
-			Core Netfilter Configuration  --->
-			<M> Netfilter Xtables support (required for ip_tables)
-			IP: Netfilter Configuration  --->
-			<M> IP tables support (required for filtering/masq/NAT)
-			<M>   Packet filtering
+
+	[*] Networking support --->
+		Networking options --->
+			[*] Network packet filtering framework (Netfilter) --->
+				Core Netfilter Configuration --->
+					<M> Netfilter Xtables support (required for ip_tables)
+				IP: Netfilter Configuration --->
+					<M> IP tables support (required for filtering/masq/NAT)
+					<M> Packet filtering
 
 Con esta configuración mínima podremos hacer reglas básicas con un aspecto similar a este:
 
-	iptables -A INPUT -p tcp --sport http  -j ACCEPT
+	iptables -A INPUT -p tcp --sport http -j ACCEPT
 
 ### Relacionar paquetes con conexiones
 
 Si además queremos poder hacer un seguimiento de los paquetes que han pasado por el ordenador para saber cuales son consecuencia de las conexiones que hemos realizado o si queremos utilizar el estado de una conexión (INVALID, ESTABLISHED, NEW, RELATED) como condición en una regla, entonces debemos de añadir la siguiente opción:
 
-	Networking  --->
-		[*] Networking support
-			Networking options  --->
-			[*] Network packet filtering framework (Netfilter)  --->
-				Core Netfilter Configuration  --->
-				<M> Netfilter connection tracking support
-
-Lo cual hace que a aparezcan nuevas opciones de las cuales debemos marcar las siguientes:
-
-				Core Netfilter Configuration  --->
-				<M>   "state" match support
-				IP: Netfilter Configuration  --->
-				<M> IPv4 connection tracking support (required for NAT)
+	[*] Networking support --->
+		Networking options --->
+			[*] Network packet filtering framework (Netfilter) --->
+				Core Netfilter Configuration --->
+					<M> Netfilter connection tracking support
+					<M> "state" match support
+				IP: Netfilter Configuration --->
+					<M> IPv4 connection tracking support (required for NAT)
 
 Con esta configuración podremos hacer reglas con un aspecto similar a este:
 
 	iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
-###  Rangos de puertos
+### Rangos de puertos
 
 Para poder indicar rangos de puertos en una regla no es necesario activar nada, con separarlos por `:` es suficiente. Por ejemplo:
 
-	iptables -A INPUT -p tcp --sport 500:550  -j ACCEPT
+	iptables -A INPUT -p tcp --sport 500:550 -j ACCEPT
 
-Pero para poder indicar una lista de puertos no correlativos tenemos que añadir una nueva opción:
+En cambio, para poder indicar una lista de puertos no correlativos tenemos que añadir una nueva opción:
 
-	Networking  --->
-	[*] Networking support
-		Networking options  --->
-		[*] Network packet filtering framework (Netfilter)  --->
-			Core Netfilter Configuration  --->
-			[*]   Advanced netfilter configuration
-
-Lo cual hace que a aparezcan nuevas opciones de las cuales debemos marcar las siguientes:
-
-			Core Netfilter Configuration  --->
-			<M>   "multiport" Multiple port match support
+	[*] Networking support --->
+		Networking options --->
+			[*] Network packet filtering framework (Netfilter) --->
+				[*] Advanced netfilter configuration
+				Core Netfilter Configuration --->
+					<M> "multiport" Multiple port match support
 
 Con esta configuración podremos hacer reglas con un aspecto similar a este:
 
-	iptables -A INPUT -p tcp -m multiport --sport http,https  -j ACCEPT
+	iptables -A INPUT -p tcp -m multiport --sport http,https -j ACCEPT
 
 __NOTA:__ Con esta sintaxis es en algunos servidores algunos puertos aletorios a veces no se abren (comprobado con nmap), pero en cambio con esta otra sintaxis sí van:
 
@@ -181,14 +170,13 @@ __NOTA:__ Con esta sintaxis es en algunos servidores algunos puertos aletorios a
 
 ### Dejar constancia de los paquetes en el syslog
 
-Podemos usar la función LOG de iptables para saber qué paquetes se están filtrando. Esta función es útil por ejemplo para saber qué intentos de ataque ha sufrido nuestra máquina o qué uso se intenta hacer de la red. Tambiés es útil para conocer los puertos  que usa algún programa poco común el cual hemos observado que deja de funcionar con el firewall activado. Para disponer de esta función de iptables tenemos que añadir una nueva opción:
+Podemos usar la función LOG de iptables para saber qué paquetes se están filtrando. Esta función es útil por ejemplo para saber qué intentos de ataque ha sufrido nuestra máquina o qué uso se intenta hacer de la red. Tambiés es útil para conocer los puertos que usa algún programa poco común el cual hemos observado que deja de funcionar con el firewall activado. Para disponer de esta función de iptables tenemos que añadir una nueva opción:
 
-	Networking  --->
-	[*] Networking support
-		Networking options  --->
-		[*] Network packet filtering framework (Netfilter)  --->
-			IP: Netfilter Configuration  --->
-			<M>   LOG target support
+	[*] Networking support --->
+		Networking options --->
+			[*] Network packet filtering framework (Netfilter) --->
+				IP: Netfilter Configuration --->
+					<M> LOG target support
 
 Con esta configuración podremos hacer reglas con un aspecto similar a este:
 
@@ -196,262 +184,116 @@ Con esta configuración podremos hacer reglas con un aspecto similar a este:
 
 Si además quieres que no se llene el log puedes usar el modulo limit para limitar cuanta informacion se guarda. Para activarlo hacer lo mismo que en c) pero en el ultimo paso marcar
 
-			<M>   "limit" match support
+			<M> "limit" match support
 
 Con lo que la regla con el límite aplicado quedaría:
 
 	iptables -A INPUT -m limit --limit 3/minute --limit-burst 3 -j LOG --log-level 2 --log-prefix "Firewall: "
 
-###  Redireccion de puertos a otro ordenador:
+### Compartir Internet:
 
 Añadir al kernel soporte para NAT y MASQUERADE
 
-	Networking  --->
-	[*] Networking support
-		Networking options  --->
-		[*] Network packet filtering framework (Netfilter)  --->
-			IP: Netfilter Configuration  --->
-			<M>   Full NAT
-			<M>    MASQUERADE target support
+	[*] Networking support --->
+		Networking options --->
+			[*] Network packet filtering framework (Netfilter) --->
+				IP: Netfilter Configuration --->
+					<M> IPv4 NAT
+					<M>   MASQUERADE target support
 
 Añadir a las reglas de limpiado la tabla NAT
 
 	iptables -F -t nat
 	iptables -X -t nat
 
-
-Cambiar la politica por defecto de FORWARD a
+Cambiar la politica por defecto de FORWARD para que sea aceptado tráfico dirigido a otros
 
 	iptables -P FORWARD ACCEPT
 
-Ejemplo: Redireccionar el puerto 1111 al puerto 2222 de la IP 172.16.0.98
+Activar el acceso compartido a Internet (Se entiende que eth1 es tu tarjeta con acceso a Internet)
 
 	echo 1 > /proc/sys/net/ipv4/ip_forward
-	iptables -t nat -A PREROUTING -p tcp -m tcp --dport 1111 -j DNAT --to-destination 172.16.0.98:2222
-	iptables -t nat -A POSTROUTING -j MASQUERADE
+	iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
 
+Para activar el reenvio IP de forma permanente añade a `/etc/sysctl.conf` la siguiente línea
+
+	net.ipv4.ip_forward = 1
 
 ## Ejemplo de configuración
 
+El siguiente ejemplo asume que se ha instalado iptables en un ordenador (router) que va a proporcionar acceso a Internet a otros ordenadores de su misma red local y además va a protegerlos a modo de firewall. Dicho ordenador tiene dos tarjetas de red conectadas: `eth0` que sirve para conectar a Internet (WAN) y `eth1` que sirve para conectar a la red local (LAN).
 
-	# Limpiar todas las reglas y cadenas existentes
+Desde Internet se puede acceder al servidor web (puerto 80) y al servidor SSH (puerto 22) que se encuentran en el ordenador router. Además, se puede acceder desde Internet al servidor SSH de uno de los ordenadores de la LAN (192.168.1.2) a través del puerto 2222 (que es redirigido al puerto 22 de 192.168.1.2)
+
+---
+
+	#=== Flush/Reset ===========================================
+
 	iptables -F
 	iptables -X
-	# Si además tienes IP forwarding activado (echo 1 > /proc/sys/net/ipv4/ip_forward)
-	#iptables -F -t nat
-	#iptables -X -t nat
+	iptables -F -t nat
+	iptables -X -t nat
 
-	# Politica por defecto si un paquete no corresponde a ninguna de las reglas que definiremos luego:
-	#  - Rechazar todo lo que entre para nosotros
-	#  - Rechazar todo lo que entre para otros
-	#  - Aceptar todo lo que salga de nosotros
+	#=== Defaults ==============================================
+
 	iptables -P INPUT DROP
 	iptables -P FORWARD DROP
 	iptables -P OUTPUT ACCEPT
 
-	# ------ REGLAS ---------------------------------------------------------------
-	# Para un ordenador cliente que no tenga programas a la escucha de conexiones
-	# debería ser suficiente con indicar esta regla:
+	#=== Table FILTER ==========================================
 
-	# Aceptar todas las conexiones entrantes que sean consecuencia de nuestras conexiones salientes
-	#iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+	# Allow already established or related traffic
+	iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
-	# Pero para un ordenador servidor deberemos de añadir reglas para permitir el acceso a los diferentes
-	# servicios que ofrezca. A continuación pongo algunas de las reglas típicas, descoméntalas según te convenga.
-	# NOTA: Si en el caso del ordenador servidor decides usar la regla explicada para el ordenador cliente
-	# muchas (por no decir todas) las reglas de tipo "Aceptar respuestas" que vienen a continuación se pueden
-	# omitir pues ya están incluidas en dicha regla.
-
-	echo loopback
-	# ===========
-	# Aceptar la entrada de todo lo que provenga de la interfaz loopback (lo)
+	# Allow traffic from loopback
 	iptables -A INPUT -i lo -j ACCEPT
 
+	# Allow ICMP ping
+	iptables -A INPUT -p icmp --icmp-type echo-request -m state --state NEW -j ACCEPT
 
-	echo ping ICMP
-	# ============
-	# Aceptar respuestas
-	#iptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
-	# Aceptar peticiones
-	#iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+	# Allow connecting to servers in this computer
+	iptables -A INPUT -p tcp -m state --state NEW -m multiport --dport http,ssh -j ACCEPT
 
+	#==== Table NAT ============================================
 
-	echo DNS
-	# ======
-	# Aceptar respuestas
-	#iptables -A INPUT -p udp --sport domain -j ACCEPT
-	# Aceptar conexiones
-	#iptables -A INPUT -p udp --dport domain -m state --state NEW -j ACCEPT
+	# Define interfaces:
+	# - WAN is the public/external network
+	# - LAN is the private/internal network
+	export WAN=eth0
+	export LAN=eth1
 
+	# Enable IP forwarding and Masquerade
+	echo 1 > /proc/sys/net/ipv4/ip_forward
+	iptables -t nat -A POSTROUTING -o $WAN -j MASQUERADE
 
-	echo HTTP y HTTPs
-	# ===============
-	# Aceptar respuestas
-	#iptables -A INPUT -p tcp -m multiport --sport http,https -j ACCEPT
-	# Aceptar conexiones
-	#iptables -A INPUT -p tcp -m multiport --dport http,https -m state --state NEW -j ACCEPT
+	# Allow already established or related traffic WAN<->LAN
+	iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
 
+	# Allow new connections LAN->WAN
+	iptables -A FORWARD -i $LAN -o $WAN -m state --state NEW -j ACCEPT
 
-	echo SSH
-	# ======
-	# Aceptar respuestas
-	#iptables -A INPUT -p tcp --sport ssh -j ACCEPT
-	# Aceptar conexiones
-	#iptables -A INPUT -p tcp --dport ssh -m state --state NEW -j ACCEPT
+	# Allow ICMP ping LAN->WAN
+	iptables -A FORWARD -i $LAN -o $WAN -p icmp --icmp-type echo-request -m state --state NEW -j ACCEPT
 
+	# Allow connecting to servers WAN->LAN
+	iptables -A FORWARD -i $WAN -o $LAN -m state --state NEW -p tcp --dport 22 -j ACCEPT
+	iptables -t nat -A PREROUTING -i $WAN -m state --state NEW -p tcp --dport 2222 -j DNAT --to 192.168.1.2:22
 
-	echo NTP
-	# ======
-	# Aceptar respuestas
-	#iptables -A INPUT -p udp --sport ntp -j ACCEPT
-	# Aceptar peticiones
-	#iptables -A INPUT -p udp --sport ntp -m state --state NEW -j ACCEPT
+	#==== Make changes persistent ==============================
 
-
-	echo POP3 y POP3s
-	# ===============
-	# Aceptar respuestas
-	#iptables -A INPUT -p tcp -m multiport --sport pop3,pop3s -j ACCEPT
-	# Aceptar conexiones
-	#iptables -A INPUT -p tcp -m multiport --sport pop3,pop3s -m state --state NEW -j ACCEPT
-
-
-	echo SMTP
-	# =======
-	# Aceptar respuestas
-	#iptables -A INPUT -p tcp --sport smtp -j ACCEPT
-	# Aceptar peticiones
-	#iptables -A INPUT -p tcp --dport smtp -m state --state NEW -j ACCEPT
-
-
-	echo FTP
-	# ======
-	# Aceptar peticiones
-	#iptables -A INPUT -p tcp --dport ftp -m state --state NEW -j ACCEPT
-	#Conexiones pasivas
-	#iptables -A INPUT -p tcp --dport 2690:2695 -m state --state NEW -j ACCEPT
-
-
-	echo RSYNC
-	# ========
-	# Aceptar respuestas
-	#iptables -A INPUT -p tcp --sport rsync -j ACCEPT
-	# Aceptar peticiones
-	#iptables -A INPUT -p tcp --dport rsync -m state --state NEW -j ACCEPT
-
-
-	echo MySQL
-	# ========
-	# Aceptar respuestas
-	#iptables -A INPUT -p tcp --sport mysql -j ACCEPT
-	# Aceptar peticiones
-	#iptables -A INPUT -p tcp --dport mysql -m state --state NEW -j ACCEPT
-
-
-	echo NFS
-	# =======
-	# Aceptar respuestas
-	# Aceptar peticiones
-	#...Portmap
-	#iptables -A INPUT -p tcp --dport 111 -j ACCEPT
-	#iptables -A INPUT -p udp --dport 111 -j ACCEPT
-	#...NFS
-	#iptables -A INPUT -p tcp --dport 2049 -j ACCEPT
-	#iptables -A INPUT -p udp --dport 2049 -j ACCEPT
-	#...nlockmgr (modulo lockd)
-	#iptables -A INPUT -p tcp --dport 4001 -j ACCEPT
-	#iptables -A INPUT -p udp --dport 4001 -j ACCEPT
-	#...status y mountd
-	#iptables -A INPUT -p tcp --dport 32764:32767 -j ACCEPT
-	#iptables -A INPUT -p udp --dport 32764:32767 -j ACCEPT
-
-
-	echo SAMBA
-	# ========
-	# Aceptar respuestas
-	# Aceptar peticiones
-	#iptables -A INPUT -p udp --dport 137:138 -m state --state NEW -j ACCEPT
-	#iptables -A INPUT -p tcp --dport 139 -m state --state NEW -j ACCEPT
-	# Activar la siguiente solo si usamos 'Microsoft Active Directory'
-	#iptables -A INPUT -p tcp --dport 445  -m state --state NEW-j ACCEPT
-
-
-	echo Distcc
-	# =========
-	#Para el servidor
-	iptables -A INPUT -p tcp --dport 3632 -m state --state NEW -j ACCEPT
-	#Si usas Avahi (zeroconf) para descubrir máquinas disponibles
-	iptables -A INPUT -p udp --dport 5353 -d 224.0.0.251 -j ACCEPT
-
-
-	echo MSN
-	# ======
-	# Permitir iniciar sesión de MSN
-	#iptables -A INPUT -p tcp --sport 1863 -j ACCEPT
-
-	echo SVN
-	# ======
-	# Aceptar conexiones
-	iptables -A INPUT -p udp --dport svn -m state --state NEW -j ACCEPT
-	iptables -A INPUT -p tcp --dport svn -m state --state NEW -j ACCEPT
-
-
-	echo NO-IP.org
-	# ============
-	# Permitir respuestas del cliente no-ip.org
-	#iptables -A INPUT -p tcp --sport 8245 -j ACCEPT
-
-
-	echo aMule
-	# ========
-	# Permitir conexiones a la red Edonkey
-	#iptables -A INPUT -p tcp --dport 4662 -j ACCEPT
-	#iptables -A INPUT -p udp -m multiport --dport 4665,4672 -j ACCEPT
-
-
-	echo TeamSpeak
-	# ============
-	# Permitir conexiones
-	#iptables -A INPUT -p udp --dport 8767 -j ACCEPT
-
-
-	#echo Ventrilo
-	# ===========
-	#iptables -A INPUT -p tcp --dport 3784 -m state --state NEW -j ACCEPT
-	#iptables -A INPUT -p udp --dport 3784 -m state --state NEW -j ACCEPT
-
-
-	#echo Murmur (Mumble)
-	# ================
-	#iptables -A INPUT -p tcp --dport 64738 -m state --state NEW -j ACCEPT
-	#iptables -A INPUT -p udp --dport 64738 -m state --state NEW -j ACCEPT
-
-
-	echo Denegar acceso
-	# =================
-	# Denegar el acceso a todos los servicios a una determinada IP
-	#iptables -I INPUT 1 -s 11.22.33.44 -j DROP
-
-
-	echo Log de rechazados
-	# ====================
-	#Creamos una nueva tabla que se encarga de registrarlos en el log todos los paquetes que llegana ella y luego los descarta
-	iptables -N LOGDROP
-	iptables -A LOGDROP -m limit --limit 3/minute --limit-burst 3 -j LOG --log-level 2 --log-prefix "Firewall: "
-	iptables -A LOGDROP -j DROP
-	#Todos los paquetes que no hayan concididos con alguna de las reglas anteriores y llegen hasta aqui, los enviamos a la nueva tabla
-	iptables -A INPUT -j LOGDROP
-
-
-	echo
-	echo Guardando reglas....
 	/etc/init.d/iptables save
-	echo
+	#Note: Remember to add the line "net.ipv4.ip_forward = 1" to /etc/sysctl.conf file.
 
-	echo =====Puertos ========================================================
-	iptables -L -n
-	echo ==== Redirecciones ==================================================
-	iptables -L -t nat -n
+
+	#==== Show rules ===========================================
+
+	echo === FILTER =========================================
+	echo
+	iptables -L -n -v
+	echo
+	echo ==== NAT ===========================================
+	echo
+	iptables -L -n -v -t nat
 
 
 ## Desactivar IPtables (aceptar todo)
@@ -461,6 +303,5 @@ Ejemplo: Redireccionar el puerto 1111 al puerto 2222 de la IP 172.16.0.98
 	iptables -P OUTPUT ACCEPT
 	iptables -F
 	iptables -X
-	# Si además tienes IP forwarding activado (echo 1 > /proc/sys/net/ipv4/ip_forward)
-	#iptables -F -t nat
-	#iptables -X -t nat
+	iptables -F -t nat
+	iptables -X -t nat

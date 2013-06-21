@@ -31,7 +31,29 @@
 	alias jeo='joe'
 	alias cd..='cd ..'
 
-	function man () {
+	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo  -ne "\033[1;31m:(\033[0m\n";fi'
+
+	#Colored man pages
+	man() {
+		# begin blinking
+		# begin bold
+		# end mode
+		# end standout-mode
+		# begin standout-mode - info box
+		# end underline
+		# begin underline
+
+		env LESS_TERMCAP_mb=$(printf "\e[1m") \
+		LESS_TERMCAP_md=$(printf "\e[1;32m") \
+		LESS_TERMCAP_me=$(printf "\e[0m") \
+		LESS_TERMCAP_se=$(printf "\e[0m") \
+		LESS_TERMCAP_so=$(printf "\e[1;44;37m") \
+		LESS_TERMCAP_ue=$(printf "\e[0m") \
+		LESS_TERMCAP_us=$(printf "\e[1;33m") \
+		man "$@"
+	}
+
+	function man_old () {
 	if which konqueror >& /dev/null && [ $TERM != linux ] && \
 		[ $TERM != screen.linux ] && [ -z $SSH_TTY ]; then
 		konqueror man:/$1 --profile webbrowsing &
@@ -48,8 +70,6 @@
 		/usr/bin/info $1
 	fi
 	}
-
-	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo  -ne "\033[1;31m:(\033[0m\n";fi'
 
 ## User
 
