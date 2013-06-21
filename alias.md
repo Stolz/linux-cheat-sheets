@@ -2,7 +2,7 @@
 
 ## Common
 
-/etc/profile.d/alias.sh
+/etc/bash/bashrc
 
 	alias df='pydf'
 	alias l='locate -i'
