@@ -15,12 +15,12 @@ Es necesario activar el módulo `base`
 
 Además, en mi caso, suelo activar para todos los usuarios
 
-	eselect bashcomp enable --global bash-builtins bind-utils bzip2 coreutils cpio dd eix eselect findutils gcc gentoo gzip make man mount mplayer openssl procps rsync screen sh ssh tar unrar util-linux
+	eselect bashcomp enable --global alias bash-builtins bind-utils bzip2 chown configure coreutils cpio dd eix eselect export file find findutils gcc gentoo gzip htop id iperf kill killall lsof ncftp make man mount mplayer mysql nslookup openssl pidof procps ping rsync screen sh sqlite3 ssh ssh-add ssh-copy-id su tailf tar tracepath umount unrar util-linux watch wget
 
 # Solo root
 
-	eselect bashcomp enable e2fsprogs genkernel grub iptables layman mdadm module-init-tools net-tools shadow smartctl
+	eselect bashcomp enable cfdisk e2fsprogs e2label fdisk fsck genkernel genlop groupadd groupdel groupmems groupmod grub hwclock iptables layman mdadm modinfo modprobe module-init-tools net-tools passwd rmmod sfdisk shadow smartctl swapon sysctl tune2fs useradd userdel usermod
 
 # Solo mi usuario
 
-	eselect bashcomp enable dbus git imagemagick qdbus subversion xhost xrandr
+	eselect bashcomp enable dbus git imagemagick qdbus subversion sudo xhost xrandr wine
