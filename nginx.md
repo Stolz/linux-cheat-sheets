@@ -186,3 +186,30 @@ Para que los cambios tengan efectos
 Editar /etc/vhosts/webapp-config y establecer
 
 	vhost_server="nginx"
+
+
+## Explicación de cómo nginx decide qué directiva location aplicar
+
+La directiva location puede ser de cuatro tipos:
+
+[1] Coincidencia literal completa: Coincidencia exacta de todo
+location = /foo/bar {...} #Coincide solo con "/foo/bar"
+
+[2] Coincidencia literal inicial prioritaria: Coincide el comienzo
+location ^~ /foo {...} #Coincide con todo lo que comience con "/foo"
+
+[3] Coincidencia regex: Coincide con la expresión segular
+location ~  \.html$ {...} #Coincide con todo lo que acabe en ".html"
+location ~* \.html$ {...} #Insensible a mayúsculas. Coincide con todo lo que acabe en ".html" o ".HTML"
+
+[4] Coincidencia literal inicial: Coincide el comienzo
+location /foo {...} #Coincide con todo lo que comience con "/foo"
+
+En caso de existir más de una directiva location en un server se escoge y usa SOLO UNA.
+
+La forma en la nginx escoge qué directiva location aplicar es la siguiente:
+
+1º Se buscan una tipo [1] que coincida. Si se encuentra se usa y se para el proceso.
+2º Se buscan la tipo [2] más larga. Si se encuentra se usa y se para el proceso.
+3º Se buscan las tipo [3] en el orden en el que aparecen. La primera que coincide se usa y se para el proceso.
+4º Se buscan la tipo [4] más larga. Si se encuentra se usa y se para el proceso.
