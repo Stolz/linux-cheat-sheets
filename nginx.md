@@ -52,7 +52,6 @@ Cambiar la configuración global de PHP editar `/etc/php/fpm-phpVERSION/php.ini`
 Para usar PHP-FPM con unix sockets en vez de TCP editar `/etc/php/fpm-phpVERSION/php-fpm.conf` y establecer
 
 	[global]
-	pid = /var/run/php-fpm-php5.5.pid
 	error_log = /tmp/nginx/php-fpm.log
 
 	[www]
@@ -215,5 +214,3 @@ La forma en la nginx escoge qué directiva location aplicar es la siguiente:
 2º Se buscan la tipo [2] más larga. Si se encuentra se usa y se para el proceso.
 3º Se buscan las tipo [3] en el orden en el que aparecen. La primera que coincide se usa y se para el proceso.
 4º Se buscan la tipo [4] más larga. Si se encuentra se usa y se para el proceso.
-
-
