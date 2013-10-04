@@ -98,11 +98,14 @@ __Nota:__ Estos son los métodos de autenticación más comunes de phpMyAdmin y 
 `FOOBAR` es la contraseña que hemos indicado antes en la variable `controlpass` del archivo `config.inc.php`
 
 	mysql -p
-	CREATE DATABASE IF NOT EXISTS `phpmyadmin`  DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
-	GRANT SELECT, INSERT, DELETE, UPDATE ON `phpmyadmin`.* TO 'pma'@localhost IDENTIFIED BY 'foobar';
-	flush privileges;
-	USE phpmyadmin;
 	source /var/www/example.com/htdocs/phpMyAdmin/examples/create_tables.sql
+	GRANT USAGE ON mysql.* TO 'pma'@'localhost' IDENTIFIED BY 'FOOBAR';
+	GRANT SELECT (Host, User, Select_priv, Insert_priv, Update_priv, Delete_priv, Create_priv, Drop_priv, Reload_priv, Shutdown_priv, Process_priv, File_priv, Grant_priv, References_priv, Index_priv, Alter_priv, Show_db_priv, Super_priv, Create_tmp_table_priv, Lock_tables_priv, Execute_priv, Repl_slave_priv, Repl_client_priv ) ON mysql.user TO 'pma'@'localhost';
+	GRANT SELECT ON mysql.db TO 'pma'@'localhost';
+	GRANT SELECT ON mysql.host TO 'pma'@'localhost';
+	GRANT SELECT (Host, Db, User, Table_name, Table_priv, Column_priv) ON mysql.tables_priv TO 'pma'@'localhost';
+	GRANT SELECT, INSERT, UPDATE, DELETE ON `phpmyadmin`.* TO 'pma'@'localhost';
+	flush privileges;
 	quit
 
 
