@@ -77,6 +77,8 @@ $HOME/.bashrc
 
 	alias su='sudo su'
 	alias tv="disper -e"
+	alias artisan="./artisan --ansi"
+	alias art="artisan"
 
 	#Git
 	alias ga='git add'
