@@ -215,3 +215,6 @@ Para activar SSL
 
 Configurar `/etc/php5/apache2/php.ini` y `/etc/php5/cli/php.ini`
 
+## Correo
+
+Para instalar Postfix (SMTP), Courier (POP3 e IMAP) y Squirrelmail (webmail) con dominios/usuarios virtuales mediante MySQL usar [este manual](http://www.howtoforge.com/virtual-users-and-domains-with-postfix-courier-mysql-and-squirrelmail-debian-wheezy).
