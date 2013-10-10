@@ -10,7 +10,6 @@ Instalar en Gentoo
 
 Activar el uso de jaula chroot (más seguro)
 
-
 	$EDITOR /etc/conf.d/named
 
 Descomentar la línea
