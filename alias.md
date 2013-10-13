@@ -35,7 +35,7 @@
 
 	#reuse kate and redirect output and errors to /dev/null
 	runkate() {
-		/usr/bin/kate -u "$@" > /dev/null 2>&1
+		/usr/bin/kate -u "$@" > /dev/null 2>&1 &
 	}
 
 	#Colored man pages
