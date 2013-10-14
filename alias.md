@@ -23,7 +23,7 @@
 	#Editor
 	alias joe='joe --wordwrap'
 	alias j='joe'
-	alias kate='/usr/bin/kate -u'
+	alias kate=runkate
 
 	#Common mistakes
 	alias car='cat'
@@ -32,6 +32,11 @@
 	alias cd..='cd ..'
 
 	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo  -ne "\033[1;31m:(\033[0m\n";fi'
+
+	#reuse kate and redirect output and errors to /dev/null
+	runkate() {
+		/usr/bin/kate -u "$@" > /dev/null 2>&1 &
+	}
 
 	#Colored man pages
 	man() {
@@ -62,7 +67,7 @@
 	fi
 	}
 
-	function info () {
+	function info_old () {
 	if which konqueror >& /dev/null && [ $TERM != linux ] && \
 		[ $TERM != screen.linux ] && [ -z $SSH_TTY ]; then
 		konqueror info:/$1 --profile webbrowsing &
