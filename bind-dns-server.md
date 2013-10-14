@@ -187,6 +187,10 @@ Ejecución
 
 Antes de nada asegúrate de que los ficheros `/etc/bind/*.conf` y `/etc/bind/pri/*` pertenecen al usuario/grupo `named:named`.
 
+Para comprobar si el fichero de configuración es correcto
+
+	named-checkconf /etc/bind/named.conf
+
 Para iniciarlo
 
 	/etc/init.d/named start
