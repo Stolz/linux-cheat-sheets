@@ -213,7 +213,13 @@ Para activar SSL
 
 	apt-get install php5 php5-mysql php5-tidy libapache2-mod-php5
 
-Configurar `/etc/php5/apache2/php.ini` y `/etc/php5/cli/php.ini`
+Configurar `/etc/php5/apache2/php.ini` y `/etc/php5/cli/php.ini`.
+
+El PHP incluido en Debian 7 (wheezy) no incluye el parche Suhosin pero el php.ini trata de cargarlo y por tanto produce errores. Para solucionarlo editar `/etc/php5/conf.d/suhosin.ini` y comentar la línea *extension=suhosin.so*.
+
+Para que los cambio tenga efecto
+
+	/etc/init.d/apache2 restart
 
 ## Correo
 
