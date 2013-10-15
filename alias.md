@@ -58,6 +58,28 @@
 		man "$@"
 	}
 
+	function find_artisan_upstream
+	{
+		ORIGINAL_PWD="$PWD"
+		while [[ "$PWD" != '/' ]]; do
+			if [[ -f artisan ]]; then
+				break
+			else
+				cd ..
+			fi
+		done
+
+		if [[ -f artisan ]]; then
+			php artisan "$@" --ansi
+			cd "$ORIGINAL_PWD"
+			return 0
+		else
+			echo artisan not found upstream
+			cd "$ORIGINAL_PWD"
+			return 1
+		fi
+	}
+
 	function man_old () {
 	if which konqueror >& /dev/null && [ $TERM != linux ] && \
 		[ $TERM != screen.linux ] && [ -z $SSH_TTY ]; then
@@ -82,7 +104,7 @@ $HOME/.bashrc
 
 	alias su='sudo su'
 	alias tv="disper -e"
-	alias artisan="./artisan --ansi"
+	alias artisan="find_artisan_upstream"
 	alias art="artisan"
 
 	#Git
@@ -94,9 +116,9 @@ $HOME/.bashrc
 	alias gd='git diff'
 	alias gds='git diff --staged'
 	alias gdt='git difftool -y'
-	#alias gdt='git difftool --dir-diff'
+	alias gdtd='git difftool --dir-diff'
 	alias gdts='git difftool -y --staged'
-	#alias gdts='git difftool --dir-diff --staged'
+	alias gdtsd='git difftool --dir-diff --staged'
 	alias gl='git log --decorate=short --graph --stat --oneline' #--no-merges
 	alias gll='git log --decorate=short --graph --stat' # --oneline --no-merges
 	alias gs='git status -bs'
