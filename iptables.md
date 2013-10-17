@@ -240,7 +240,7 @@ Desde Internet se puede acceder al servidor web (puerto 80) y al servidor SSH (p
 	iptables -P FORWARD DROP
 	iptables -P OUTPUT ACCEPT
 
-	#=== Table FILTER ==========================================
+	#=== FILTER Table ==========================================
 
 	# Allow already established or related traffic
 	iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
@@ -254,7 +254,7 @@ Desde Internet se puede acceder al servidor web (puerto 80) y al servidor SSH (p
 	# Allow connecting to servers in this computer
 	iptables -A INPUT -p tcp -m state --state NEW -m multiport --dport http,ssh -j ACCEPT
 
-	#==== Table NAT ============================================
+	#==== NAT Table ============================================
 
 	# Define interfaces:
 	# - WAN is the public/external network

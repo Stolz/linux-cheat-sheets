@@ -191,7 +191,7 @@ En Gentoo estos ajsutes se pueden hacer permanentes en `/etc/conf.d/hdparm`
 Memoria de intercambio SWAP
 ---------------------------
 
-La memoria SWAP se guarda en disco, lo cual implica muchas escrituras. Con el precio actual de la RAM (16GB DDR3 80€) se recomienda desactivar totalmente la swap en el kernel y en `/etc/fstab`.
+La memoria SWAP se guarda en disco, lo cual implica muchas escrituras. Con el precio actual de la RAM (Octubre de 2011, 16GB DDR3 80€) se recomienda desactivar totalmente la swap en el kernel y en `/etc/fstab`.
 
 
 Montar en RAM
