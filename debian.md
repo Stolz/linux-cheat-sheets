@@ -194,6 +194,19 @@ Para activar o desactivar módulos de Apache
 
 (estos programas en realidad lo único que hacen es crear o eliminar enlaces entre `/etc/apache2/mods-enabled/` y `/etc/apache2/mods-available/`).
 
+Para activar SSL
+
+	a2enmod ssl
+	a2ensite default-ssl
+
+Para activar mod_rewrite
+
+	a2enmod rewrite
+
+Para ver todos los módulos activados
+
+	apache2ctl -l
+
 Para crear hosts virtuales añadirlos a `/etc/apache2/sites-enabled/`. Para activar o desactivar un host virtual usar
 
 	a2ensite site
@@ -201,10 +214,6 @@ Para crear hosts virtuales añadirlos a `/etc/apache2/sites-enabled/`. Para acti
 
 (estos programas en realidad lo único que hacen es crear o eliminar enlaces entre `/etc/apache2/sites-enabled/` y `/etc/apache2/sites-available/`).
 
-Para activar SSL
-
-	a2enmod ssl
-	a2ensite default-ssl
 
 [Más información](http://debian-handbook.info/browse/stable/sect.http-web-server.html)
 
