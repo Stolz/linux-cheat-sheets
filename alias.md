@@ -58,28 +58,6 @@
 		man "$@"
 	}
 
-	function find_artisan_upstream
-	{
-		ORIGINAL_PWD="$PWD"
-		while [[ "$PWD" != '/' ]]; do
-			if [[ -f artisan ]]; then
-				break
-			else
-				cd ..
-			fi
-		done
-
-		if [[ -f artisan ]]; then
-			php artisan "$@" --ansi
-			cd "$ORIGINAL_PWD"
-			return 0
-		else
-			echo artisan not found upstream
-			cd "$ORIGINAL_PWD"
-			return 1
-		fi
-	}
-
 	function man_old () {
 	if which konqueror >& /dev/null && [ $TERM != linux ] && \
 		[ $TERM != screen.linux ] && [ -z $SSH_TTY ]; then
@@ -104,8 +82,6 @@ $HOME/.bashrc
 
 	alias su='sudo su'
 	alias tv="disper -e"
-	alias artisan="find_artisan_upstream"
-	alias art="artisan"
 
 	#Git
 	alias ga='git add'
@@ -131,9 +107,37 @@ $HOME/.bashrc
 	alias gmt='git mergetool'
 	alias gmty='git mergetool -y'
 
-	#SVN
-	alias sd='svn diff | kompare -o -'
-	alias st='svn status'
+	#Laravel
+	run_artisan_upstream()
+	{
+		ORIGINAL_PWD="$PWD"
+		while [[ "$PWD" != '/' ]] && [[ ! -f "artisan" ]]; do cd ..;done
+		if [[ -f "artisan" ]]; then
+			php artisan "$@"
+			cd "$ORIGINAL_PWD"
+			return 0
+		fi
+		echo artisan not found upstream
+		cd "$ORIGINAL_PWD"
+		return 1
+	}
+	run_composer_upstream()
+	{
+		ORIGINAL_PWD="$PWD"
+		while [[ "$PWD" != '/' ]] && [[ ! -f "artisan" ]]; do cd ..;done
+		if [[ -f "artisan" ]]; then
+			php /usr/local/bin/composer.phar "$@"
+			cd "$ORIGINAL_PWD"
+			return 0
+		fi
+		echo artisan not found upstream
+		cd "$ORIGINAL_PWD"
+		return 1
+	}
+	alias artisan="run_artisan_upstream --ansi"
+	alias art="artisan"
+	alias comp="run_composer_upstream --ansi"
+	alias dump="comp dump-autoload --optimize"
 
 ## Root
 
