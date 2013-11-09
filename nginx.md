@@ -2,7 +2,7 @@
 
 Antes de instalar configurar las USE añadiendo a `/etc/portage/package.use` esto:
 
-	www-servers/nginx -* http pcre ssl -syslog nginx_modules_http_access nginx_modules_http_auth_basic nginx_modules_http_autoindex nginx_modules_http_fastcgi -map -nginx_modules_http_referer nginx_modules_http_rewrite
+	www-servers/nginx -* http pcre ssl -syslog nginx_modules_http_access nginx_modules_http_auth_basic nginx_modules_http_autoindex nginx_modules_http_fastcgi -map -nginx_modules_http_referer nginx_modules_http_rewrite nginx_modules_http_gzip
 
 La explicación de las USE escogidas:
 
@@ -12,7 +12,8 @@ La explicación de las USE escogidas:
 - **syslog** Para poder enviar los logs a syslog. De momento no lo voy a activar porque pienso hacer log en archivos .log ordinarios.
 - **access** Para poder permitir/denegar el acceso por IP con las directivas "allow" y "deny".
 - **auth_basic** Para poder usar HTTP Basic Authentication (que el navegador te pida usuario y contraseña).
-- **autoindex** Para poder generar páginas con el índide del contenido de un directorio cuando no se encuentra archivo index.
+- **autoindex** Para poder generar páginas con el índice del contenido de un directorio cuando no se encuentra archivo index.
+- **gzip** Para poder comprimir páginas al vuelo con Gzip.
 - **fastcgi**  la usamos para servir PHP.
 - **map** Para crear grupos de variables que se pueden reutilizar luego en plantillas de archivos de configuración. De momento no la activo pero puede ser util par aconfigurar VHOSTs sin tener que rescribir configs repetidas.
 - **referer**  Sirve para poder limitar por Referer. De momento no lo activo pero puede ser util en el futuro
@@ -146,6 +147,15 @@ Para que los cambios tengan efectos
 
 			# allow the server to close the connection after a client stops responding. Frees up socket-associated memory.
 			reset_timedout_connection on;
+
+			# Enable Gzip compression
+			gzip on;
+			gzip_min_length 1100;
+			gzip_buffers 16 8k;
+			gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript application/json;
+			gzip_comp_level 2; # 1 is the least compression (fastest) and 9 is the most (slowest) compression
+			gzip_proxied any;
+			gzip_disable "MSIE [1-6]\.(?!.*SV1)";
 
 			#By default disable symlinks for security reasons
 			disable_symlinks on;
