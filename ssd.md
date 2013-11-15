@@ -49,6 +49,12 @@ Para ver el resultado
 
 Todos los números de la columna _Comienzo_ deben ser divisibles por 2048.
 
+Otra opcion para ver si las particiones estñan alineadas es usar el siguiente comando
+
+	blockdev --getalignoff /dev/sda
+
+Si devuelve 0 es que están bien alineadas.
+
 
 Sistema de ficheros
 -------------------
@@ -104,7 +110,7 @@ Deberíamos tener una línea así (incluido el asterisco)
 
 	* Data Set Management TRIM supported
 
-Para activar el soporte trim en Ext4 hay que añadir a `/etc/fstab` la opción __discard__ a las particiones del SSD.
+Para activar el soporte trim en Ext4 hay que añadir a `/etc/fstab` la opción __discard__ a las particiones del SSD. Esto hará que en el instante en el que borres un fichero el disco SSD será notificado y comenzará a realizar el borrado interno de los bloques que ocupaba, lo cual puede afectar al rendimiento. Para evitar esta disminución de rendimiento se recomienda no activar la opción __discard__ en `/etc/fstab` y en su lugar ejecutar periódicamente el comando `fstrim`. Con que se ejecute una o dos veces al día es suficiente. En vez de usar cron yo lo que he hecho es ejecutarlo cada vez que apago el ordenador.
 
 Para hacer uso de __discard__ desde el momento en en que creamos el sistema de ficheros ejecutar:
 
@@ -120,6 +126,8 @@ Para saber si TRIM esta funcionando, estudiar los mensajes tras ejecutar
 	dmesg | grep -i discard
 
 Si sale algo como _discard not supported_ entonces TRIM está fallando.
+
+
 
 ### noatime
 
@@ -143,7 +151,7 @@ Resumen de lo que suelo usar
 Por último comprobar que el sistema se ha creado correctamente ...
 
 	e2fsck -f /dev/sdaX
-	
+
 ... y que las opciones que hemos indicado se han gaurdado en el sistema de ficheros
 
 	tune2fs -l /dev/sdaX
