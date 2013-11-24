@@ -1,0 +1,5 @@
+setterm -blength 0
+set bell-style none
+amixer set 'PC Beep' 0% mute
+ amixer set 'Beep' 0% mute
+rmmod pcspkr

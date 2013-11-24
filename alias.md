@@ -24,19 +24,19 @@
 	alias joe='joe --wordwrap'
 	alias j='joe'
 	alias kate=runkate
+	#reuse kate and redirect output and errors to /dev/null
+	runkate() {
+		/usr/bin/kate -u "$@" > /dev/null 2>&1 &
+	}
 
-	#Common mistakes
+	#Common spelling mistakes
 	alias car='cat'
 	alias vf='cd'
 	alias jeo='joe'
 	alias cd..='cd ..'
 
+	#Last command vusual feedback
 	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo  -ne "\033[1;31m:(\033[0m\n";fi'
-
-	#reuse kate and redirect output and errors to /dev/null
-	runkate() {
-		/usr/bin/kate -u "$@" > /dev/null 2>&1 &
-	}
 
 	#Colored man pages
 	man() {
@@ -89,6 +89,7 @@ $HOME/.bashrc
 	alias gba='git branch -a'
 	alias gc='git commit -v'
 	alias gcm='git commit -vm'
+	alias gcmm='git commit -m DirtyCommit'
 	alias gd='git diff'
 	alias gds='git diff --staged'
 	alias gdt='git difftool -y'
@@ -102,12 +103,12 @@ $HOME/.bashrc
 	alias grv='git remote -v'
 	alias gmt='git mergetool'
 	alias gmty='git mergetool -y'
-	alias gr='git remote'
-	alias grv='git remote -v'
-	alias gmt='git mergetool'
-	alias gmty='git mergetool -y'
 
 	#Laravel
+	alias artisan="run_artisan_upstream --ansi"
+	alias art="artisan"
+	alias comp="run_composer_upstream --ansi"
+	alias dump="comp dump-autoload --optimize"
 	run_artisan_upstream()
 	{
 		ORIGINAL_PWD="$PWD"
@@ -134,10 +135,6 @@ $HOME/.bashrc
 		cd "$ORIGINAL_PWD"
 		return 1
 	}
-	alias artisan="run_artisan_upstream --ansi"
-	alias art="artisan"
-	alias comp="run_composer_upstream --ansi"
-	alias dump="comp dump-autoload --optimize"
 
 ## Root
 
