@@ -85,6 +85,7 @@ $HOME/.bashrc
 
 	#Git
 	alias ga='git add'
+	alias ga.='ga .'
 	alias gb='git branch'
 	alias gba='git branch -a'
 	alias gc='git commit -v'
@@ -99,6 +100,7 @@ $HOME/.bashrc
 	alias gl='git log --decorate=short --graph --stat --oneline' #--no-merges
 	alias gll='git log --decorate=short --graph --stat' # --oneline --no-merges
 	alias gs='git status -bs'
+	alias gs.='gs .'
 	alias gr='git remote'
 	alias grv='git remote -v'
 	alias gmt='git mergetool'
