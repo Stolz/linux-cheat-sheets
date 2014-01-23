@@ -8,13 +8,13 @@ Para saber la versión actual
 
 	lsb_release -a
 
-Para actualizar a la última editar `/etc/apt/sources.list` con los repos más nuevos (sacarlos de Internet) y ejecutar
+Para actualizar a la última editar `/etc/apt/sources.list` con los [repos más nuevos](http://debgen.simplylinux.ch/) y ejecutar
 
 	apt-get update
 	apt-get upgrade
 	apt-get dist-upgrade
 
-Cuando acabe
+Cuando acabe, si se ha actualizado el kernel ejecutar
 
 	reboot
 
@@ -32,11 +32,16 @@ Teclado
 
 	dpkg-reconfigure --priority=low console-data
 
+Motd
+
+	echo "" > /etc/motd
+
 Hostname
 
-	echo "hostname" > /etc/hostname
+	echo "server" > /etc/hostname
+	echo "127.0.0.1 localhost" > /etc/hosts
+	echo "MY_PUBLIC_IP server.example.com server" >> /etc/hosts
 	hostname -F /etc/hostname
-	#Añadir el hostname en /etc/hosts
 
 Zona horaria UTC
 
@@ -56,48 +61,13 @@ Ver programas instalados
 
 	dpkg --get-selections
 
+Para ejecutar comandos al iniciar añadirlos a `/etc/rc.local`.
+
 ## ~/.bashrc
 
+Ademas de los [alias](https://github.com/Stolz/linux-cheat-sheets/blob/master/alias.md) añadir
+
 	PS1='\[\033[01;31m\]\h\[\033[01;34m\] \W \$\[\033[00m\] '
-	alias ls='ls -lh --color'
-	alias la='ls -a'
-	alias joe='joe --wordwrap'
-	alias rm='rm -i'
-	alias modprobe='modprobe -v'
-	alias rmmod='rmmod -v'
-	alias df='pydf'
-	alias l='locate -i'
-	alias netstat='netstat -plutanW'
-	alias s='ssh'
-	alias top='htop'
-	alias grep='grep --colour=auto --exclude-dir=.svn --exclude=*.svn-base --exclude-dir=.git'
-	alias egrep='egrep --colour=auto'
-	alias fgrep='fgrep --colour=auto'
-	alias descomprimir='aunpack'
-	alias comprimir='apack'
-
-	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo  -ne "\033[1;31m:(\033[0m\n";fi'
-
-	#Colored man pages
-	man() {
-		# begin blinking
-		# begin bold
-		# end mode
-		# end standout-mode
-		# begin standout-mode - info box
-		# end underline
-		# begin underline
-
-		env LESS_TERMCAP_mb=$(printf "\e[1m") \
-		LESS_TERMCAP_md=$(printf "\e[1;32m") \
-		LESS_TERMCAP_me=$(printf "\e[0m") \
-		LESS_TERMCAP_se=$(printf "\e[0m") \
-		LESS_TERMCAP_so=$(printf "\e[1;44;37m") \
-		LESS_TERMCAP_ue=$(printf "\e[0m") \
-		LESS_TERMCAP_us=$(printf "\e[1;33m") \
-		man "$@"
-	}
-
 
 
 ## iptables
@@ -229,6 +199,18 @@ El PHP incluido en Debian 7 (wheezy) no incluye el parche Suhosin pero el php.in
 Para que los cambio tenga efecto
 
 	/etc/init.d/apache2 restart
+
+## PhpMyAdmin
+
+	apt-get install phpmyadmin
+
+Si el paquete ya estaba instalado para configurarlo
+
+	dpkg-reconfigure phpmyadmin
+
+En fichero `/etc/apache2/conf.d/phpmyadmin.conf` crean un alias para poder acceder añadiendo '/phpmyadmin' a la URL de cualquiera de nuestros vhosts.
+
+Por motivos de seguridad se recomienda borrar `/usr/share/phpmyadmin/setup/`.
 
 ## Correo
 

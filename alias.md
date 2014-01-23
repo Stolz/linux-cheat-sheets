@@ -4,6 +4,8 @@
 
 /etc/bash/bashrc
 
+	alias ..='cd ..'
+	alias ...='cd ../..'
 	alias df='pydf'
 	alias l='locate -i'
 	alias ls='ls -lh --color'
@@ -109,7 +111,8 @@ $HOME/.bashrc
 	#Laravel
 	alias artisan="run_artisan_upstream --ansi"
 	alias art="artisan"
-	alias comp="run_composer_upstream --ansi"
+	alias composer="composer --ansi"
+	alias comp="run_composer_upstream"
 	alias dump="comp dump-autoload --optimize"
 	run_artisan_upstream()
 	{
@@ -129,7 +132,7 @@ $HOME/.bashrc
 		ORIGINAL_PWD="$PWD"
 		while [[ "$PWD" != '/' ]] && [[ ! -f "artisan" ]]; do cd ..;done
 		if [[ -f "artisan" ]]; then
-			php /usr/local/bin/composer.phar "$@"
+			php /usr/local/bin/composer --ansi "$@"
 			cd "$ORIGINAL_PWD"
 			return 0
 		fi
