@@ -1,5 +1,6 @@
 # squash_dir
-squash_dir is an init-script for OpenRC (used e.g. by Gentoo) which allows to keep a directory compressed by the in-kernel squashfs but simultaneously allows to write on it. Every time you boot your computer your squashed directory is mounted writable and if you made any changes to it it's recompressed when you shutdown your computer.
+
+squash_dir is an init-script for OpenRC which allows you to keep a directory compressed by the in-kernel squashfs but simultaneously allows to write on it. Every time you boot your computer your squashed directory is mounted writable and if you made any changes to it will be recompressed when you shutdown your computer.
 
 
 ## Required kernel modules
@@ -14,7 +15,7 @@ squash_dir is an init-script for OpenRC (used e.g. by Gentoo) which allows to ke
 	     (include also LZO/XZ support if you plan to use any of them to compress the dir)
 
 
-In order to get `loop` kernel module automatically loaded at boot edit `/etc/conf.d/module` and set
+In order to get `loop` kernel module automatically loaded at boot edit `/etc/conf.d/modules` and set
 
 	modules="loop"
 
@@ -23,7 +24,7 @@ In order to get `loop` kernel module automatically loaded at boot edit `/etc/con
 Together with squashfs, squash_dir needs to use a unionfs implementation. You have to choose one of:
 
  - [aufs](http://aufs.sourceforge.net).
- - [overlayfs](http://git.kernel.org/?p=linux/kernel/git/mszeredi/vfs.git) 
+ - [overlayfs](http://git.kernel.org/?p=linux/kernel/git/mszeredi/vfs.git)
  - [unionfs-fuse](http://podgorny.cz/moin/UnionFsFuse) (unionfs-fuse-0.25 or newer is required).
  - [unionfs](http://www.fsl.cs.sunysb.edu/project-unionfs.html).
  - [funionfs](http://bugs.gentoo.org/show_bug.cgi?id=151673)
@@ -41,6 +42,7 @@ Some of them are available in Gentoo in the official Portage tree or via overlay
 
 After you install one of them, make sure to apply the kernel patch they include and recompile your kernel. If the choosed ebuild has the USE="kernel-patch" and you enable it, the patch will be automatically applied to your kernel sources at /usr/src/linux.
 
+You can also use `sys-kernel/aufs-sources` which are the same than `sys-kernel/gentoo-sources`but includding aufs support.
 
 ## Installation
 
