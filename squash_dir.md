@@ -81,7 +81,7 @@ To compress a dir you need to:
 	rc-update add squash_NAME default
 	/etc/init.d/squash_NAME start
 
-An optional variabel you can use in the config file is `COMPRESSION` for specify the compression method used by mksquashfs. If empty, the default mksquashfs algorithm (currently: "gzip") is used. Other possible values are "gzip", "xz", "lzo". If this variable is not specified, it defaults to that algorithm which is presumably best compressing (which is currently "xz"). "lzo" uses to be the fastest one. If you chose "xz" or "lzo" make sure you also enable corresponding kernel option for squashfs.
+An optional variable you can use in the config file is `COMPRESSION` for specify the compression method used by mksquashfs. If empty, the default mksquashfs algorithm (currently: "gzip") is used. Other possible values are "gzip", "xz", "lzo". If this variable is not specified, it defaults to that algorithm which is presumably best compressing (which is currently "xz"). "lzo" uses to be the fastest one. If you chose "xz" or "lzo" make sure you also enable corresponding kernel option for squashfs.
 
 There are plenty more available configuration variables. Check the README file included in squash_dir package for more information.
 
