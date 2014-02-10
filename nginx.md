@@ -86,7 +86,7 @@ Para que nginx use PHP-FPM para interpretar los archivos .php añadir a `/etc/ng
 
 Y luego en todas nuestras directivas `server` que vayan a servir PHP añadir una directiva
 
-	include /etc/nginx/fastcgi.conf
+	include /etc/nginx/fastcgi.conf;
 
 Para que los cambios tengan efectos
 
