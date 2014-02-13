@@ -215,3 +215,14 @@ Por motivos de seguridad se recomienda borrar `/usr/share/phpmyadmin/setup/`.
 ## Correo
 
 Para instalar Postfix (SMTP), Courier (POP3 e IMAP) y Squirrelmail (webmail) con dominios/usuarios virtuales mediante MySQL usar [este manual](http://www.howtoforge.com/virtual-users-and-domains-with-postfix-courier-mysql-and-squirrelmail-debian-wheezy).
+
+## PTY allocation request failed on channel 0
+
+	echo "none /dev/pts devpts defaults 0 0" >> /etc/fstab
+	rm -rf /dev/ptmx
+	mknod /dev/ptmx c 5 2
+	chmod 666 /dev/ptmx
+	umount /dev/pts
+	rm -rf /dev/pts
+	mkdir /dev/pts
+	mount /dev/pts
