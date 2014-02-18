@@ -22,7 +22,7 @@
 	alias descomprimir='aunpack'
 	alias comprimir='apack'
 
-	#Editor
+	# Editor
 	alias joe='joe --wordwrap'
 	alias j='joe'
 	alias kate=runkate
@@ -31,16 +31,16 @@
 		/usr/bin/kate -u "$@" > /dev/null 2>&1 &
 	}
 
-	#Common spelling mistakes
+	# Common spelling mistakes
 	alias car='cat'
 	alias vf='cd'
 	alias jeo='joe'
 	alias cd..='cd ..'
 
-	#Last command vusual feedback
+	# Last command vusual feedback
 	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo  -ne "\033[1;31m:(\033[0m\n";fi'
 
-	#Colored man pages
+	# Colored man pages
 	man() {
 		# begin blinking
 		# begin bold
@@ -60,24 +60,6 @@
 		man "$@"
 	}
 
-	function man_old () {
-	if which konqueror >& /dev/null && [ $TERM != linux ] && \
-		[ $TERM != screen.linux ] && [ -z $SSH_TTY ]; then
-		konqueror man:/$1 --profile webbrowsing &
-	else
-		/usr/bin/man $1
-	fi
-	}
-
-	function info_old () {
-	if which konqueror >& /dev/null && [ $TERM != linux ] && \
-		[ $TERM != screen.linux ] && [ -z $SSH_TTY ]; then
-		konqueror info:/$1 --profile webbrowsing &
-	else
-		/usr/bin/info $1
-	fi
-	}
-
 ## User
 
 $HOME/.bashrc
@@ -85,7 +67,7 @@ $HOME/.bashrc
 	alias su='sudo su'
 	alias tv="disper -e"
 
-	#Git
+	# Git
 	alias ga='git add'
 	alias ga.='ga .'
 	alias gb='git branch'
@@ -108,12 +90,11 @@ $HOME/.bashrc
 	alias gmt='git mergetool'
 	alias gmty='git mergetool -y'
 
-	#Laravel
-	alias artisan="run_artisan_upstream --ansi"
-	alias art="artisan"
-	alias composer="composer --ansi"
-	alias comp="run_composer_upstream"
-	alias dump="comp dump-autoload --optimize"
+	# PHP
+	php()
+	{
+		hhvm "$@"
+	}
 	run_artisan_upstream()
 	{
 		ORIGINAL_PWD="$PWD"
@@ -140,6 +121,12 @@ $HOME/.bashrc
 		cd "$ORIGINAL_PWD"
 		return 1
 	}
+	alias artisan="run_artisan_upstream --ansi"
+	alias art="artisan"
+	alias composer="php /usr/local/bin/composer --ansi"
+	alias comp="run_composer_upstream"
+	alias dump="comp dump-autoload --optimize"
+
 
 ## Root
 

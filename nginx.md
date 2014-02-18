@@ -1,4 +1,4 @@
-# Servidor WEB nginx
+# Servidor WEB Nginx
 
 Antes de instalar configurar las USE añadiendo a `/etc/portage/package.use` esto:
 
@@ -21,7 +21,7 @@ La explicación de las USE escogidas:
 
 Más detalles sobre las USE en http://wiki.nginx.org/Modules y http://wiki.nginx.org/InstallOptions
 
-Para instalar el servidor nginx
+Para instalar el servidor Nginx
 
 	emerge www-servers/nginx -av
 
@@ -41,8 +41,7 @@ Para que se ejecute al iniciar
 
 ## PHP
 
-
-nginx no soporta PHP como módulo del servidor por lo que tenemos que ejecutarlo como CGI. PHP incluye una implementación nativa de FastCGI llamamda PHP-FPM.
+Nginx no soporta PHP como módulo del servidor por lo que tenemos que ejecutarlo como CGI. PHP incluye una implementación nativa de FastCGI llamamda PHP-FPM.
 
 Para instalar PHP-FPM
 
@@ -73,15 +72,49 @@ Para iniciar el sevidor PHP-FPM (Si todo ha ido bien se debe de haber creado el 
 
 	/etc/init.d/php-fpm start
 
-Para que se ejeucte al iniciar
+Para que se ejecute al iniciar
 
 	rc-update add php-fpm default
 
-
-Para que nginx use PHP-FPM para interpretar los archivos .php añadir a `/etc/nginx/fastcgi.conf`
+Para que Nginx use PHP-FPM para interpretar los archivos .php añadir a `/etc/nginx/fastcgi.conf`
 
 	location ~ .php$ {
 		fastcgi_pass unix:/run/php5-fpm.socket;
+	}
+
+Y luego en todas nuestras directivas `server` que vayan a servir PHP añadir una directiva
+
+	include /etc/nginx/fastcgi.conf;
+
+Para que los cambios tengan efectos
+
+	/etc/init.d/nginx reload
+
+## HHVM
+
+También podemos ejecutar [HHVM](http://www.hhvm.com) como intérprete PHP mediate FastCGI, de forma similar a la vista para php-fpm. La direferncia es que para conectar a FastCGI usaremos TCP en vez de unix sockets ya que, en la fecha actual (Febreo 2014) HHVM aun no los soporta.
+
+Una vez [instalado HHVM](https://github.com/facebook/hhvm/wiki/Building-and-installing-HHVM-on-Gentoo) crear el fichero `/etc/hhvm/config.hdf` con el siguiente contenido:
+
+	Server {
+		Type = fastcgi
+		IP = 127.0.0.1
+		Port = 9000
+	}
+
+
+Para iniciar el sevidor HHVM
+
+	/etc/init.d/hhvm start
+
+Para que se ejecute al iniciar
+
+	rc-update add hhvm default
+
+Para que Nginx use HHVM para interpretar los archivos .php añadir a `/etc/nginx/fastcgi.conf`
+
+	location ~ .php$ {
+		fastcgi_pass 127.0.0.1:9000;
 	}
 
 Y luego en todas nuestras directivas `server` que vayan a servir PHP añadir una directiva
@@ -199,7 +232,7 @@ Editar /etc/vhosts/webapp-config y establecer
 
 ## Directiva location
 
-Explicación de cómo nginx decide qué directiva location aplicar:
+Explicación de cómo Nginx decide qué directiva location aplicar:
 
 La directiva location puede ser de cuatro tipos:
 
@@ -218,7 +251,7 @@ location /foo {...} #Coincide con todo lo que comience con "/foo"
 
 En caso de existir más de una directiva location en un server se escoge y usa SOLO UNA.
 
-La forma en la nginx escoge qué directiva location aplicar es la siguiente:
+La forma en la Nginx escoge qué directiva location aplicar es la siguiente:
 
 1º Se buscan una tipo [1] que coincida. Si se encuentra se usa y se para el proceso.
 2º Se buscan la tipo [2] más larga. Si se encuentra se usa y se para el proceso.
