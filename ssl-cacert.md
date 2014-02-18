@@ -17,7 +17,7 @@ Show the contents of your public-key-certificate
 
 	cat exampledomain.com.csr
 
-Login at www.cacert.org and create the server certificate (Server certificates -> New) and paste in the contents of the the exampledomain.com.csr file
+Login at [www.cacert.org](www.cacert.org) and create the server certificate (Server certificates -> New) and paste in the contents of the the exampledomain.com.csr file
 
 After the certificate is created paste it from the CAcert-page into a file named exampledomain.com.crt
 
