@@ -3,9 +3,11 @@
 
 Required Kernel options
 
+	Security options  --->
+		[*] Enable access key retention support
 	File systems  --->
-	[*] Miscellaneous filesystems  --->
-	<M>   eCrypt filesystem layer support
+		[*] Miscellaneous filesystems  --->
+			<M>   eCrypt filesystem layer support
 
 Install required utils
 
