@@ -55,3 +55,34 @@ Por defecto rsync considera iguales dos archivos que tienen el mismo tamaño y l
 	<dt>--checksum</dt>
 		<dd> realiza un checksum de todos los ficheros que no hayan cambiado de tamaño para verificar si han cambiado el contenido. Es muy lenta.
 </dl>
+
+### Triple asterisco
+
+Ejemplo del uso de triple asterisco (***) cuando el origen es un recurso de un servidor rsync en vez de tunel SSH.
+
+Por ejemplo, sincronizar solo el directorio "backup" de todos los usuarios, es decir, de ...
+
+- user1/
+	- non_important_file1.txt
+	- non_important_folder1/
+    - backup/
+        - important_file1.txt
+- user2/
+	- non_important_file2.txt
+	- non_important_folder2/
+    - backup/
+        - important_file2.txt
+
+
+copiar solo ...
+
+- user1/
+    - backup/
+        - important_file1.txt
+- user2/
+    - backup/
+        - important_file2.txt
+
+Comando:
+
+	rsync [common options] --prune-empty-dirs --include '*/' --include '*/backup/***' --exclude '*'

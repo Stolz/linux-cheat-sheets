@@ -8,7 +8,7 @@ Para saber la versión actual
 
 	lsb_release -a
 
-Para actualizar a la última editar `/etc/apt/sources.list` con los [repos más nuevos](http://debgen.simplylinux.ch/) y ejecutar
+Para actualizar a la última editar `/etc/apt/sources.list` con los [repos más nuevos](http://debgen.simplylinux.ch/) (`deb http://ftp.us.debian.org/debian stable main contrib non-free`) y ejecutar
 
 	apt-get update
 	apt-get upgrade
