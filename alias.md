@@ -65,7 +65,8 @@
 $HOME/.bashrc
 
 	alias su='sudo su'
-	alias tv="disper -e"
+	alias tv="disper --displays=DVI-I-2,HDMI-0 --direction=right --extend"
+	alias tvoff="disper --displays=DVI-I-2,HDMI-0 --single"
 
 	# Git
 	alias ga='git add'

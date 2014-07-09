@@ -1,0 +1,65 @@
+#!/bin/bash
+# Script para reproducir videos con mplayer en la TV.
+
+# Problemas con el Vsync? Solo se puede activar el VSync en una de las dos salidas. Para elegir cual:
+# nvidia-settings > X Screen 0 > X Server X Video Settings > Sync To This Display Device
+
+# Problemas con disper?
+# Cambiar la primera linea de /usr/local/bin/disper a: #!/usr/bin/env python2
+
+# $1 es la ruta del fichero
+detectar_fps_archivo()
+{
+	file="/tmp/$1.frameRate"
+	if [ ! -f "$file" ]; then
+		mediainfo --inform="Video;%FrameRate%" "$1" > "$file"
+	fi
+	cat "$file"
+}
+
+# $1 es el FPS del fichero a reproducir
+cambiar_refresco_tv()
+{
+	# to-do Devovler el valor de los siguientes que sea mas proximo a $1:
+	# 24.0 50.0 59.9 60.0 60.1
+	# case $1 in
+	# 23 | 24 ) xrandr -s 1920x1080 -r 24;;
+	# 25 ) xrandr -s 1920x1080 -r 50;;
+	# 29 ) xrandr -s 1920x1080 -r 60;;
+	# 30 ) xrandr -s 1920x1080 -r 60;;
+	# * ) xrandr -s 1920x1080 -r 50;;
+	# esac
+
+	xrandr --output HDMI-0 --rate 24
+}
+
+# Activar la TV a la derecha del monitor
+disper --displays=DVI-I-2,HDMI-0 --direction=right --extend
+
+for file in "$@"
+do
+	# Omitir directorios
+	if [ -d "$file" ]; then
+		continue
+	fi
+
+	# Obtener los FPS del archivo
+	#fps=`detectar_fps_archivo "$file"`
+
+	# Activar la velocidad de resfresco de la TV mas proxima a los FPS del archivo
+	#cambiar_refresco_tv "$fps"
+
+	# Reproducir fichero. Explicacion de los parametros:
+	# - Dispositivo de a audio HDMI
+	# - Mostrar en segundo monitor
+	# - AC-3/DTS Passthrough
+	# - MPEG audio Passthrough (desactivado, era -ac hwmpa)
+	mplayer -ao alsa:device=hw=1.7 -xineramascreen 1 -afm hwac3 "$file"
+
+done
+
+# Desactivar la TV
+disper --displays=DVI-I-2,HDMI-0 --single
+
+
+
