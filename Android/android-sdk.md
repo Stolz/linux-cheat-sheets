@@ -2,10 +2,9 @@
 
 ## Instalar JAVA
 
-Normalmente tengo instalado `dev-java/sun-jre-bin`, pero no incluye el comando `javac`. Hay que instalar `dev-java/sun-jdk`
+Para desarollar hace falta tener un JDK (el JRE no es suficiente). En la fecha actual se requiere JDK 6. Para instalarlo:
 
 	emerge -n dev-java/sun-jdk
-(no me ha instalado ninguna dependencia!?)
 
 Para que el perfil lo use por defecto
 
@@ -17,7 +16,8 @@ Ahora, para compilar los proyectos Android necesitamos el comando ant:
 	echo "dev-java/ant -*" >> /etc/portage/package.use
 	emerge -n ant
 
-(dependencias instaladas: 
+Dependencias instaladas por ant:
+
 dev-java/javatoolkit
 dev-java/ant-core
 dev-java/xml-commons-external
@@ -35,17 +35,18 @@ dev-java/xalan
 dev-java/ant-apache-xalan2
 dev-java/ant-trax
 dev-java/ant
-)
-
 
 ## Instalar el SDK de Android
 
-Descargar el SDK de http://developer.android.com/sdk/index.html y descomprimirlo en `~/android`.
+Para tener los comandos `adb` y `fastboot` instalar dev-util/android-tools. Para tener el comando `android` instalar dev-util/android-sdk-update-manager.
 
-Añadir al PATH los directorios `~/android/platform-tools` y `~/android/tools`
+	emerge -nav dev-util/android-tools dev-util/android-sdk-update-manager
 
-Instalar el SDK de una versión en concreto. En este caso voy a usar Android 4.0.3 (API 15).
-Ejecutar:
+Añadir a nuestro usuario al grupo android
+
+	gpasswd -a <user> android
+
+Para lanzar el administrador del SDK que nos permite descargar todo lo necesario ejecutar:
 
 	andorid
 
@@ -54,14 +55,13 @@ En Android 4.0.3 (API 15) marcar:
 - SDK Platform
 - ARM EABI System image
 
-
 ## Ver los SDK instalados
 
 	android list targets
 
 ## Crear un dispositivo virtual (AVD ó emulador)
 
-	android create avd -n mi_emulador -t 1
+	android create avd --name mi_emulador --target 1
 
 (responder no a la pregunta de usar un perfil de hadware personalizado)
 

@@ -9,3 +9,8 @@ En el ordenador servidor ejecutar
 En el ordenador cliente
 
 	iperf -c IP_DEL_SERVIDOR
+
+Para que el servicio se quede funcionando de forma permanente
+
+	rc-update add iperf
+	/etc/init.d/iperf start
