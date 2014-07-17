@@ -2,7 +2,7 @@
 
 	emerge app-shells/bash-completion
 
-Esto crea el fichero /etc/profile.d/bash-completion.sh que es cargado desde /etc/profile cada bash --login.
+Esto crea el fichero `/etc/profile.d/bash-completion.sh` que es cargado desde `/etc/profile` cada bash --login.
 
 ## Configuración global (para todos los usuarios)
 

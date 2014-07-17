@@ -49,7 +49,7 @@ Eliminar un disco de un raid (debe estar marcado como fallado)
 Renombrar un raid (deben estar desmontado)
 
     mdadm --stop /dev/md127
-    mdadm --assemble --update=super-minor /dev/md0 /dev/sda1 /dev/sdb1
+    mdadm --assemble --update=super-minor /dev/md0 /dev/sdb1 /dev/sdc1
 
 Eliminar el suprbloque de un disco
 
