@@ -50,4 +50,6 @@ Establecer en `config.php`
 	$language = 'es';
 
 
-Visitar http://<host>/<directory>/ y usar como usuario/contraseña "admin/admin". Una vez autenticado cambiar la contraseña en el menú "Archivo-> Cambiar contraseña".
+Visitar http://<host>/<directory>/ y usar como usuario/contraseña "admin/admin".
+Una vez autenticado cambiar la contraseña en el menú "Archivo -> Cambiar contraseña".
+Se puede cambiar la ruta en la que se guardan las máquinas virtuales en el menú "Archivo -> Preferencias -> General -> Carpeta predeterminada de máquinas".
