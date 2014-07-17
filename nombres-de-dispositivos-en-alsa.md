@@ -34,3 +34,7 @@ Para probar usando los alias:
 	speaker-test -c 6 -D surround51:CARD=PCH,DEV=0 #Analogico
 
 En el caso de surround51, como solo existe un alias podemos omitir todo lo que aparece tars los ":".
+
+
+Mas info:
+ <ftp://download.nvidia.com/XFree86/gpu-hdmi-audio-document/gpu-hdmi-audio.html#_alsa_user_space_physical_device_names>

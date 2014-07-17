@@ -65,7 +65,6 @@
 $HOME/.bashrc
 
 	alias su='sudo su'
-	alias tv="disper -e"
 
 	# Git
 	alias ga='git add'
@@ -89,6 +88,11 @@ $HOME/.bashrc
 	alias grv='git remote -v'
 	alias gmt='git mergetool'
 	alias gmty='git mergetool -y'
+
+	man()
+	{
+		kde-open man:$1
+	}
 
 	# PHP
 	php()
