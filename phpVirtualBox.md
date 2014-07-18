@@ -52,9 +52,14 @@ Establecer en `config.php`
 	$language = 'es';
 	$enableAdvancedConfig = true;
 
+Para acceder a la instación de phpVirtualBox visitar `http://<host>/<directory>/` y usar como usuario/contraseña *admin/admin*. Una vez autenticado **cambiar la contraseña** en el menú `Archivo -> Cambiar contraseña`.
 
-Visitar http://<host>/<directory>/ y usar como usuario/contraseña "admin/admin".
-Una vez autenticado cambiar la contraseña en el menú "Archivo -> Cambiar contraseña".
-Se puede cambiar la ruta en la que se guardan las máquinas virtuales en el menú "Archivo -> Preferencias -> General -> Carpeta predeterminada de máquinas".
+Se puede cambiar la ruta en la que se guardan las máquinas virtuales en el menú `Archivo -> Preferencias -> General -> Carpeta predeterminada de máquinas`.
 
+## Escritorio remoto
 
+Para acceder por escritorio remoto, activarlo en la MV en el menú `Configuración -> Pantalla -> Pantalla remota`.
+
+Para conectar con el escritorio remoto instalar `net-misc/rdesktop` y ejecutar
+
+	rdesktop 192.16.0.1:9000 # Reemplazar IP/Puerto con los valores adecuados para cada MV.

@@ -1,0 +1,51 @@
+#!/sbin/runscript
+
+# This file shoud be saved to /etc/init.d/chroot
+
+depend() {
+	need localmount
+	need bootmisc
+}
+
+checkconfig() {
+
+	if [ "${SVCNAME}" = "chroot" ] ; then
+		eerror "Template file cannot be used directly. Create the symlink"
+		eerror "/etc/init.d/${SVCNAME}.service -> /etc/init.d/${SVCNAME}"
+		eerror "and use that instead"
+		return 1
+	fi
+
+	CHROOT="/chroot/${SVCNAME##chroot.}"
+
+	if [ ! -d "${CHROOT}" ] ; then
+		eerror "Directory ${CHROOT} not found"
+		return 1
+	fi
+}
+
+start() {
+	checkconfig || return 1
+
+	ebegin "Starting ${SVCNAME}"
+
+	mount -t proc proc ${CHROOT}/proc
+	mount --rbind /sys ${CHROOT}/sys
+	mount --rbind /dev ${CHROOT}/dev
+	mount --bind /tmp ${CHROOT}/tmp
+
+	eend $? "An error occurred while mounting chroot directories"
+}
+
+stop() {
+	checkconfig || return 1
+
+	ebegin "Stopping ${SVCNAME}"
+
+	umount -l ${CHROOT}/tmp
+	umount -l ${CHROOT}/dev{/shm,/pts,}
+	umount -l ${CHROOT}/sys
+	umount -l ${CHROOT}/proc
+
+	eend $? "An error occurred while unmounting chroot directories"
+}
