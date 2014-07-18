@@ -12,6 +12,8 @@ Instalar VirtualBox
 
 	USE="headless java vboxwebsrv" emerge -av app-emulation/virtualbox
 
+Si además se necesita soporte para emulación USB 2.0 o para VRDP (Consola remota) añadir USE="extensions".
+
 Crear usuario para ejecutar las maquinas virtuales
 
 	superadduser virtualbox
@@ -48,8 +50,11 @@ Establecer en `config.php`
 	$password = 'foobar';     // La contraseña del usuario que hemos creado antes
 	$location = 'http://127.0.0.1:18083/';
 	$language = 'es';
+	$enableAdvancedConfig = true;
 
 
 Visitar http://<host>/<directory>/ y usar como usuario/contraseña "admin/admin".
 Una vez autenticado cambiar la contraseña en el menú "Archivo -> Cambiar contraseña".
 Se puede cambiar la ruta en la que se guardan las máquinas virtuales en el menú "Archivo -> Preferencias -> General -> Carpeta predeterminada de máquinas".
+
+
