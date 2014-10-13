@@ -34,7 +34,7 @@ Teclado
 
 Motd
 
-	echo "" > /etc/motd
+	cat /dev/null > /etc/motd
 
 Hostname
 
