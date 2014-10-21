@@ -6,6 +6,7 @@
 
 	alias ..='cd ..'
 	alias ...='cd ../..'
+	alias cd..='cd ..'
 	alias df='pydf'
 	alias l='locate -i'
 	alias ls='ls -lh --color'
@@ -35,9 +36,9 @@
 	alias car='cat'
 	alias vf='cd'
 	alias jeo='joe'
-	alias cd..='cd ..'
 
-	# Last command vusual feedback
+
+	# Last command visual feedback
 	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo  -ne "\033[1;31m:(\033[0m\n";fi'
 
 	# Colored man pages

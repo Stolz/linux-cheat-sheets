@@ -69,7 +69,6 @@ Ademas de los [alias](https://github.com/Stolz/linux-cheat-sheets/blob/master/al
 
 	PS1='\[\033[01;31m\]\h\[\033[01;34m\] \W \$\[\033[00m\] '
 
-
 ## iptables
 
 	touch /root/firewall-on /root/firewall-off

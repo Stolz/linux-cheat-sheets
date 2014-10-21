@@ -21,7 +21,7 @@ Comprobar los permisos
 
 Para indicar el puerto
 
-	ssh-copy-id -i ~/.ssh/id_dsa.pub "usuario@servidor -p 65535"
+	ssh-copy-id -i ~/.ssh/id_dsa.pub "usuario@servidor -p 65535" # Si no funciona probar sin las comillas
 
 ## SSH-Agent
 
