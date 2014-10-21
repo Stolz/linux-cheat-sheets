@@ -74,7 +74,7 @@ $HOME/.bashrc
 	alias gba='git branch -a'
 	alias gc='git commit -v'
 	alias gcm='git commit -vm'
-	alias gcmm='git commit -m DirtyCommit'
+	alias gcmm='git commit -m QuickCommit'
 	alias gd='git diff'
 	alias gds='git diff --staged'
 	alias gdt='git difftool -y'

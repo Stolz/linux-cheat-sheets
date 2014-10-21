@@ -29,12 +29,12 @@ start() {
 
 	ebegin "Starting ${SVCNAME}"
 
-	mount -t proc proc ${CHROOT}/proc
-	mount --rbind /sys ${CHROOT}/sys
-	mount --rbind /dev ${CHROOT}/dev
-	mount --bind /tmp ${CHROOT}/tmp
+	mountinfo -q ${CHROOT}/proc || mount -t proc proc ${CHROOT}/proc || eerror "Error mounting ${CHROOT}/proc" || return 1
+	mountinfo -q ${CHROOT}/sys  || mount --rbind /sys ${CHROOT}/sys  || eerror "Error mounting ${CHROOT}/sys"  || return 1
+	mountinfo -q ${CHROOT}/dev  || mount --rbind /dev ${CHROOT}/dev  || eerror "Error mounting ${CHROOT}/dev"  || return 1
+	mountinfo -q ${CHROOT}/tmp  || mount --bind /tmp  ${CHROOT}/tmp  || eerror "Error mounting ${CHROOT}/tmp"  || return 1
 
-	eend $? "An error occurred while mounting chroot directories"
+	eend 0
 }
 
 stop() {
@@ -42,10 +42,11 @@ stop() {
 
 	ebegin "Stopping ${SVCNAME}"
 
-	umount -l ${CHROOT}/tmp
-	umount -l ${CHROOT}/dev{/shm,/pts,}
-	umount -l ${CHROOT}/sys
-	umount -l ${CHROOT}/proc
+	mountinfo -q ${CHROOT}/tmp  && umount -l ${CHROOT}/tmp
+	mountinfo -q ${CHROOT}/dev  && umount -l ${CHROOT}/dev{/shm,/pts,}
+	mountinfo -q ${CHROOT}/sys  && umount -l ${CHROOT}/sys
+	mountinfo -q ${CHROOT}/proc && umount -l ${CHROOT}/proc
+	mountinfo -q -p ${CHROOT}   && eend 1 "An error occurred while unmounting chroot directories"
 
-	eend $? "An error occurred while unmounting chroot directories"
+	eend 0
 }
