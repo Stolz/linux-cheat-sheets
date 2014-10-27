@@ -1,6 +1,6 @@
 # Running your own Hardware Virtual Machine (HVM) on Amazon EC2.
 
-For installing your favourite Linux flavour as EC2 Amazon AMI (HVM) follow standard procedure but make sure your kernel version is at least 3.14 and it has the following options enabled:
+For installing your favourite Linux flavour as an EC2 Amazon AMI (HVM) follow standard procedure of your distro of choice but make sure your kernel version is at least 3.14 and it has the following options enabled:
 
 	Processor type and features  --->
 	[*] Linux guest support (CONFIG_HYPERVISOR_GUEST)  --->
