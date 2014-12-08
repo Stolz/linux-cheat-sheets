@@ -14,6 +14,7 @@
 	alias netstat='netstat -plutanW'
 	alias s='ssh'
 	alias top='htop'
+	alias rsync='rsync --recursive --archive --delete --progress --stats --human-readable'
 
 	alias grep='grep --colour=auto --exclude-dir=.svn --exclude=*.svn-base --exclude-dir=.git'
 	alias g='grep'

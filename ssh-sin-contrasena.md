@@ -77,3 +77,15 @@ Añadir a ~/.bashrc
 
 Para integrar ssh-agent en KDE, edita /etc/kde/startup/agent-startup.sh y /etc/kde/shutdown/agent-shutdown.sh y descomenta las líneas que hacen referencia a ssh-agent.
 
+	# /etc/kde/startup/agent-startup.sh
+	if [ -x /usr/bin/ssh-agent ]; then
+	  eval "$(/usr/bin/ssh-agent -s)"
+	fi
+
+	#/etc/kde/shutdown/agent-shutdown.sh
+
+	if [ -n "${SSH_AGENT_PID}" ]; then
+	  eval "$(ssh-agent -k)"
+	fi
+
+Tras esos pasos basta con ejecutar `ssh-add` para que KDE recuerde nuestra contraseña durante toda la sesión.
