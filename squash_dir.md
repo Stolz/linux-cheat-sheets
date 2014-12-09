@@ -42,7 +42,7 @@ Some of them are available in Gentoo in the official Portage tree or via overlay
 
 After you install one of them, make sure to apply the kernel patch they include and recompile your kernel. If the choosed ebuild has the USE="kernel-patch" and you enable it, the patch will be automatically applied to your kernel sources at /usr/src/linux.
 
-You can also use `sys-kernel/aufs-sources` which are the same than `sys-kernel/gentoo-sources`but includding aufs support.
+You can also use `sys-kernel/aufs-sources` which are the same than `sys-kernel/gentoo-sources` but includding aufs support.
 
 ## Installation
 
