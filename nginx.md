@@ -6,7 +6,7 @@ Antes de instalar configurar las USE añadiendo a `/etc/portage/package.use` est
 
 La explicación de las USE escogidas:
 
-- **http** Lo minimo para poder servir webs por HTTP (ports, locations, error pages, aliases, ...).
+- **http** Lo mínimo para poder servir webs por HTTP (ports, locations, error pages, aliases, ...).
 - **pcre** Para poder usar expresiones regulares en la directiva "location" y en el modulo "rewrite".
 - **ssl** Para poder servir HTTPS.
 - **syslog** Para poder enviar los logs a syslog. De momento no lo voy a activar porque pienso hacer log en archivos .log ordinarios.
@@ -123,7 +123,7 @@ Configurarlo editando `/etc/nginx/nginx.conf`. Un posible ejemplo de configuraci
 			}
 	}
 
-Iniciar el sevidor
+Iniciar el servidor
 
 	/etc/init.d/nginx start
 
@@ -139,10 +139,11 @@ Para que se ejecute al iniciar
 
 Nginx no soporta PHP como módulo del servidor por lo que tenemos que ejecutarlo como CGI. Para ello podemos usar:
 
-- PHP-FPM: Implementación FastCGI oficial de PHP.
-- HHVM: Implementación FastCGI desarrollada por Facebook, más rápida pero todavía no soporta todas las extensiones de PHP.
+- PHP-FPM: Implementación oficial de PHP.
+- HHVM: Implementación desarrollada por Facebook, más rápida pero todavía no soporta todas las extensiones de PHP.
 
-Por motivos de rendimiento y puesto que no es habitual interpretar PHP en una máquina distinta de la que se encuenta el código, conviene configurar los intérpretes FastCGI para que usen sockets Unix en vez de TCP para las comunicarse con Nginx.
+Por motivos de rendimiento y puesto que no es habitual interpretar PHP en una máquina distinta de la que se encuenta el código, en vez usar TCP para comunica Ngnix con FastCGI,
+conviene configurar los intérpretes FastCGI para que usen sockets Unix.
 
 ### PHP-FPM
 
@@ -170,7 +171,7 @@ Para usar Unix sockets en vez de TCP editar `/etc/php/fpm-phpVERSION/php-fpm.con
 
 En caso de querer cambiar la configuración global de PHP cuando es interpretado mediante PHP-FPM editar `/etc/php/fpm-phpVERSION/php.ini`.
 
-Para iniciar el sevidor PHP-FPM (Si todo ha ido bien se debe de haber creado el socket en /var/run/php-fpm.socket)
+Para iniciar el servidor PHP-FPM (Si todo ha ido bien se debe de haber creado el socket en /var/run/php-fpm.socket)
 
 	/etc/init.d/php-fpm start
 
@@ -194,17 +195,16 @@ Para que los cambios tengan efectos
 
 ### HHVM
 
-Para instalar HHVM [seguir las instrucciones oficiales](https://github.com/facebook/hhvm/wiki/Building-and-installing-HHVM-on-Gentoo).
+Para instalar HHVM seguir las [instrucciones oficiales](https://github.com/facebook/hhvm/wiki/Building-and-installing-HHVM-on-Gentoo).
 
 Para usar Unix sockets en vez de TCP crear el fichero `/etc/hhvm/server.ini` y con el siguiente contenido
 
 	hhvm.server.type = fastcgi
 	hhvm.server.file_socket=/var/run/hhvm/hhvm.sock
 
-
 En caso de querer cambiar la configuración global de PHP cuando es interpretado mediante HHVM editar `/etc/hhvm/php.ini`.
 
-Para iniciar el sevidor HHVM (Si todo ha ido bien se debe de haber creado el socket en /var/run/hhvm/hhvm.sock)
+Para iniciar el servidor HHVM (Si todo ha ido bien se debe de haber creado el socket en /var/run/hhvm/hhvm.sock)
 
 	/etc/init.d/hhvm start
 
