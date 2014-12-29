@@ -72,6 +72,7 @@ Creamos el fichero `/var/www/example.com/htdocs/phpMyAdmin/config.inc.php` con e
 	$cfg['Servers'][$i]['userconfig'] = 'pma__userconfig';
 	$cfg['Servers'][$i]['usergroups'] = 'pma__usergroups';
 	$cfg['Servers'][$i]['users'] = 'pma__users';
+	$cfg['Servers'][$i]['savedsearches'] = 'pma__savedsearches';
 
 	// S.E.C.O.N.D. S.E.R.V.E.R. (conectar via TCP)
 

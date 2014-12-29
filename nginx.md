@@ -19,113 +19,13 @@ La explicación de las USE escogidas:
 - **referer**  Sirve para poder limitar por Referer. De momento no lo activo pero puede ser util en el futuro
 - **rewrite**  Similar a mod_rewrite de Apache (para cabiar la URL usando expresiones regulares).
 
-Más detalles sobre las USE en http://wiki.nginx.org/Modules y http://wiki.nginx.org/InstallOptions
+Más detalles sobre las USE en <http://wiki.nginx.org/Modules> y <http://wiki.nginx.org/InstallOptions>
 
 Para instalar el servidor Nginx
 
 	emerge www-servers/nginx -av
 
-Configurarlo editando `/etc/nginx/nginx.conf`
-
-Iniciar el sevidor
-
-	/etc/init.d/nginx start
-
-Cada vez que cambiemos alguna config
-
-	/etc/init.d/nginx reload
-
-Para que se ejecute al iniciar
-
-	rc-update add nginx default
-
-## PHP
-
-Nginx no soporta PHP como módulo del servidor por lo que tenemos que ejecutarlo como CGI. PHP incluye una implementación nativa de FastCGI llamamda PHP-FPM.
-
-Para instalar PHP-FPM
-
-	USE="fpm" emerge dev-lang/php -av
-
-Cambiar la configuración global de PHP editar `/etc/php/fpm-phpVERSION/php.ini`.
-
-Para usar PHP-FPM con unix sockets en vez de TCP editar `/etc/php/fpm-phpVERSION/php-fpm.conf` y establecer
-
-	[global]
-	error_log = /tmp/nginx/php-fpm.log
-
-	[www]
-	listen = /var/run/php-fpm.socket
-	listen.owner = nginx
-	listen.group = nginx
-	listen.mode = 0660
-	listen.allowed_clients = 127.0.0.1
-
-	user = nginx
-	group = nginx
-
-	pm = ondemand
-	pm.max_children = 50
-
-
-Para iniciar el sevidor PHP-FPM (Si todo ha ido bien se debe de haber creado el socket en /run/php5-fpm.socket)
-
-	/etc/init.d/php-fpm start
-
-Para que se ejecute al iniciar
-
-	rc-update add php-fpm default
-
-Para que Nginx use PHP-FPM para interpretar los archivos .php añadir a `/etc/nginx/fastcgi.conf`
-
-	location ~ .php$ {
-		fastcgi_pass unix:/run/php5-fpm.socket;
-	}
-
-Y luego en todas nuestras directivas `server` que vayan a servir PHP añadir una directiva
-
-	include /etc/nginx/fastcgi.conf;
-
-Para que los cambios tengan efectos
-
-	/etc/init.d/nginx reload
-
-## HHVM
-
-También podemos ejecutar [HHVM](http://www.hhvm.com) como intérprete PHP mediate FastCGI, de forma similar a la vista para php-fpm. La direferncia es que para conectar a FastCGI usaremos TCP en vez de unix sockets ya que, en la fecha actual (Febreo 2014) HHVM aun no los soporta.
-
-Una vez [instalado HHVM](https://github.com/facebook/hhvm/wiki/Building-and-installing-HHVM-on-Gentoo) crear el fichero `/etc/hhvm/config.hdf` con el siguiente contenido:
-
-	Server {
-		Type = fastcgi
-		IP = 127.0.0.1
-		Port = 9000
-	}
-
-
-Para iniciar el sevidor HHVM
-
-	/etc/init.d/hhvm start
-
-Para que se ejecute al iniciar
-
-	rc-update add hhvm default
-
-Para que Nginx use HHVM para interpretar los archivos .php añadir a `/etc/nginx/fastcgi.conf`
-
-	location ~ .php$ {
-		fastcgi_pass 127.0.0.1:9000;
-	}
-
-Y luego en todas nuestras directivas `server` que vayan a servir PHP añadir una directiva
-
-	include /etc/nginx/fastcgi.conf;
-
-Para que los cambios tengan efectos
-
-	/etc/init.d/nginx reload
-
-## Sample config file
+Configurarlo editando `/etc/nginx/nginx.conf`. Un posible ejemplo de configuración:
 
 	####################
 	### MAIN CONTEXT ###
@@ -222,6 +122,109 @@ Para que los cambios tengan efectos
 				error_log /var/log/nginx/example.com/error_log info;
 			}
 	}
+
+Iniciar el sevidor
+
+	/etc/init.d/nginx start
+
+Cada vez que cambiemos alguna config
+
+	/etc/init.d/nginx reload
+
+Para que se ejecute al iniciar
+
+	rc-update add nginx default
+
+## PHP
+
+Nginx no soporta PHP como módulo del servidor por lo que tenemos que ejecutarlo como CGI. Para ello podemos usar:
+
+- PHP-FPM: Implementación FastCGI oficial de PHP.
+- HHVM: Implementación FastCGI desarrollada por Facebook, más rápida pero todavía no soporta todas las extensiones de PHP.
+
+Por motivos de rendimiento y puesto que no es habitual interpretar PHP en una máquina distinta de la que se encuenta el código, conviene configurar los intérpretes FastCGI para que usen sockets Unix en vez de TCP para las comunicarse con Nginx.
+
+### PHP-FPM
+
+Para instalar PHP-FPM
+
+	USE="fpm" emerge dev-lang/php -av
+
+Para usar Unix sockets en vez de TCP editar `/etc/php/fpm-phpVERSION/php-fpm.conf` y establecer
+
+	[global]
+	error_log = /var/log/php-fpm.log
+
+	[www]
+	listen = /var/run/php-fpm.socket
+	listen.owner = nginx
+	listen.group = nginx
+	listen.mode = 0660
+	listen.allowed_clients = 127.0.0.1
+
+	user = nginx
+	group = nginx
+
+	pm = ondemand
+	pm.max_children = 50
+
+En caso de querer cambiar la configuración global de PHP cuando es interpretado mediante PHP-FPM editar `/etc/php/fpm-phpVERSION/php.ini`.
+
+Para iniciar el sevidor PHP-FPM (Si todo ha ido bien se debe de haber creado el socket en /var/run/php-fpm.socket)
+
+	/etc/init.d/php-fpm start
+
+Para que se ejecute al iniciar
+
+	rc-update add php-fpm default
+
+Para que Nginx use PHP-FPM para interpretar los archivos .php añadir a `/etc/nginx/fastcgi.conf`
+
+	location ~ .php$ {
+		fastcgi_pass unix:/var/run/php-fpm.socket;
+	}
+
+Y luego en todas nuestras directivas `server` que vayan a servir PHP añadir una directiva
+
+	include /etc/nginx/fastcgi.conf;
+
+Para que los cambios tengan efectos
+
+	/etc/init.d/nginx reload
+
+### HHVM
+
+Para instalar HHVM [seguir las instrucciones oficiales](https://github.com/facebook/hhvm/wiki/Building-and-installing-HHVM-on-Gentoo).
+
+Para usar Unix sockets en vez de TCP crear el fichero `/etc/hhvm/server.ini` y con el siguiente contenido
+
+	hhvm.server.type = fastcgi
+	hhvm.server.file_socket=/var/run/hhvm/hhvm.sock
+
+
+En caso de querer cambiar la configuración global de PHP cuando es interpretado mediante HHVM editar `/etc/hhvm/php.ini`.
+
+Para iniciar el sevidor HHVM (Si todo ha ido bien se debe de haber creado el socket en /var/run/hhvm/hhvm.sock)
+
+	/etc/init.d/hhvm start
+
+Para que se ejecute al iniciar
+
+	rc-update add hhvm default
+
+Para que Nginx use HHVM para interpretar los archivos .php añadir a `/etc/nginx/fastcgi.conf`
+
+	location ~ .php$ {
+		fastcgi_pass unix:/var/run/hhvm/hhvm.sock;
+	}
+
+Y luego en todas nuestras directivas `server` que vayan a servir PHP añadir una directiva
+
+	include /etc/nginx/fastcgi.conf;
+
+Para que los cambios tengan efectos
+
+	/etc/init.d/nginx reload
 
 ## webapp-config
 

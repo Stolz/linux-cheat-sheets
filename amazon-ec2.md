@@ -8,11 +8,16 @@ For installing your favourite Linux flavour as an EC2 Amazon AMI (HVM) follow st
 	[*]     Paravirtualization layer for spinlocks (CONFIG_PARAVIRT_SPINLOCKS)
 	[*]     Xen guest support (CONFIG_XEN)
 	[*]   Support for running as a PVH guest (CONFIG_XEN_PVH)
+
+	Bus options (PCI etc.)  --->
+	<*>   Xen PCI Frontend
+
 	Device Drivers  --->
 	[*] Block devices  --->
 	<*>   Xen virtual block device support (CONFIG_XEN_BLKDEV_FRONTEND)
 	[*] Network device support  --->
 	<*>   Xen network device frontend driver (CONFIG_XEN_NETDEV_FRONTEND)
+	Xen driver support  ---> (ENABLE ALL)
 
 Sample `/etc/fstab` file
 
