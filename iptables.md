@@ -243,16 +243,16 @@ Desde Internet se puede acceder al servidor web (puerto 80) y al servidor SSH (p
 	#=== In case of attack =====================================
 
 	# To block 1.2.3.4 address
-	iptables -A INPUT -s 1.2.3.4 -j DROP
+	#iptables -A INPUT -s 1.2.3.4 -j DROP
 
 	# To block 1.2.3.* addresses
-	iptables -A INPUT -s 1.2.3.0/24 -j DROP
+	#iptables -A INPUT -s 1.2.3.0/24 -j DROP
 
 	# To block 1.2.*.* addresses
-	iptables -A INPUT -s 1.2.0.0/16 -j DROP
+	#iptables -A INPUT -s 1.2.0.0/16 -j DROP
 
 	# To block 1.*.*.* addresses
-	iptables -A INPUT -s 1.0.0.0/8 -j DROP
+	#iptables -A INPUT -s 1.0.0.0/8 -j DROP
 
 	#=== FILTER Table ==========================================
 
