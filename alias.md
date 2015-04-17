@@ -6,6 +6,7 @@
 
 	alias ..='cd ..'
 	alias ...='cd ../..'
+	alias ....='cd ../../..'
 	alias cd..='cd ..'
 	alias df='pydf'
 	alias l='locate -i'
@@ -40,7 +41,7 @@
 
 
 	# Last command visual feedback
-	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo  -ne "\033[1;31m:(\033[0m\n";fi'
+	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo -ne "\033[1;31m:(\033[0m\n";fi'
 
 	# Colored man pages
 	man() {
@@ -132,7 +133,7 @@ $HOME/.bashrc
 	alias composer="php /usr/local/bin/composer --ansi"
 	alias comp="run_composer_upstream"
 	alias dump="comp dump-autoload --optimize"
-
+	alias lint="git status -sb | awk '/s/{print $2}' | xargs -n1 php -l"
 
 ## Root
 
