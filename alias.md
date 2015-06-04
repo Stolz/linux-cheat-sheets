@@ -13,14 +13,11 @@
 	alias ls='ls -lh --color'
 	alias la='ls -a'
 	alias netstat='netstat -plutanW'
-	alias s='ssh'
 	alias top='htop'
 	alias rsync='rsync --recursive --archive --delete --progress --stats --human-readable'
 
 	alias grep='grep --colour=auto --exclude-dir=.svn --exclude=*.svn-base --exclude-dir=.git'
 	alias g='grep'
-	alias egrep='egrep --colour=auto'
-	alias fgrep='fgrep --colour=auto'
 
 	alias descomprimir='aunpack'
 	alias comprimir='apack'
@@ -38,7 +35,6 @@
 	alias car='cat'
 	alias vf='cd'
 	alias jeo='joe'
-
 
 	# Last command visual feedback
 	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo -ne "\033[1;31m:(\033[0m\n";fi'
@@ -61,6 +57,23 @@
 		LESS_TERMCAP_ue=$(printf "\e[0m") \
 		LESS_TERMCAP_us=$(printf "\e[1;33m") \
 		man "$@"
+	}
+
+	# Run "$2 $3 ... $n" in the first upstream directory that contains $1 file
+	run_upstream()
+	{
+		PIVOT=$1
+		ORIGINAL_PWD="$PWD"
+		shift
+		while [[ "$PWD" != '/' ]] && [[ ! -f "$PIVOT" ]]; do cd ..;done
+		if [[ -f "$PIVOT" ]]; then
+			"$@"
+			cd "$ORIGINAL_PWD"
+			return 0
+		fi
+		echo $PIVOT not found upstream
+		cd "$ORIGINAL_PWD"
+		return 1
 	}
 
 ## User
@@ -94,7 +107,11 @@ $HOME/.bashrc
 
 	man()
 	{
-		kde-open man:$1
+		if [ -z "$DISPLAY" ]; then
+			man "$@"
+		else
+			kde-open man:$1
+		fi
 	}
 
 	# PHP
@@ -102,38 +119,17 @@ $HOME/.bashrc
 	{
 		hhvm "$@"
 	}
-	run_artisan_upstream()
-	{
-		ORIGINAL_PWD="$PWD"
-		while [[ "$PWD" != '/' ]] && [[ ! -f "artisan" ]]; do cd ..;done
-		if [[ -f "artisan" ]]; then
-			php artisan "$@"
-			cd "$ORIGINAL_PWD"
-			return 0
-		fi
-		echo artisan not found upstream
-		cd "$ORIGINAL_PWD"
-		return 1
-	}
-	run_composer_upstream()
-	{
-		ORIGINAL_PWD="$PWD"
-		while [[ "$PWD" != '/' ]] && [[ ! -f "artisan" ]]; do cd ..;done
-		if [[ -f "artisan" ]]; then
-			php /usr/local/bin/composer --ansi "$@"
-			cd "$ORIGINAL_PWD"
-			return 0
-		fi
-		echo artisan not found upstream
-		cd "$ORIGINAL_PWD"
-		return 1
-	}
-	alias artisan="run_artisan_upstream --ansi"
+	alias artisan="run_upstream artisan php artisan --ansi"
 	alias art="artisan"
 	alias composer="php /usr/local/bin/composer --ansi"
-	alias comp="run_composer_upstream"
+	alias comp="run_upstream composer.json composer"
 	alias dump="comp dump-autoload --optimize"
-	alias lint="git status -sb | awk '/s/{print $2}' | xargs -n1 php -l"
+	alias lint="git status -s | awk '/s/{print $2}' | xargs -n1 php -l"
+	alias m="artisan migrate"
+	alias ms="artisan migrate --seed"
+	alias mr="artisan migrate:refresh"
+	alias mrs="artisan migrate:refresh --seed"
+	alias t=""run_upstream phpunit.xml ./vendor/bin/phpunit"
 
 ## Root
 

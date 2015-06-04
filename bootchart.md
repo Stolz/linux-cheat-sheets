@@ -1,3 +1,5 @@
+NOTE: Obsolete. Check out [Bootchart2](https://wiki.gentoo.org/wiki/Bootchart2)
+
 
 http://www.bootchart.org
 
