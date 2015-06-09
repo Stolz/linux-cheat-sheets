@@ -31,14 +31,13 @@ Ver los tipos de expresiones reconocidos para PHP
 	d  constant definitions
 	f  functions
 	v  variables
-	v  variables
 	j  javascript functions
-	j  javascript functions
-	j  javascript functions
+	t  traits
+
 
 Para indicar que tipos de expresiones incluir (+) o excluir (-)
 
-	--PHP-kinds=+cif-dvj
+	--PHP-kinds=+cift-dvj
 
 Para que las rutas sean relativas al fichero donde seencuentra el fichero tags y no al directorio desde donde se generar
 
@@ -52,12 +51,16 @@ En versiones antiguas de ctags si las declaraciones de funciones usan ámbito no
 
 	--regex-PHP='/(public\s+|static\s+|abstract\s+|protected\s+|private\s+)function\s+\&?\s*([^ (]+)/\2/f/'
 
+En versiones antiguas de ctags no hay soporte para traits. Con esta regex se soluciona
+
+	--regex-php=/^[ \t]*trait[ \t]+([a-z0_9_]+)/\1/t,traits/i
+
 Para no tener que repetir los parámetros constantemente podemos guardarlos en `~/.ctags`
 
 	cat ~/.ctags
 	-R
 	--exclude=".*"
 	--languages=PHP
-	--PHP-kinds=+cif-dvj
+	--PHP-kinds=+cift-dvj
 	--tag-relative=yes
 	--totals=yes
