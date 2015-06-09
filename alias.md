@@ -81,6 +81,7 @@
 $HOME/.bashrc
 
 	alias su='sudo su'
+	alias hdx='ssh root@hdx'
 
 	# Git
 	alias ga='git add'
@@ -129,7 +130,7 @@ $HOME/.bashrc
 	alias ms="artisan migrate --seed"
 	alias mr="artisan migrate:refresh"
 	alias mrs="artisan migrate:refresh --seed"
-	alias t=""run_upstream phpunit.xml ./vendor/bin/phpunit"
+	alias t="run_upstream phpunit.xml ./vendor/bin/phpunit"
 
 ## Root
 
