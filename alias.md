@@ -1,8 +1,13 @@
 # Alias
 
-## Common
+File `/root/.bashrc`
 
-/etc/bash/bashrc
+	alias modprobe='modprobe -v'
+	alias rmmod='rmmod -v'
+	alias rescan-scsi-bus='rescan-scsi-bus --color'
+	alias rescan='rescan-scsi-bus'
+
+File `/etc/bash/bashrc.d/alias`
 
 	alias ..='cd ..'
 	alias ...='cd ../..'
@@ -76,13 +81,10 @@
 		return 1
 	}
 
-## User
-
-$HOME/.bashrc
-
-	alias su='sudo su'
+File `$HOME/.bashrc`
 
 	# Git
+	alias g='git'
 	alias ga='git add'
 	alias ga.='ga .'
 	alias gb='git branch'
@@ -107,7 +109,26 @@ $HOME/.bashrc
 	alias gmt='git mergetool'
 	alias gmty='git mergetool -y'
 
-	man()
+	# Artisan
+	alias artisan="run_upstream artisan php artisan --ansi"
+	alias art="artisan"
+	alias a="artisan"
+	alias am="artisan migrate"
+	alias ams="artisan migrate --seed"
+	alias amr="artisan migrate:refresh"
+	alias amrs="artisan migrate:refresh --seed"
+
+	# Composer
+	alias composer="php /usr/local/bin/composer --ansi"
+	alias comp="run_upstream composer.json composer"
+	alias dump="comp dump-autoload --optimize"
+
+	# Misc
+	alias su='sudo su'
+	alias lint="git status -s | awk '/s/{print $2}' | xargs -n1 php -l"
+	alias t="run_upstream phpunit.xml ./vendor/bin/phpunit"
+
+	xman()
 	{
 		if [ -z "$DISPLAY" ]; then
 			man "$@"
@@ -121,23 +142,31 @@ $HOME/.bashrc
 	{
 		hhvm "$@"
 	}
-	alias artisan="run_upstream artisan php artisan --ansi"
-	alias art="artisan"
-	alias composer="php /usr/local/bin/composer --ansi"
-	alias comp="run_upstream composer.json composer"
-	alias dump="comp dump-autoload --optimize"
-	alias lint="git status -s | awk '/s/{print $2}' | xargs -n1 php -l"
-	alias m="artisan migrate"
-	alias ms="artisan migrate --seed"
-	alias mr="artisan migrate:refresh"
-	alias mrs="artisan migrate:refresh --seed"
-	alias t=""run_upstream phpunit.xml ./vendor/bin/phpunit"
 
-## Root
 
-/root/.bashrc
 
-	alias modprobe='modprobe -v'
-	alias rmmod='rmmod -v'
-	alias rescan-scsi-bus='rescan-scsi-bus --color'
-	alias rescan='rescan-scsi-bus'
+File `/usr/share/bash-completion/completions/git`
+
+	# Get completion also for aliases
+	__git_complete g _git
+	__git_complete ga _git_add
+	__git_complete ga. _git_add
+	__git_complete gb _git_branch
+	__git_complete gba _git_branch
+	__git_complete gc_git_commit
+	__git_complete gc. _git_commit
+	__git_complete gcm _git_commit
+	__git_complete gcmm _git_commit
+	__git_complete gd _git_diff
+	__git_complete gd. _git_diff
+	__git_complete gds _git_diff
+	__git_complete gdt _git_difftool
+	__git_complete gdtd _git_difftool
+	__git_complete gdts _git_difftool
+	__git_complete gdtsd _git_difftool
+	__git_complete gl _git_log
+	__git_complete gll _git_log
+	__git_complete gr _git_remote
+	__git_complete grv _git_remote
+	__git_complete gmt _git_mergetool
+	__git_complete gmty _git_mergetool
