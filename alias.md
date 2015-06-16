@@ -84,7 +84,6 @@ File `/etc/bash/bashrc.d/alias`
 File `$HOME/.bashrc`
 
 	# Git
-	alias g='git'
 	alias ga='git add'
 	alias ga.='ga .'
 	alias gb='git branch'
@@ -148,7 +147,6 @@ File `$HOME/.bashrc`
 File `/usr/share/bash-completion/completions/git`
 
 	# Get completion also for aliases
-	__git_complete g _git
 	__git_complete ga _git_add
 	__git_complete ga. _git_add
 	__git_complete gb _git_branch
