@@ -25,6 +25,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias lint="git status -s | awk '/s/{print $2}' | xargs -n1 php -l"
 	alias t="run_upstream phpunit.xml ./vendor/bin/phpunit"
 	alias gulp="run_upstream gulpfile.js ./node_modules/.bin/gulp"
+	alias bower="run_upstream bower.json ./node_modules/.bin/bower"
 
 	# Editor
 	alias joe='joe --wordwrap'
