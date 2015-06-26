@@ -1,87 +1,40 @@
-# Alias
-
-File `/root/.bashrc`
-
-	alias modprobe='modprobe -v'
-	alias rmmod='rmmod -v'
-	alias rescan-scsi-bus='rescan-scsi-bus --color'
-	alias rescan='rescan-scsi-bus'
+# Bash Alias
 
 File `/etc/bash/bashrc.d/alias`
 
+	alias cd..='cd ..'
 	alias ..='cd ..'
 	alias ...='cd ../..'
 	alias ....='cd ../../..'
-	alias cd..='cd ..'
-	alias df='pydf'
-	alias l='locate -i'
+	alias .....='cd ../../../..'
+
 	alias ls='ls -lh --color'
 	alias la='ls -a'
-	alias netstat='netstat -plutanW'
-	alias top='htop'
-	alias rsync='rsync --recursive --archive --delete --progress --stats --human-readable'
 
-	alias grep='grep --colour=auto --exclude-dir=.svn --exclude=*.svn-base --exclude-dir=.git'
+	alias df='pydf'
+	alias top='htop'
+	alias netstat='netstat -plutanW'
+	alias rsync='rsync --recursive --archive --delete --progress --stats --human-readable'
+	alias grep='grep --colour=auto --exclude-dir=.git'
 	alias g='grep'
 
 	alias descomprimir='aunpack'
 	alias comprimir='apack'
 
+	alias l='locate -i'
+	alias lint="git status -s | awk '/s/{print $2}' | xargs -n1 php -l"
+	alias t="run_upstream phpunit.xml ./vendor/bin/phpunit"
+	alias gulp="run_upstream gulpfile.js ./node_modules/.bin/gulp"
+
 	# Editor
 	alias joe='joe --wordwrap'
 	alias j='joe'
 	alias kate=runkate
-	#reuse kate and redirect output and errors to /dev/null
-	runkate() {
-		/usr/bin/kate -u "$@" > /dev/null 2>&1 &
-	}
 
 	# Common spelling mistakes
 	alias car='cat'
 	alias vf='cd'
 	alias jeo='joe'
-
-	# Last command visual feedback
-	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo -ne "\033[1;31m:(\033[0m\n";fi'
-
-	# Colored man pages
-	man() {
-		# begin blinking
-		# begin bold
-		# end mode
-		# end standout-mode
-		# begin standout-mode - info box
-		# end underline
-		# begin underline
-
-		env LESS_TERMCAP_mb=$(printf "\e[1m") \
-		LESS_TERMCAP_md=$(printf "\e[1;32m") \
-		LESS_TERMCAP_me=$(printf "\e[0m") \
-		LESS_TERMCAP_se=$(printf "\e[0m") \
-		LESS_TERMCAP_so=$(printf "\e[1;44;37m") \
-		LESS_TERMCAP_ue=$(printf "\e[0m") \
-		LESS_TERMCAP_us=$(printf "\e[1;33m") \
-		man "$@"
-	}
-
-	# Run "$2 $3 ... $n" in the first upstream directory that contains $1 file
-	run_upstream()
-	{
-		PIVOT=$1
-		ORIGINAL_PWD="$PWD"
-		shift
-		while [[ "$PWD" != '/' ]] && [[ ! -f "$PIVOT" ]]; do cd ..;done
-		if [[ -f "$PIVOT" ]]; then
-			"$@"
-			cd "$ORIGINAL_PWD"
-			return 0
-		fi
-		echo $PIVOT not found upstream
-		cd "$ORIGINAL_PWD"
-		return 1
-	}
-
-File `$HOME/.bashrc`
 
 	# Git
 	alias ga='git add'
@@ -122,10 +75,49 @@ File `$HOME/.bashrc`
 	alias comp="run_upstream composer.json composer"
 	alias dump="comp dump-autoload --optimize"
 
-	# Misc
-	alias su='sudo su'
-	alias lint="git status -s | awk '/s/{print $2}' | xargs -n1 php -l"
-	alias t="run_upstream phpunit.xml ./vendor/bin/phpunit"
+File `/etc/bash/bashrc.d/functions`
+
+	# Reuse kate and redirect output and errors to /dev/null
+	runkate() {
+		/usr/bin/kate -u "$@" > /dev/null 2>&1 &
+	}
+
+	# Colored man pages
+	man() {
+		# begin blinking
+		# begin bold
+		# end mode
+		# end standout-mode
+		# begin standout-mode - info box
+		# end underline
+		# begin underline
+
+		env LESS_TERMCAP_mb=$(printf "\e[1m") \
+		LESS_TERMCAP_md=$(printf "\e[1;32m") \
+		LESS_TERMCAP_me=$(printf "\e[0m") \
+		LESS_TERMCAP_se=$(printf "\e[0m") \
+		LESS_TERMCAP_so=$(printf "\e[1;44;37m") \
+		LESS_TERMCAP_ue=$(printf "\e[0m") \
+		LESS_TERMCAP_us=$(printf "\e[1;33m") \
+		man "$@"
+	}
+
+	# Run "$2 $3 ... $n" in the first upstream directory that contains $1 file
+	run_upstream()
+	{
+		PIVOT=$1
+		ORIGINAL_PWD="$PWD"
+		shift
+		while [[ "$PWD" != '/' ]] && [[ ! -f "$PIVOT" ]]; do cd ..;done
+		if [[ -f "$PIVOT" ]]; then
+			"$@"
+			cd "$ORIGINAL_PWD"
+			return 0
+		fi
+		echo $PIVOT not found upstream
+		cd "$ORIGINAL_PWD"
+		return 1
+	}
 
 	xman()
 	{
@@ -142,7 +134,23 @@ File `$HOME/.bashrc`
 		hhvm "$@"
 	}
 
+File `/etc/bash/bashrc.d/variables`
 
+	# Last command visual feedback
+	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo -ne "\033[1;31m:(\033[0m\n";fi'
+
+	# Number of lines or commands that are stored in MEMORY in a history list while your bash session is ongoing.
+	HISTSIZE=10000 #defaul: 500
+
+	# Number of lines or commands that
+	# - are allowed in the history FILE at startup time of a session,
+	# - are stored in the history FILE at the end of your bash session for use in future sessions. (defaul: 500)
+	HISTFILESIZE=10000 #defaul: 500
+
+
+File `$HOME/.bashrc`
+
+	alias su='sudo su'
 
 File `/usr/share/bash-completion/completions/git`
 
@@ -168,3 +176,11 @@ File `/usr/share/bash-completion/completions/git`
 	__git_complete grv _git_remote
 	__git_complete gmt _git_mergetool
 	__git_complete gmty _git_mergetool
+
+
+File `/root/.bashrc`
+
+	alias modprobe='modprobe -v'
+	alias rmmod='rmmod -v'
+	alias rescan-scsi-bus='rescan-scsi-bus --color'
+	alias rescan='rescan-scsi-bus'
