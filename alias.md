@@ -143,7 +143,6 @@ File `$HOME/.bashrc`
 	}
 
 
-
 File `/usr/share/bash-completion/completions/git`
 
 	# Get completion also for aliases

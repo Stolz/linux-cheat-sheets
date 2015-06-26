@@ -123,6 +123,10 @@ Configurarlo editando `/etc/nginx/nginx.conf`. Un posible ejemplo de configuraci
 			}
 	}
 
+Comprobar que la configuración es correcta
+
+	nginx -t
+
 Iniciar el servidor
 
 	/etc/init.d/nginx start
