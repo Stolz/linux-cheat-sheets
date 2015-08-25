@@ -36,6 +36,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias car='cat'
 	alias vf='cd'
 	alias jeo='joe'
+	alias late='kate'
 
 	# Git
 	alias ga='git add'
