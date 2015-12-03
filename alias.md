@@ -15,6 +15,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias top='htop'
 	alias netstat='netstat -plutanW'
 	alias rsync='rsync --recursive --archive --delete --progress --stats --human-readable'
+	alias yt='youtube-dl --no-check-certificate -f "best[height<=?1080]"'
 	alias grep='grep --colour=auto --exclude-dir=.git'
 	alias g='grep'
 
@@ -36,6 +37,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias car='cat'
 	alias vf='cd'
 	alias jeo='joe'
+	alias late='kate'
 
 	# Git
 	alias ga='git add'
@@ -45,6 +47,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias gc='git commit -v'
 	alias gc.='gc .'
 	alias gcm='git commit -vm'
+	#alias gcm='git commit -m "`wget http://whatthecommit.com/index.txt -qO-`"
 	alias gcmm='git commit -m QuickCommit'
 	alias gd='git diff'
 	alias gd.='gd .'
@@ -127,12 +130,6 @@ File `/etc/bash/bashrc.d/functions`
 		else
 			kde-open man:$1
 		fi
-	}
-
-	# PHP
-	php()
-	{
-		hhvm "$@"
 	}
 
 File `/etc/bash/bashrc.d/variables`
