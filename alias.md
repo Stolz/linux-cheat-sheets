@@ -18,6 +18,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias yt='youtube-dl --no-check-certificate -f "best[height<=?1080]"'
 	alias grep='grep --colour=auto --exclude-dir=.git'
 	alias g='grep'
+	alias youtube-dl='youtube-dl --no-check-certificate -f "best[height<=?1080]"'
 
 	alias descomprimir='aunpack'
 	alias comprimir='apack'
@@ -40,6 +41,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias late='kate'
 
 	# Git
+	alias gitk='LC_ALL=C gitk'
 	alias ga='git add'
 	alias ga.='ga .'
 	alias gb='git branch'
