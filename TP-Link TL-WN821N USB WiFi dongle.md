@@ -31,13 +31,22 @@ Required extra Kernel config
 				<M>   Realtek rtlwifi family of devices  --->
 					<M>   Realtek RTL8192CU/RTL8188CU USB Wireless Network Adapter (Module name: rtl8192cu)
 
+In kernel 4.4.0 a new experimental driver with less features but more stable has been added but I still didn't tried it:
+
+    -> Device Drivers
+        [*] Network device support  --->
+            [*]   Wireless LAN  --->
+                <M>   RTL8723AU/RTL8188[CR]U/RTL819[12]CU (mac80211) support (RTL8XXXU Module name: rtl8xxxu)
+
+It can coexist with the other drivers but you will need to control which module you wish to load.
+
 ## Propietary driver
 
 Required extra Kernel config
 
 	[*] Networking support  --->
 		[*]   Wireless  --->
-			[*]     cfg80211 wireless extensions compatibility (See note below!!)
+			[*]     cfg80211 wireless extensions compatibility (See footnote below!!)
 
 The driver can be installed from an ebuild available in Maksbotan overlay
 
