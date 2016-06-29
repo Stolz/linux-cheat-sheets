@@ -19,13 +19,15 @@ File `/etc/bash/bashrc.d/alias`
 	alias grep='grep --colour=auto --exclude-dir=.git'
 	alias g='grep'
 	alias youtube-dl='youtube-dl --no-check-certificate -f "best[height<=?1080]"'
+	alias l='locate -i'
+	alias r='reset'
 
 	alias descomprimir='aunpack'
 	alias comprimir='apack'
 
-	alias l='locate -i'
-	alias lint="git status -s | awk '/s/{print $2}' | xargs -n1 php -l"
-	alias t="run_upstream phpunit.xml ./vendor/bin/phpunit"
+	alias lint="git status -s | cut -c4- | xargs  -n1 php -l"
+	alias t="run_upstream phpunit.xml ./vendor/bin/phpunit -d max_execution_time=0"
+	alias dof='run_upstream artisan ./bin/delete_old_files'
 	alias gulp="run_upstream gulpfile.js ./node_modules/.bin/gulp"
 	alias bower="run_upstream bower.json ./node_modules/.bin/bower"
 
