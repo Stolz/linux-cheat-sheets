@@ -11,22 +11,22 @@ File `/etc/bash/bashrc.d/alias`
 	alias ls='ls -lh --color'
 	alias la='ls -a'
 
+	alias grep='grep --colour=auto --exclude-dir=.git'
+	alias g='grep'
 	alias df='pydf'
 	alias top='htop'
 	alias netstat='netstat -plutanW'
 	alias rsync='rsync --recursive --archive --delete --progress --stats --human-readable'
-	alias yt='youtube-dl --no-check-certificate -f "best[height<=?1080]"'
-	alias grep='grep --colour=auto --exclude-dir=.git'
-	alias g='grep'
-	alias youtube-dl='youtube-dl --no-check-certificate -f "best[height<=?1080]"'
 	alias l='locate -i'
 	alias r='reset'
+	alias youtube-dl='youtube-dl --no-check-certificate'
+	alias yt='youtube-dl'
 
 	alias descomprimir='aunpack'
 	alias comprimir='apack'
 
 	alias lint="git status -s | cut -c4- | xargs  -n1 php -l"
-	alias t="run_upstream phpunit.xml ./vendor/bin/phpunit -d max_execution_time=0"
+	alias t="run_upstream phpunit.xml artisan config:clear; run_upstream phpunit.xml ./vendor/bin/phpunit -d max_execution_time=0"
 	alias dof='run_upstream artisan ./bin/delete_old_files'
 	alias gulp="run_upstream gulpfile.js ./node_modules/.bin/gulp"
 	alias bower="run_upstream bower.json ./node_modules/.bin/bower"
