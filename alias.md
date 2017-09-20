@@ -51,7 +51,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias gc='git commit -v'
 	alias gc.='gc .'
 	alias gcm='git commit -vm'
-	#alias gcm='git commit -m "`wget http://whatthecommit.com/index.txt -qO-`"
+	#alias gcmm='git commit -m "`wget http://whatthecommit.com/index.txt -qO-`"
 	alias gcmm='git commit -m QuickCommit'
 	alias gd='git diff'
 	alias gd.='gd .'
@@ -71,10 +71,10 @@ File `/etc/bash/bashrc.d/alias`
 
 	# Artisan
 	alias artisan="run_upstream artisan php artisan --ansi"
-	alias art="artisan"
 	alias a="artisan"
 	alias am="artisan migrate"
 	alias ams="artisan migrate --seed"
+    alias amf="artisan migrate:fresh --seed"
 	alias amr="artisan migrate:refresh"
 	alias amrs="artisan migrate:refresh --seed"
 
@@ -178,7 +178,6 @@ File `/usr/share/bash-completion/completions/git`
 	__git_complete grv _git_remote
 	__git_complete gmt _git_mergetool
 	__git_complete gmty _git_mergetool
-
 
 File `/root/.bashrc`
 
