@@ -34,7 +34,6 @@ File `/etc/bash/bashrc.d/alias`
 	# Editor
 	alias joe='joe --wordwrap'
 	alias j='joe'
-	alias kate=runkate
 
 	# Common spelling mistakes
 	alias car='cat'
@@ -85,11 +84,6 @@ File `/etc/bash/bashrc.d/alias`
 
 File `/etc/bash/bashrc.d/functions`
 
-	# Reuse kate and redirect output and errors to /dev/null
-	runkate() {
-		/usr/bin/kate -u "$@" > /dev/null 2>&1 &
-	}
-
 	# Colored man pages
 	man() {
 		# begin blinking
@@ -110,6 +104,15 @@ File `/etc/bash/bashrc.d/functions`
 		man "$@"
 	}
 
+	xman()
+	{
+		if [ -z "$DISPLAY" ]; then
+			man "$@"
+		else
+			BROWSER=firefox-bin man -H $1
+		fi
+	}
+
 	# Run "$2 $3 ... $n" in the first upstream directory that contains $1 file
 	run_upstream()
 	{
@@ -127,15 +130,6 @@ File `/etc/bash/bashrc.d/functions`
 		return 1
 	}
 
-	xman()
-	{
-		if [ -z "$DISPLAY" ]; then
-			man "$@"
-		else
-			kde-open man:$1
-		fi
-	}
-
 File `/etc/bash/bashrc.d/variables`
 
 	# Last command visual feedback
@@ -146,8 +140,11 @@ File `/etc/bash/bashrc.d/variables`
 
 	# Number of lines or commands that
 	# - are allowed in the history FILE at startup time of a session,
-	# - are stored in the history FILE at the end of your bash session for use in future sessions. (defaul: 500)
+	# - are stored in the history FILE at the end of your bash session for use in future sessions.
 	HISTFILESIZE=10000 #defaul: 500
+
+	# Do not save repeated lines
+	HISTCONTROL=ignoreboth:erasedups
 
 
 File `$HOME/.bashrc`
