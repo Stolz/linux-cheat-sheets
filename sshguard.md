@@ -35,20 +35,13 @@ Sample `/etc/conf.d/sshguard` configuration file
 
 Edit `/etc/syslog-ng/syslog-ng.conf` to instruct syslog-ng to pass service logs to sshguard
 
+	# For sshguard
+	filter f_authpriv { facility(auth, authpriv); };
+	log { source(src);  filter(f_authpriv);  destination(messages); };
 
-	# sshguard
-	filter f_sshguard { facility(auth, authpriv) and not program("sshguard"); };
-	destination sshguard {
-		program("/usr/sbin/sshguard"
-			template("$DATE $FULLHOST $MSGHDR$MESSAGE\n")
-		);
-	};
-	log { source(src); filter(f_sshguard); destination(sshguard); };
-
-Restart syslog-ng and sshd
+Restart syslog-ng
 
 	/etc/init.d/syslog-ng restart
-	/etc/init.d/sshd restart
 
 Add to the rc levels to ensure it starts at every boot
 

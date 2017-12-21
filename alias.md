@@ -15,6 +15,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias g='grep'
 	alias df='pydf'
 	alias top='htop'
+	alias tailf='tail -f'
 	alias netstat='netstat -plutanW'
 	alias rsync='rsync --recursive --archive --delete --progress --stats --human-readable'
 	alias l='locate -i'
