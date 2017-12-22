@@ -1,33 +1,37 @@
-# Acceso SSH sin contraseña
+# SSH without passowrd
 
-Ref <http://www.gentoo.org/doc/en/keychain-guide.xml> <http://help.github.com/ssh-key-passphrases/>
+Ref <http://www.gentoo.org/doc/en/keychain-guide.xml> <https://help.github.com/articles/working-with-ssh-key-passphrases/>
 
-## Generar las claves
+## Generate keys
+
+Generate your personal SSH keys
 
 	ssh-keygen -t dsa
 	ssh-keygen -t rsa
 
-Comprobar los permisos
+Check permissions
 
-	ls ~/.ssh/id_*
+    ls -l ~/.ssh/id_*
 	-rw------- id_dsa
 	-rw-r--r-- id_dsa.pub
 	-rw------- id_rsa
 	-rw-r--r-- id_rsa.pub
 
-## Copiar las claves
+## Copy keys
 
-	ssh-copy-id -i ~/.ssh/id_dsa.pub usuario@servidor
+In order to be able to connect to `user@server` without password you need to copy your keys to the server
 
-Para indicar el puerto
+	ssh-copy-id -i ~/.ssh/id_rsa.pub user@server
 
-	ssh-copy-id -i ~/.ssh/id_dsa.pub "usuario@servidor -p 65535" # Si no funciona probar sin las comillas
+If you need to specify the SSH port
+
+	ssh-copy-id -i ~/.ssh/id_rsa.pub user@server -p 2222
 
 ## SSH-Agent
 
-El programa ssh-agent sirve para descifrar nuestra(s) clave(s) privada una sola vez y así poder usar ssh libremente sin más contraseñas.
+If you chose to use a password when you generated your keys it can get bothersome if you connect often to the same servers. You can use ssh-agent program to remember your password for the current session
 
-Añadir a ~/.bashrc
+Edit `~/.bashrc`
 
 	SSH_ENV="$HOME/.ssh/environment"
 
@@ -75,7 +79,7 @@ Añadir a ~/.bashrc
 		fi
 	fi
 
-Para integrar ssh-agent en KDE, edita /etc/kde/startup/agent-startup.sh y /etc/kde/shutdown/agent-shutdown.sh y descomenta las líneas que hacen referencia a ssh-agent.
+To integrate ssh-agent with KDE edit `/etc/kde/startup/agent-startup.sh` and `/etc/kde/shutdown/agent-shutdown.sh` and remove the comments from lines referring to ssh-agent
 
 	# /etc/kde/startup/agent-startup.sh
 	if [ -x /usr/bin/ssh-agent ]; then
@@ -83,9 +87,8 @@ Para integrar ssh-agent en KDE, edita /etc/kde/startup/agent-startup.sh y /etc/k
 	fi
 
 	#/etc/kde/shutdown/agent-shutdown.sh
-
 	if [ -n "${SSH_AGENT_PID}" ]; then
 	  eval "$(ssh-agent -k)"
 	fi
 
-Tras esos pasos basta con ejecutar `ssh-add` para que KDE recuerde nuestra contraseña durante toda la sesión.
+Now you can run the command `ssh-add` and KDE will remember your password for the current session.
