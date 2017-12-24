@@ -11,9 +11,12 @@ Add these required iptables rules
 	# Create a new chain in which sshguard will append blocking rules
 	iptables -N sshguard
 
-	# Block any traffic from abusers
+	# Block any traffic from abusers. This rule must be added before any other rules processing the ports that sshguard is protecting
 	iptables -A INPUT -j sshguard
 
+Sample `/etc/sshguard.conf` configuration file
+
+	BACKEND="/usr/libexec/sshg-fw-iptables"
 
 Sample `/etc/conf.d/sshguard` configuration file
 

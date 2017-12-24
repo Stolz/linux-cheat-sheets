@@ -8,23 +8,19 @@ File `/etc/bash/bashrc.d/alias`
 	alias ....='cd ../../..'
 	alias .....='cd ../../../..'
 
-	alias ls='ls -lh --color'
-	alias la='ls -a'
-
+	alias df='pydf'
 	alias grep='grep --colour=auto --exclude-dir=.git'
 	alias g='grep'
-	alias df='pydf'
-	alias top='htop'
-	alias tailf='tail -f'
-	alias netstat='netstat -plutanW'
-	alias rsync='rsync --recursive --archive --delete --progress --stats --human-readable'
 	alias l='locate -i'
+	alias ls='ls -lh --color'
+	alias la='ls -a'
+	alias netstat='netstat -plutanW'
 	alias r='reset'
+	alias rsync='rsync --recursive --archive --delete --progress --stats --human-readable'
+	alias tailf='tail -f'
+	alias top='htop'
 	alias youtube-dl='youtube-dl --no-check-certificate'
 	alias yt='youtube-dl'
-
-	alias descomprimir='aunpack'
-	alias comprimir='apack'
 
 	alias lint="git status -s | cut -c4- | xargs  -n1 php -l"
 	alias t="run_upstream phpunit.xml artisan config:clear; run_upstream phpunit.xml ./vendor/bin/phpunit -d max_execution_time=0"
@@ -87,21 +83,13 @@ File `/etc/bash/bashrc.d/functions`
 
 	# Colored man pages
 	man() {
-		# begin blinking
-		# begin bold
-		# end mode
-		# end standout-mode
-		# begin standout-mode - info box
-		# end underline
-		# begin underline
-
-		env LESS_TERMCAP_mb=$(printf "\e[1m") \
-		LESS_TERMCAP_md=$(printf "\e[1;32m") \
-		LESS_TERMCAP_me=$(printf "\e[0m") \
-		LESS_TERMCAP_se=$(printf "\e[0m") \
-		LESS_TERMCAP_so=$(printf "\e[1;44;37m") \
-		LESS_TERMCAP_ue=$(printf "\e[0m") \
-		LESS_TERMCAP_us=$(printf "\e[1;33m") \
+		env LESS_TERMCAP_mb=$(printf "\e[1m") \   # begin blinking
+		LESS_TERMCAP_md=$(printf "\e[1;32m") \    # begin bold
+		LESS_TERMCAP_me=$(printf "\e[0m") \       # end mode
+		LESS_TERMCAP_se=$(printf "\e[0m") \       # end standout-mode
+		LESS_TERMCAP_so=$(printf "\e[1;44;37m") \ # begin standout-mode - info box
+		LESS_TERMCAP_ue=$(printf "\e[0m") \       # end underline
+		LESS_TERMCAP_us=$(printf "\e[1;33m") \    # begin underline
 		man "$@"
 	}
 
@@ -144,9 +132,8 @@ File `/etc/bash/bashrc.d/variables`
 	# - are stored in the history FILE at the end of your bash session for use in future sessions.
 	HISTFILESIZE=10000 #defaul: 500
 
-	# Do not save repeated lines
+	# Do not save repeated lines or lines starting with a espace
 	HISTCONTROL=ignoreboth:erasedups
-
 
 File `$HOME/.bashrc`
 

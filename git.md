@@ -3,6 +3,7 @@
 ## Instalación, configuración y ayuda
 
 ### Instalación en Gentoo
+
 	emerge -av git
 
 ### Consultar ayuda de un comando
