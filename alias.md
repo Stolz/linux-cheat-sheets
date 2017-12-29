@@ -14,19 +14,22 @@ File `/etc/bash/bashrc.d/alias`
 	alias l='locate -i'
 	alias ls='ls -lh --color'
 	alias la='ls -a'
+	alias myip='wget -qO- http://ipecho.net/plain; echo'
 	alias netstat='netstat -plutanW'
+	alias ps='ps aux'
 	alias r='reset'
 	alias rsync='rsync --recursive --archive --delete --progress --stats --human-readable'
 	alias tailf='tail -f'
 	alias top='htop'
+	alias wget='wget -c'
 	alias youtube-dl='youtube-dl --no-check-certificate'
 	alias yt='youtube-dl'
 
-	alias lint="git status -s | cut -c4- | xargs  -n1 php -l"
-	alias t="run_upstream phpunit.xml artisan config:clear; run_upstream phpunit.xml ./vendor/bin/phpunit -d max_execution_time=0"
+	alias lint='git status -s | cut -c4- | xargs  -n1 php -l'
+	alias t='run_upstream phpunit.xml artisan config:clear; run_upstream phpunit.xml ./vendor/bin/phpunit -d max_execution_time=0'
 	alias dof='run_upstream artisan ./bin/delete_old_files'
-	alias gulp="run_upstream gulpfile.js ./node_modules/.bin/gulp"
-	alias bower="run_upstream bower.json ./node_modules/.bin/bower"
+	alias gulp='run_upstream gulpfile.js ./node_modules/.bin/gulp'
+	alias bower='run_upstream bower.json ./node_modules/.bin/bower'
 
 	# Editor
 	alias joe='joe --wordwrap'
@@ -83,13 +86,13 @@ File `/etc/bash/bashrc.d/functions`
 
 	# Colored man pages
 	man() {
-		env LESS_TERMCAP_mb=$(printf "\e[1m") \   # begin blinking
-		LESS_TERMCAP_md=$(printf "\e[1;32m") \    # begin bold
-		LESS_TERMCAP_me=$(printf "\e[0m") \       # end mode
-		LESS_TERMCAP_se=$(printf "\e[0m") \       # end standout-mode
-		LESS_TERMCAP_so=$(printf "\e[1;44;37m") \ # begin standout-mode - info box
-		LESS_TERMCAP_ue=$(printf "\e[0m") \       # end underline
-		LESS_TERMCAP_us=$(printf "\e[1;33m") \    # begin underline
+		env LESS_TERMCAP_mb=$(printf "\e[1m") \
+		LESS_TERMCAP_md=$(printf "\e[1;32m") \
+		LESS_TERMCAP_me=$(printf "\e[0m") \
+		LESS_TERMCAP_se=$(printf "\e[0m") \
+		LESS_TERMCAP_so=$(printf "\e[1;44;37m") \
+		LESS_TERMCAP_ue=$(printf "\e[0m") \
+		LESS_TERMCAP_us=$(printf "\e[1;33m") \
 		man "$@"
 	}
 

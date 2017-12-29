@@ -45,43 +45,49 @@ Creamos el fichero `/var/www/example.com/htdocs/phpMyAdmin/config.inc.php` con e
 	$cfg['blowfish_secret'] = 'PONER_AQUI_UNA_FRASE_ALEATORIA_DE_HASTA_46_CARACTERES_QUE_SE_USARA_PARA_CIFRAR_LA_CONTRASENA_DE_LA_COOKIE';
 
 	// F.I.R.S.T. S.E.R.V.E.R. (conectar via socket)
+	$cfg['Servers'][1] = [
 
-	$i=1;
-	$cfg['Servers'][$i]['verbose'] = 'Servidor example.com';
-	$cfg['Servers'][$i]['auth_type'] = 'cookie';
-	$cfg['Servers'][$i]['hide_db'] = '(information_schema|performance_schema|phpmyadmin)';
-	$cfg['Servers'][$i]['connect_type'] = 'socket';
-	/* PMA (advanced features) DB settings */
-	$cfg['Servers'][$i]['controluser'] = 'pma';
-	$cfg['Servers'][$i]['controlpass'] = 'FOOBAR';
-	$cfg['Servers'][$i]['pmadb'] = 'phpmyadmin';
-	/* PMA tables names */
-	$cfg['Servers'][$i]['bookmarktable'] = 'pma__bookmark';
-	$cfg['Servers'][$i]['column_info'] = 'pma__column_info';
-	$cfg['Servers'][$i]['designer_coords'] = 'pma__designer_coords';
-	$cfg['Servers'][$i]['favorite'] = 'pma__favorite';
-	$cfg['Servers'][$i]['history'] = 'pma__history';
-	$cfg['Servers'][$i]['navigationhiding'] = 'pma__navigationhiding';
-	$cfg['Servers'][$i]['pdf_pages'] = 'pma__pdf_pages';
-	$cfg['Servers'][$i]['recent'] = 'pma__recent';
-	$cfg['Servers'][$i]['relation'] = 'pma__relation';
-	$cfg['Servers'][$i]['savedsearches'] = 'pma__savedsearches';
-	$cfg['Servers'][$i]['table_coords'] = 'pma__table_coords';
-	$cfg['Servers'][$i]['table_info'] = 'pma__table_info';
-	$cfg['Servers'][$i]['table_uiprefs'] = 'pma__table_uiprefs';
-	$cfg['Servers'][$i]['tracking'] = 'pma__tracking';
-	$cfg['Servers'][$i]['userconfig'] = 'pma__userconfig';
-	$cfg['Servers'][$i]['usergroups'] = 'pma__usergroups';
-	$cfg['Servers'][$i]['users'] = 'pma__users';
+		// Connection/Authentication
+		'verbose' => 'Servidor example.com',
+		'auth_type' => 'cookie',
+		'connect_type' => 'socket',
+		'hide_db' => '(information_schema|performance_schema|mysql|phpmyadmin)',
 
+		// PMA advanced features DB settings
+		'controluser' => 'pma',
+		'controlpass' => 'FOOBAR',
+		'pmadb' => 'phpmyadmin',
+
+		// PMA advanced features DB tables
+		'bookmarktable' => 'pma__bookmark',
+		'central_columns' => 'pma__central_columns',
+		'column_info' => 'pma__column_info',
+		'designer_coords' => 'pma__designer_coords',
+		'designer_settings' => 'pma__designer_settings',
+		'export_templates' => 'pma__export_templates',
+		'favorite' => 'pma__favorite',
+		'history' => 'pma__history',
+		'navigationhiding' => 'pma__navigationhiding',
+		'pdf_pages' => 'pma__pdf_pages',
+		'recent' => 'pma__recent',
+		'relation' => 'pma__relation',
+		'savedsearches' => 'pma__savedsearches',
+		'table_coords' => 'pma__table_coords',
+		'table_info' => 'pma__table_info',
+		'table_uiprefs' => 'pma__table_uiprefs',
+		'tracking' => 'pma__tracking',
+		'userconfig' => 'pma__userconfig',
+		'usergroups' => 'pma__usergroups',
+		'users' => 'pma__users',
+	];
 
 	// S.E.C.O.N.D. S.E.R.V.E.R. (conectar via TCP)
-
-	$i=2;
-	$cfg['Servers'][$i]['verbose'] = 'Otro servidor example2.com';
-	$cfg['Servers'][$i]['host'] = 'example2.com';
-	$cfg['Servers'][$i]...
-
+	$cfg['Servers'][2] = [
+		'verbose' => 'Otro servidor example2.com',
+		'connect_type' => 'tcp',
+		'host' => 'example2.com',
+		// ...
+	];
 
 __Nota:__ Tras hacer cambios en este fichero es necesario desconectarse de phpMyAdmin y volver a inicar sesión para que los cambios tengan efecto.
 __Nota:__ Estos son los métodos de autenticación más comunes de phpMyAdmin y su configuración:
