@@ -9,6 +9,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias .....='cd ../../../..'
 
 	alias df='pydf'
+	alias docker-compose='run_upstream docker-compose.yml docker-compose'
 	alias grep='grep --colour=auto --exclude-dir=.git'
 	alias g='grep'
 	alias l='locate -i'
