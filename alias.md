@@ -53,13 +53,13 @@ File `/etc/bash/bashrc.d/alias`
 	alias gcm='git commit -vm'
 	#alias gcmm='git commit -m "`wget http://whatthecommit.com/index.txt -qO-`"
 	alias gcmm='git commit -m QuickCommit'
-	alias gd='git diff'
+	alias gd='git diff -M'
 	alias gd.='gd .'
-	alias gds='git diff --staged'
-	alias gdt='git difftool -y'
+	alias gds='gd --staged'
+	alias gdt='git difftool -M -y'
 	alias gdtd='git difftool --dir-diff'
-	alias gdts='git difftool -y --staged'
-	alias gdtsd='git difftool --dir-diff --staged'
+	alias gdts='gdt --staged'
+	alias gdtsd='gdtd --staged'
 	alias gl='git log --decorate=short --graph --stat --oneline' #--no-merges
 	alias gll='git log --decorate=short --graph --stat' # --oneline --no-merges
 	alias gs='git status -bs'
