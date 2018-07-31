@@ -26,7 +26,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias youtube-dl='youtube-dl --no-check-certificate'
 	alias yt='youtube-dl'
 
-	alias lint='git status -s | cut -c4- | xargs  -n1 php -l'
+	alias lint='git status -s | cut -c4- | xargs -n1 php -l'
 	alias t='run_upstream phpunit.xml artisan config:clear; run_upstream phpunit.xml ./vendor/bin/phpunit -d max_execution_time=0'
 	alias dof='run_upstream artisan ./bin/delete_old_files'
 	alias gulp='run_upstream gulpfile.js ./node_modules/.bin/gulp'
@@ -74,7 +74,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias a="artisan"
 	alias am="artisan migrate"
 	alias ams="artisan migrate --seed"
-    alias amf="artisan migrate:fresh --seed"
+	alias amf="artisan migrate:fresh --seed"
 	alias amr="artisan migrate:refresh"
 	alias amrs="artisan migrate:refresh --seed"
 	alias arl="artisan route:list"
@@ -83,6 +83,8 @@ File `/etc/bash/bashrc.d/alias`
 	alias composer="php /usr/local/bin/composer --ansi"
 	alias comp="run_upstream composer.json composer"
 	alias dump="comp dump-autoload --optimize"
+	alias icomposer="composer --ignore-platform-reqs"
+	alias icomp="icomposer"
 
 File `/etc/bash/bashrc.d/functions`
 
