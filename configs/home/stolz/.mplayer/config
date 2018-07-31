@@ -1,0 +1,11 @@
+# NOTE: The trailing commas are important! They tell Mplayer to fall back on other drivers and codecs should the specified ones not be found.
+
+# Full screen
+fs=1
+
+#Language
+alang=en,es
+
+# Hadware acceleration from Nvidia cards
+vo=vdpau,
+vc=ffh264vdpau,ffmpeg12vdpau,ffodivxvdpau,ffwmv3vdpau,ffvc1vdpau,ffhevcvdpau,

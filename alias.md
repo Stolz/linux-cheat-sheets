@@ -2,16 +2,20 @@
 
 File `/etc/bash/bashrc.d/alias`
 
+	# Wander
 	alias cd..='cd ..'
 	alias ..='cd ..'
 	alias ...='cd ../..'
 	alias ....='cd ../../..'
 	alias .....='cd ../../../..'
 
+	# Common
 	alias df='pydf'
 	alias docker-compose='run_upstream docker-compose.yml docker-compose'
 	alias grep='grep --colour=auto --exclude-dir=.git'
 	alias g='grep'
+	alias joe='joe --wordwrap'
+	alias j='joe'
 	alias l='locate -i'
 	alias ls='ls -lh --color'
 	alias la='ls -a'
@@ -26,22 +30,6 @@ File `/etc/bash/bashrc.d/alias`
 	alias youtube-dl='youtube-dl --no-check-certificate'
 	alias yt='youtube-dl'
 
-	alias lint='git status -s | cut -c4- | xargs -n1 php -l'
-	alias t='run_upstream phpunit.xml artisan config:clear; run_upstream phpunit.xml ./vendor/bin/phpunit -d max_execution_time=0'
-	alias dof='run_upstream artisan ./bin/delete_old_files'
-	alias gulp='run_upstream gulpfile.js ./node_modules/.bin/gulp'
-	alias bower='run_upstream bower.json ./node_modules/.bin/bower'
-
-	# Editor
-	alias joe='joe --wordwrap'
-	alias j='joe'
-
-	# Common spelling mistakes
-	alias car='cat'
-	alias vf='cd'
-	alias jeo='joe'
-	alias late='kate'
-
 	# Git
 	alias gitk='LC_ALL=C gitk'
 	alias ga='git add'
@@ -51,15 +39,15 @@ File `/etc/bash/bashrc.d/alias`
 	alias gc='git commit -v'
 	alias gc.='gc .'
 	alias gcm='git commit -vm'
-	#alias gcmm='git commit -m "`wget http://whatthecommit.com/index.txt -qO-`"
+	#alias gcmm='git commit -m "`wget http://whatthecommit.com/index.txt -qO-`"'
 	alias gcmm='git commit -m QuickCommit'
-	alias gd='git diff'
+	alias gd='git diff -M'
 	alias gd.='gd .'
-	alias gds='git diff --staged'
-	alias gdt='git difftool -y'
+	alias gds='gd --staged'
+	alias gdt='git difftool -M -y'
 	alias gdtd='git difftool --dir-diff'
-	alias gdts='git difftool -y --staged'
-	alias gdtsd='git difftool --dir-diff --staged'
+	alias gdts='gdt --staged'
+	alias gdtsd='gdtd --staged'
 	alias gl='git log --decorate=short --graph --stat --oneline' #--no-merges
 	alias gll='git log --decorate=short --graph --stat' # --oneline --no-merges
 	alias gs='git status -bs'
@@ -69,22 +57,35 @@ File `/etc/bash/bashrc.d/alias`
 	alias gmt='git mergetool'
 	alias gmty='git mergetool -y'
 
+	# Webdev
+	alias lint='git status --porcelain | cut -c4- | xargs -n1 php -l'
+	alias t='run_upstream phpunit.xml artisan config:clear; run_upstream phpunit.xml ./vendor/bin/phpunit -d max_execution_time=0'
+	alias dof='run_upstream artisan ./bin/delete_old_files'
+	alias watch='run_upstream webpack.mix.js npm run watch'
+	alias assets='run_upstream webpack.mix.js npm run production'
+
 	# Artisan
-	alias artisan="run_upstream artisan php artisan --ansi"
-	alias a="artisan"
-	alias am="artisan migrate"
-	alias ams="artisan migrate --seed"
-	alias amf="artisan migrate:fresh --seed"
-	alias amr="artisan migrate:refresh"
-	alias amrs="artisan migrate:refresh --seed"
-	alias arl="artisan route:list"
+	alias artisan='run_upstream artisan php artisan --ansi'
+	alias a='artisan'
+	alias am='artisan migrate'
+	alias ams='artisan migrate --seed'
+	alias amf='artisan migrate:fresh --seed'
+	alias amr='artisan migrate:refresh'
+	alias amrs='artisan migrate:refresh --seed'
+	alias arl='artisan route:list'
 
 	# Composer
-	alias composer="php /usr/local/bin/composer --ansi"
-	alias comp="run_upstream composer.json composer"
-	alias dump="comp dump-autoload --optimize"
-	alias icomposer="composer --ignore-platform-reqs"
-	alias icomp="icomposer"
+	alias composer='php /usr/local/bin/composer --ansi'
+	alias comp='run_upstream composer.json composer'
+	alias dump='comp dump-autoload --optimize'
+	alias icomposer='comp --ignore-platform-reqs'
+	alias icomp='icomposer'
+
+	# Common spelling mistakes
+	alias car='cat'
+	alias vf='cd'
+	alias jeo='joe'
+	alias late='kate'
 
 File `/etc/bash/bashrc.d/functions`
 
@@ -100,6 +101,7 @@ File `/etc/bash/bashrc.d/functions`
 		man "$@"
 	}
 
+	# Read MAN pages in browser
 	xman()
 	{
 		if [ -z "$DISPLAY" ]; then
@@ -146,6 +148,41 @@ File `$HOME/.bashrc`
 
 	alias su='sudo su'
 
+	LOG_AWK_COLORS='{matched=0}
+	/DEBUG:/           {matched=1; print "\033[0;32m" $0 "\033[0m"} # GREEN
+	/INFO:/            {matched=1; print "\033[1;32m" $0 "\033[0m"} # GREEN BOLD
+	/NOTICE:/          {matched=1; print "\033[1;33m" $0 "\033[0m"} # YELLOW
+	/WARNING:/         {matched=1; print "\033[0;33m" $0 "\033[0m"} # ORANGE
+	/ERROR:/           {matched=1; print "\033[0;31m" $0 "\033[0m"} # RED
+	/CRITICAL:/        {matched=1; print "\033[0;31m" $0 "\033[0m"} # RED
+	/ALERT:/           {matched=1; print "\033[1;31m" $0 "\033[0m"} # RED BOLD
+	/EMERGENCY:/       {matched=1; print "\033[1;31m" $0 "\033[0m"} # RED BOLD
+	/Request headers:/ {matched=1; print "\033[0;36m" $0 "\033[0m"} # CYAN
+	/Request body:/    {matched=1; print "\033[0;36m" $0 "\033[0m"} # CYAN
+	/Response status:/ {matched=1; print "\033[1;36m" $0 "\033[0m"} # CYAN BOLD
+	/Response body:/   {matched=1; print "\033[1;36m" $0 "\033[0m"} # CYAN BOLD
+	matched==0                    {print "\033[1;30m" $0 "\033[0m"} # WHITE (DEFAULT if no match)'
+
+	# Colorize Laravel logs
+	ctailf () {
+		if [ -z "$1" ] ; then
+			echo "Please specify a log file for monitoring"
+			return
+		fi
+
+		tail -n 10 -f $1 | awk "$LOG_AWK_COLORS"
+	}
+
+	# Colorize Laravel logs
+	cless () {
+		if [ -z "$1" ] ; then
+			echo "Please specify a log file for pagination"
+			return
+		fi
+
+		cat $1 | awk "$LOG_AWK_COLORS" | less -r
+	}
+
 File `/usr/share/bash-completion/completions/git`
 
 	# Get completion also for aliases
@@ -174,7 +211,9 @@ File `/usr/share/bash-completion/completions/git`
 
 File `/root/.bashrc`
 
+	alias genkernel='genkernel --makeopts=-j5'
 	alias modprobe='modprobe -v'
-	alias rmmod='rmmod -v'
 	alias rescan-scsi-bus='rescan-scsi-bus --color'
 	alias rescan='rescan-scsi-bus'
+	alias rm='rm -i'
+	alias rmmod='rmmod -v'

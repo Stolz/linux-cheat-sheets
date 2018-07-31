@@ -1,0 +1,23 @@
+[user]
+	name = Stolz
+	email = Stolz@users.noreply.github.com
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	ui = auto
+	interactive = auto
+[github]
+	user = Stolz
+	token = to-do
+[push]
+	default = current
+[merge]
+	tool = meld
+[diff]
+	tool = meld
+	mnemonicprefix = true
+[branch]
+	autosetupmerge = true
+[core]
+	pager = less -F -X

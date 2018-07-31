@@ -1,0 +1,6 @@
+-R
+--exclude=".*"
+--languages=PHP
+--PHP-kinds=+cif-dvj
+--totals=yes
+--regex-php=/^[ \t]*trait[ \t]+([a-z0_9_]+)/\1/t,traits/i

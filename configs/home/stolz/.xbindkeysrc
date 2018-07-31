@@ -1,0 +1,15 @@
+# El comando xte esta en el paquete x11-misc/xautomation
+#========= LOGITECH MX500  ===============================
+#El boton 8 del raton cambia de aplicacion.
+#Para que funcione bien en KDE:
+#Preferencias->
+#  Apariencia y comportamiento del espacio de trabajo->
+#    Comportamiento de la ventana->
+#      Cambiador de tareas->
+#       Ordenacion: Orden de apilado
+"xte 'keydown Alt_L' 'key Tab' 'keyup Alt_L'"
+b:8
+
+#El boton 9 del raton cierra la aplicacion
+"xte 'keydown Alt_L' 'key F4' 'keyup Alt_L'"
+b:9

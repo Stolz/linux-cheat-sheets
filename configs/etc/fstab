@@ -1,0 +1,23 @@
+#<fs>		<mountpoint>		<type>	<opts>					<dump/pass>
+
+# ===== SSD
+
+LABEL=gentoo 	/			ext4	noatime,user_xattr,commit=300		0 1
+LABEL=windows	/mnt/windows		ntfs-3g	noauto,noatime,nonempty,user,force	0 0 #,uid=1000,gid=6,dmask=007,fmask=137,locale=es_ES.iso88591
+
+# ===== RAID
+
+LABEL=raid0	/mnt/raid/stripe	ext4	noatime,user,exec			0 3 #/dev/md0
+LABEL=raid1	/mnt/raid/mirror	ext4	noatime,user,exec			0 2 #/dev/md1
+
+# ===== RAM
+
+none		/tmp			tmpfs	nodev,nosuid,noatime,mode=1777		0 0
+none		/var/log		tmpfs	nodev,nosuid,noatime,mode=0755		0 0
+shm		/dev/shm		tmpfs	nodev,nosuid,noexec,noatime		0 0
+proc		/proc			proc	defaults,noatime			0 0
+
+# =====  NETWORK
+
+server:/share		/mnt/net	nfs	rw,noauto,users,vers=3			0 0
+//192.168.0.5/share	/mnt/samba	cifs	rw,noauto,users,username=foo,password=bar,uid=1001,gid=1001	0 0

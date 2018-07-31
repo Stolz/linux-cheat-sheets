@@ -1,0 +1,1 @@
+hardstatus alwayslastline "%{dw} .- %{dB} %-w%50>%{KY}[%t]%{dB}%+w %{dB}%<%>%=%C:%s %d/%m/%Y %{dw} -. "
