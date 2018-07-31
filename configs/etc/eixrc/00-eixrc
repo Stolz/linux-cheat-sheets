@@ -1,0 +1,3 @@
+# /etc/eixrc/00-eixrc
+
+EIX_LIMIT="0"

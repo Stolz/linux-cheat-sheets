@@ -1,0 +1,4 @@
+#!/bin/bash
+
+modprobe cdc-acm
+lcd4linux -q

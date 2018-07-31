@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo noop > /sys/block/sda/queue/scheduler

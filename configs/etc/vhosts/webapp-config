@@ -1,0 +1,238 @@
+# /etc/vhosts/webapp-config
+#       Some default variables that are shared between the
+#       webapp-config utility, and the webapp eclass
+#
+#       Part of the Gentoo Linux distribution
+#
+# Copyright (c) 1999-2007 Authors
+#       Released under v2 of the GNU GPL
+#
+# Author(s)     Stuart Herbert
+#               Renat Lumpau   <rl03@gentoo.org>
+#               Gunnar Wrobel  <wrobel@gentoo.org>
+#
+# ========================================================================
+
+# ========================================================================
+#
+# USER-EDITABLE SETTINGS
+#
+# Feel free to edit these settings to suit your local needs
+#
+# ========================================================================
+
+# vhost_root is the directory where virtual host websites are added
+# so, if your server is hosting (say)
+#
+#   www.gentoo.org
+#   bugs.gentoo.org
+#
+# then the htdocs directory for each of these would be
+#
+#   /var/www/www.gentoo.org/htdocs
+#   /var/www/bugs.gentoo.org/htdocs
+#
+# Change this setting *only* if you need your websites installed in
+# a different physical location
+#
+# If you prefer to use Gentoo's optional support for the /srv service
+# home file hierarchy, uncomment the second version of vhost_root
+# (this should have been done for you if you installed webapp-config
+# with the srvdir USE flag enabled)
+# If you want to have fine grained control over the location the web
+# applications get installed, you can use the third setting
+
+vhost_root="/var/www/${vhost_hostname}"
+#vhost_root="/srv/${vhost_hostname}/www"
+#vhost_root="/var/www/${vhost_subdomain_1}/${vhost_subdomain_2}/${vhost_subdomain_3}"
+
+# some web applications need to know what host they are serving up pages
+# for.  this information is configured when the application is installed
+# by the webapp-config script
+#
+# changing this value *after* the application has been installed has
+# no effect!!
+#
+# you can override this setting by using the -h switch to webapp-config
+#
+# IMPORTANT: If you comment this setting and provide no explicit hostname
+# with the command line -h switch, webapp-config will try to determine
+# the fully qualified domain name by itself
+
+vhost_hostname="localhost"
+
+# what web server are you using?
+# your choices are:
+#
+# apache
+# lighttpd
+# cherokee
+# nginx
+# gatling
+# tracd
+# uwsgi
+
+#
+# you can override this setting by using the -s switch to webapp-config
+
+vhost_server="nginx"
+
+# which user should own config files?
+# the default is the user currently running webapp-config (which is
+# normally the root user). You may either use the numerical uid or the
+# user name. The internal default is "0" to accomodate for BSD style
+# systems.
+#
+# you can override this setting by using the -u switch to webapp-config
+
+#vhost_config_uid="root"
+
+# which group should own config files?
+# the default is the group of the user currently running webapp-config
+# (which is normally the root group). You may either use the numerical
+# gid or the group name. The internal default is "0" to accomodate for
+# BSD style systems.
+#
+# you can override this setting by using the -g switch to webapp-config
+
+#vhost_config_gid="root"
+
+# what type of shared directories should be created?
+# the default is 'default-owned', which means that each install of the app
+# gets a copy of the directory
+#
+# permitted values are: server-owned, config-owned, default-owned
+#
+# you can override this setting by using the --default-dirs switch to
+# webapp-config
+
+vhost_config_default_dirs="default-owned"
+
+# what type of shared files should be created?
+# the default is 'virtual', which means that each install of the app
+# does NOT get a unique copy of the files
+#
+# permitted values are: server-owned, config-owned, virtual
+#
+# you can override this setting by using the --virtual-files switch to
+# webapp-config
+
+vhost_config_virtual_files="virtual"
+
+# where should drop-in config files for webservers go?
+#
+# these files will be called <server>-<app>.conf.  They are quite rare,
+# but are needed from time to time by the odd application or two
+
+vhost_config_dir="${vhost_root}/conf"
+
+# which user & group should own the files by default?
+#
+# the default is for files to be owned by the superuser root, so that
+# they cannot be tampered with by other users
+#
+# this setting affects the files and directories installed by the ebuild,
+# and it affects some directories created by webapp-config.  It does not
+# affect any of the files installed by webapp-config at this time.
+
+vhost_default_uid="root"
+vhost_default_gid="root"
+
+# what type of links do you want to use?
+#
+# starting with webapp-config v1.10, the default behaviour is to attempt
+# to hardlink a file from /usr/share/webapps/* first.  If the hardlink
+# fails (normally because /usr and /var | /srv are on different filesystems)
+# webapp-config will fall back to making a physical copy of the file
+# instead
+#
+# NOTE:
+#   we have moved to hardlinks because not all web-based packages work
+#   when their files are symlinked in
+#
+#   please do not raise bugs about packages that do not work when
+#   symlinked
+#
+# vhost_link_type="soft"
+
+# what are the names of your document directories?
+#
+# by default, your website lives in /var/www/<hostname>/htdocs.  If you
+# run webapp-config with the --secure switch, your website instead lives
+# in /var/www/<hostname>/htdocs-secure.
+#
+# you can change the default names of 'htdocs' and 'htdocs-secure' by
+# editing these two variables
+
+vhost_htdocs_insecure="htdocs"
+vhost_htdocs_secure="htdocs-secure"
+
+# what permissions do you want the files to have?
+#
+# by default, webapp-config installs directories and files with these
+# permissions.  You can change them here to comply with your local
+# security policies.
+# You need to specify octal values ("0nnn") or you can use the encoding
+# used by chmod ("[ugoa]{1,3}[+-=]{rwx]{1,3}" elements as a comma
+# seperated list)
+
+vhost_perms_serverowned_dir="0775"
+vhost_perms_serverowned_file="0664"
+
+vhost_perms_configowned_dir="0755"
+vhost_perms_configowned_file="0644"
+
+vhost_perms_defaultowned_dir="0755"
+vhost_perms_virtualowned_file="o-w"
+
+vhost_perms_installdir="0755"
+
+# Allow specifying absolute path names using the -d option?
+allow_absolute="no"
+
+# Supported package managers: portage, paludis
+package_manager="portage"
+
+# ========================================================================
+# END OF USER-EDITABLE SETTINGS
+# ========================================================================
+
+# ========================================================================
+# EDIT THE VARIABLES BELOW THIS LINE AT YOUR OWN RISK
+#
+# These variables are used by the webapp.eclass component of Portage,
+# and by /usr/sbin/webapp-config.
+#
+# If you break your Gentoo installation by changing these settings, then
+# re-emerge the webapps-config package to restore the default values
+#
+# When webapp-config is upgraded, it may add to and/or change the value of
+# variables listed here.  If you do not merge in these changes, you will
+# probably find that webapp-config will break in horrible ways.
+#
+# etc-update is NOT optional ;-)
+#
+# ========================================================================
+
+# which version of webapp-config is this file for?
+#
+# we have a problem when users upgrade webapp-config.  It turns out that
+# they don't explicitly upgrade webapp-config ... instead, webapp-config
+# gets because it is a dependency for a web-based package.
+#
+# unfortunately, this means that any changes to this config file do not
+# get installed (through etc-update or equivalent) until after the web-
+# based package has been installed.  We end up trying to install the
+# package using a partial install of webapp-config
+#
+# how can we work around this?
+#
+# the only way to work around this is to put some sort of version-control
+# marker in this config file.  webapp-config and this file must agree on
+# what this marker is, otherwise webapp-config will refuse to work
+
+WA_CONF_VERSION="7"
+
+# ========================================================================
+# END OF CONFIG FILE
+# ========================================================================

@@ -1,0 +1,10 @@
+eix-sync
+emerge --update --newuse --deep --with-bdeps=y @world # Use --changed-use instad of --newuse to avoid unnecessary rebuilds when USE flags only get added to or dropped from the repository
+emerge @preserved-rebuild
+emerge @module-rebuild
+revdep-rebuild
+emerge --depclean -av
+
+# Only if Perl/Python were updated
+# perl-cleaner --reallyall
+# python-updater

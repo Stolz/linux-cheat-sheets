@@ -1,0 +1,8 @@
+#!/bin/bash
+
+now=`date -I`
+if [[ ! `cat /etc/local.d/trim_ssd_last` = $now ]]; then
+	date -I > /etc/local.d/trim_ssd_last
+	echo Discarding unused blocks on SSD drive
+	fstrim -v /
+fi

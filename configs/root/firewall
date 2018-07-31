@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Start fresh
+iptables -F
+iptables -X
+
+# Default policy: drop inbound, accept outbound
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+
+# Drop whatever sshguard considers hazardous
+iptables -N sshguard
+iptables -A INPUT -j sshguard
+
+# Accept already established connections or new connection related to existing ones
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Accept all from loopback interface
+iptables -A INPUT -i lo -j ACCEPT
+
+# Accept ICMP ping
+iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+
+# Accept SSH
+iptables -A INPUT -p tcp --dport ssh -m state --state NEW -j ACCEPT
+
+# Accept HTTP y HTTPs
+#iptables -A INPUT -p tcp -m multiport --dport http,https -m state --state NEW -j ACCEPT
+
+# Drop all from a given IP
+#iptables -I INPUT 1 -s 11.22.33.44 -j DROP
+
+# Log dropped packets (for debugging)
+#iptables -N LOGDROP
+#iptables -A LOGDROP -m limit --limit 3/minute --limit-burst 3 -j LOG --log-level 2 --log-prefix "Firewall: "
+#iptables -A LOGDROP -j DROP
+#iptables -A INPUT -j LOGDROP
+
+# Save changes for next reboot
+/etc/init.d/iptables save
+
+# Show rules
+iptables -L -n
