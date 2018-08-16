@@ -72,7 +72,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias amf="artisan migrate:fresh --seed"
 	alias amr="artisan migrate:refresh"
 	alias amrs="artisan migrate:refresh --seed"
-	alias arl="artisan route:list"
+	alias arl="(tput rmam; artisan route:list; tput smam)"
 
 	# Composer
 	alias composer="php /usr/local/bin/composer --ansi"

@@ -19,5 +19,7 @@
 	mnemonicprefix = true
 [branch]
 	autosetupmerge = true
+[mergetool]
+	keepBackup = false
 [core]
 	pager = less -F -X
