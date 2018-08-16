@@ -39,7 +39,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias gc='git commit -v'
 	alias gc.='gc .'
 	alias gcm='git commit -vm'
-	#alias gcmm='git commit -m "`wget http://whatthecommit.com/index.txt -qO-`"
+	#alias gcmm='git commit -m "`wget http://whatthecommit.com/index.txt -qO-`"'
 	alias gcmm='git commit -m QuickCommit'
 	alias gd='git diff -M'
 	alias gd.='gd .'
@@ -65,19 +65,19 @@ File `/etc/bash/bashrc.d/alias`
 	alias assets='run_upstream webpack.mix.js npm run production'
 
 	# Artisan
-	alias artisan="run_upstream artisan php artisan --ansi"
-	alias a="artisan"
-	alias am="artisan migrate"
-	alias ams="artisan migrate --seed"
-	alias amf="artisan migrate:fresh --seed"
-	alias amr="artisan migrate:refresh"
-	alias amrs="artisan migrate:refresh --seed"
-	alias arl="(tput rmam; artisan route:list; tput smam)"
+	alias artisan='run_upstream artisan php artisan --ansi'
+	alias a='artisan'
+	alias am='artisan migrate'
+	alias ams='artisan migrate --seed'
+	alias amf='artisan migrate:fresh --seed'
+	alias amr='artisan migrate:refresh'
+	alias amrs='artisan migrate:refresh --seed'
+	alias arl='(tput rmam; artisan route:list; tput smam)'
 
 	# Composer
-	alias composer="php /usr/local/bin/composer --ansi"
-	alias comp="run_upstream composer.json composer"
-	alias dump="comp dump-autoload --optimize"
+	alias composer='php /usr/local/bin/composer --ansi'
+	alias comp='run_upstream composer.json composer'
+	alias dump='comp dump-autoload --optimize'
 	alias icomposer='comp --ignore-platform-reqs'
 	alias icomp='icomposer'
 

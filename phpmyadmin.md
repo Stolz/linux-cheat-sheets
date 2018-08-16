@@ -51,7 +51,7 @@ Creamos el fichero `/var/www/example.com/htdocs/phpMyAdmin/config.inc.php` con e
 		'verbose' => 'Servidor example.com',
 		'auth_type' => 'cookie',
 		'connect_type' => 'socket',
-		'hide_db' => '(information_schema|performance_schema|mysql|phpmyadmin)',
+		'hide_db' => '(information_schema|mysql|performance_schema|phpmyadmin|sys)',
 
 		// PMA advanced features DB settings
 		'controluser' => 'pma',

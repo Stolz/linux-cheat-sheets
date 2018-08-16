@@ -230,6 +230,17 @@ Para que los cambios tengan efectos
 
 	/etc/init.d/nginx reload
 
+## Certificado
+
+Generar
+
+	openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/ssl/nginx/nginx.key -out /etc/ssl/nginx/nginx.crt
+
+Usar
+
+	ssl_certificate /etc/ssl/nginx/nginx.crt;
+	ssl_certificate_key /etc/ssl/nginx/nginx.key;
+
 ## webapp-config
 
 Editar /etc/vhosts/webapp-config y establecer
