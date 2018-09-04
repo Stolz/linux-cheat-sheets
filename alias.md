@@ -59,7 +59,7 @@ File `/etc/bash/bashrc.d/alias`
 
 	# Webdev
 	alias lint='git status --porcelain | cut -c4- | xargs -n1 php -l'
-	alias t='run_upstream phpunit.xml artisan config:clear; run_upstream phpunit.xml ./vendor/bin/phpunit -d max_execution_time=0'
+	alias t='run_upstream phpunit.xml php artisan config:clear; run_upstream phpunit.xml ./vendor/bin/phpunit -d max_execution_time=0'
 	alias dof='run_upstream artisan ./bin/delete_old_files'
 	alias watch='run_upstream webpack.mix.js npm run watch'
 	alias assets='run_upstream webpack.mix.js npm run production'
