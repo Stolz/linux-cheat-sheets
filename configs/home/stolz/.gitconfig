@@ -23,3 +23,5 @@
 	keepBackup = false
 [core]
 	pager = less -F -X
+[rerere]
+	enabled = true
