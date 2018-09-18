@@ -131,9 +131,8 @@ File `/etc/bash/bashrc.d/functions`
 	# Run Kate in a subshell that does not get closed when current shell gets closed
 	kate()
 	{
-		(nohup kate "$@" 2>/dev/null &)
+		(nohup kate "$@" >/dev/null 2>&1 &)
 	}
-
 
 File `/etc/bash/bashrc.d/variables`
 
