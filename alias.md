@@ -128,6 +128,13 @@ File `/etc/bash/bashrc.d/functions`
 		return 1
 	}
 
+	# Run Kate in a subshell that does not get closed when current shell gets closed
+	kate()
+	{
+		(nohup kate "$@" 2>/dev/null &)
+	}
+
+
 File `/etc/bash/bashrc.d/variables`
 
 	# Last command visual feedback
