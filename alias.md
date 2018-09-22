@@ -10,6 +10,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias .....='cd ../../../..'
 
 	# Common
+	alias c='clear'
 	alias df='pydf'
 	alias docker-compose='run_upstream docker-compose.yml docker-compose'
 	alias grep='grep --colour=auto --exclude-dir=.git'
@@ -146,6 +147,7 @@ File `/etc/bash/bashrc.d/variables`
 
 File `$HOME/.bashrc`
 
+	alias _='sudo'
 	alias su='sudo su'
 
 	LOG_AWK_COLORS='{matched=0}

@@ -14,6 +14,7 @@ fi
 
 source /etc/profile
 
+alias _='sudo'
 alias su='sudo su'
 
 LOG_AWK_COLORS='{matched=0}
