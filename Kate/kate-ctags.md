@@ -37,7 +37,7 @@ Ver los tipos de expresiones reconocidos para PHP
 
 Para indicar que tipos de expresiones incluir (+) o excluir (-)
 
-	--PHP-kinds=+cift-dvj
+	--PHP-kinds=+cfit-dlnva
 
 Para que las rutas sean relativas al fichero donde seencuentra el fichero tags y no al directorio desde donde se generar
 
@@ -61,6 +61,6 @@ Para no tener que repetir los parámetros constantemente podemos guardarlos en `
 	-R
 	--exclude=".*"
 	--languages=PHP
-	--PHP-kinds=+cift-dvj
+	--PHP-kinds=+cfit-dlnva
 	--tag-relative=yes
 	--totals=yes

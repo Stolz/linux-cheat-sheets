@@ -60,7 +60,7 @@ File `/etc/bash/bashrc.d/alias`
 
 	# Webdev
 	alias lint='git status --porcelain | cut -c4- | xargs -n1 php -l'
-	alias t='run_upstream phpunit.xml artisan config:clear; run_upstream phpunit.xml ./vendor/bin/phpunit -d max_execution_time=0'
+	alias t='run_upstream phpunit.xml php artisan config:clear; run_upstream phpunit.xml ./vendor/bin/phpunit -d max_execution_time=0'
 	alias dof='run_upstream artisan ./bin/delete_old_files'
 	alias watch='run_upstream webpack.mix.js npm run watch'
 	alias assets='run_upstream webpack.mix.js npm run production'
@@ -73,7 +73,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias amf='artisan migrate:fresh --seed'
 	alias amr='artisan migrate:refresh'
 	alias amrs='artisan migrate:refresh --seed'
-	alias arl='artisan route:list'
+	alias arl='(tput rmam; artisan route:list; tput smam)'
 
 	# Composer
 	alias composer='php /usr/local/bin/composer --ansi'
@@ -127,6 +127,12 @@ File `/etc/bash/bashrc.d/functions`
 		echo $PIVOT not found upstream
 		cd "$ORIGINAL_PWD"
 		return 1
+	}
+
+	# Run Kate in a subshell that does not get closed when current shell gets closed
+	kate()
+	{
+		(nohup kate "$@" >/dev/null 2>&1 &)
 	}
 
 File `/etc/bash/bashrc.d/variables`
