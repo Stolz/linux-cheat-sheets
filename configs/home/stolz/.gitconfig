@@ -1,27 +1,27 @@
-[user]
-	name = Stolz
-	email = Stolz@users.noreply.github.com
+[branch]
+	autosetupmerge = true
 [color]
-	diff = auto
-	status = auto
 	branch = auto
-	ui = auto
+	diff = auto
 	interactive = auto
-[github]
-	user = Stolz
-	token = to-do
-[push]
-	default = current
-[merge]
-	tool = meld
+	status = auto
+	ui = auto
+[core]
+	pager = less -F -X
 [diff]
 	tool = meld
 	mnemonicprefix = true
-[branch]
-	autosetupmerge = true
+[github]
+	user = Stolz
+	token = to-do
+[merge]
+	tool = meld
 [mergetool]
 	keepBackup = false
-[core]
-	pager = less -F -X
+[push]
+	default = current
 [rerere]
 	enabled = true
+[user]
+	name = Stolz
+	email = Stolz@users.noreply.github.com
