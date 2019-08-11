@@ -260,7 +260,7 @@ location = /foo/bar {...} #Coincide solo con "/foo/bar"
 [2] Coincidencia literal inicial prioritaria: Coincide el comienzo
 location ^~ /foo {...} #Coincide con todo lo que comience con "/foo"
 
-[3] Coincidencia regex: Coincide con la expresión segular
+[3] Coincidencia regex: Coincide con la expresión regular
 location ~  \.html$ {...} #Coincide con todo lo que acabe en ".html"
 location ~* \.html$ {...} #Insensible a mayúsculas. Coincide con todo lo que acabe en ".html" o ".HTML"
 
