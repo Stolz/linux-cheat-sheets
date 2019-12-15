@@ -55,9 +55,9 @@ En versiones antiguas de ctags no hay soporte para traits. Con esta regex se sol
 
 	--regex-php=/^[ \t]*trait[ \t]+([a-z0_9_]+)/\1/t,traits/i
 
-Para no tener que repetir los parámetros constantemente podemos guardarlos en `~/.ctags`
+Para no tener que repetir los parámetros constantemente podemos guardarlos en `~/.ctags.d/php.ctags`
 
-	cat ~/.ctags
+	cat ~/.ctags.d/php.ctags
 	-R
 	--exclude=".*"
 	--languages=PHP

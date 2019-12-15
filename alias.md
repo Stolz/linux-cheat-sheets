@@ -9,10 +9,16 @@ File `/etc/bash/bashrc.d/alias`
 	alias ....='cd ../../..'
 	alias .....='cd ../../../..'
 
+	# Common spelling mistakes
+	alias alais='alias'
+	alias car='cat'
+	alias jeo='joe'
+	alias late='kate'
+	alias vf='cd'
+
 	# Common
 	alias c='clear'
 	alias df='pydf'
-	alias docker-compose='run_upstream docker-compose.yml docker-compose'
 	alias grep='grep --colour=auto --exclude-dir=.git'
 	alias g='grep'
 	alias joe='joe --wordwrap'
@@ -62,8 +68,6 @@ File `/etc/bash/bashrc.d/alias`
 	alias lint='git status --porcelain | cut -c4- | xargs -n1 php -l'
 	alias t='run_upstream phpunit.xml php artisan config:clear; run_upstream phpunit.xml ./vendor/bin/phpunit -d max_execution_time=0'
 	alias dof='run_upstream artisan ./bin/delete_old_files'
-	alias watch='run_upstream webpack.mix.js npm run watch'
-	alias assets='run_upstream webpack.mix.js npm run production'
 
 	# Artisan
 	alias artisan='run_upstream artisan php artisan --ansi'
@@ -82,11 +86,15 @@ File `/etc/bash/bashrc.d/alias`
 	alias icomposer='comp --ignore-platform-reqs'
 	alias icomp='icomposer'
 
-	# Common spelling mistakes
-	alias car='cat'
-	alias vf='cd'
-	alias jeo='joe'
-	alias late='kate'
+	# Docker
+	alias docker-compose='run_upstream docker-compose.yml docker-compose'
+	alias dc='docker-compose'
+	alias start='dc start'
+	alias stop='dc stop'
+	alias restart='dc restart'
+	alias up='dc up -d && dc logs -f'
+	alias down='dc down'
+	alias downn='down; dc rm'
 
 File `/etc/bash/bashrc.d/functions`
 
