@@ -31,6 +31,6 @@ If you need to specify the SSH port
 
 If you chose to use a password when you generated your keys it can get bothersome if you connect often to the same servers. You can use ssh-agent program to remember your password for the current session.
 
-To integrate ssh-agent with KDE edit `/etc/kde/startup/10-agent-startup.sh` and `/etc/kde/shutdown/10-agent-shutdown.sh` and uncomment the lines referring to ssh-agent.
+To integrate ssh-agent with KDE edit `/etc/xdg/plasma-workspace/env/10-agent-startup.sh` and `/etc/xdg/plasma-workspace/shutdown/10-agent-shutdown.sh` and uncomment the lines referring to ssh-agent.
 
 Now you can run the command `ssh-add` and KDE will remember your password for the current session.

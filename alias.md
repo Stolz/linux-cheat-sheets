@@ -28,6 +28,7 @@ File `/etc/bash/bashrc.d/alias`
 	alias la='ls -a'
 	alias myip='wget -qO- http://ipecho.net/plain; echo'
 	alias netstat='netstat -plutanW'
+	alias open="xdg-open"
 	alias ps='ps aux'
 	alias r='reset'
 	alias rsync='rsync --recursive --archive --delete --progress --stats --human-readable'
@@ -144,6 +145,16 @@ File `/etc/bash/bashrc.d/functions`
 	}
 
 File `/etc/bash/bashrc.d/variables`
+
+	# Terminal window title
+	PS1='\[\e]0;\u@\h \W\a\]'
+
+	# Terminal colorful prompt
+	if [[ ${EUID} == 0 ]] ; then
+		PS1=$PS1'\e[3m\e[1;31m\h\e[23m \e[1;34m\w \e[36m\$\e[0m '
+	else
+		PS1=$PS1'\e[1;32m\u\e[3;35m@\e[32m\h\e[23m \e[1;34m\w \e[36m\$\e[0m '
+	fi
 
 	# Last command visual feedback
 	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo -ne "\033[1;31m:(\033[0m\n";fi'
