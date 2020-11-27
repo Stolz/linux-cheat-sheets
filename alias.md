@@ -147,17 +147,17 @@ File `/etc/bash/bashrc.d/functions`
 File `/etc/bash/bashrc.d/variables`
 
 	# Terminal window title
-	PS1='\[\e]0;\u@\h \W\a\]'
+	PS1='\[\e]0;\]\u@\h \W\a'
 
-	# Terminal colorful prompt
+	# Colorful prompt
 	if [[ ${EUID} == 0 ]] ; then
-		PS1=$PS1'\e[3m\e[1;31m\h\e[23m \e[1;34m\w \e[36m\$\e[0m '
+		PS1=$PS1'\[\e[3m\e[1;31m\]\h \[\e[23m\e[1;34m\]\w \[\e[36m\]\$ \e[0m'
 	else
-		PS1=$PS1'\e[1;32m\u\e[3;35m@\e[32m\h\e[23m \e[1;34m\w \e[36m\$\e[0m '
+		PS1=$PS1'\[\e[3m\e[1m\e[32m\]\u\[\e[0m\e[3m\e[35m\]@\[\e[1m\]\h \[\e[23m\e[1;34m\]\w\[\e[36m\] \$ \[\e[0m\]'
 	fi
 
 	# Last command visual feedback
-	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo -ne "\033[1;31m:(\033[0m\n";fi'
+	PROMPT_COMMAND='if [[ $? -ne 0 ]]; then echo -ne "\e[1;31m:(\e[0m\n";fi'
 
 	# Number of lines or commands that are stored in MEMORY in a history list while your bash session is ongoing.
 	HISTSIZE=10000 #defaul: 500
