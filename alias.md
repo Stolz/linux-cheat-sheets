@@ -147,13 +147,14 @@ File `/etc/bash/bashrc.d/functions`
 File `/etc/bash/bashrc.d/variables`
 
 	# Terminal window title
-	PS1='\[\e]0;\]\u@\h \W\a'
+	PS1='\[\e]0;\u@\h \W\a\]'
 
 	# Colorful prompt
 	if [[ ${EUID} == 0 ]] ; then
-		PS1=$PS1'\[\e[3m\e[1;31m\]\h \[\e[23m\e[1;34m\]\w \[\e[36m\]\$ \e[0m'
+		PS1+='\[\e[1;31m\]\h\[\e[34m\] \w \[\e[36m\]\$\[\e[0m\] '
 	else
-		PS1=$PS1'\[\e[3m\e[1m\e[32m\]\u\[\e[0m\e[3m\e[35m\]@\[\e[1m\]\h \[\e[23m\e[1;34m\]\w\[\e[36m\] \$ \[\e[0m\]'
+		source /usr/share/git/git-prompt.sh
+		PS1+='\[\e[1;32m\]\u\[\e[0;35m\]@\[\e[1;35m\]\h\[\e[34m\] \w\[\e[33m\]$(__git_ps1 " %s")\[\e[36m\] »\[\e[0m\] '
 	fi
 
 	# Last command visual feedback
