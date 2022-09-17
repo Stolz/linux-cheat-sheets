@@ -8,7 +8,6 @@ Editar `/etc/conf.d/iptables` y establecer
 
 	SAVE_ON_STOP="no"
 
-
 Cargar los módulos
 
 	modprobe -v iptable_filter
@@ -125,7 +124,7 @@ Estas son las opciones mínimas para usar IPTABLES como firewall (es decir, dar 
 
 Con esta configuración mínima podremos hacer reglas básicas con un aspecto similar a este:
 
-	iptables -A INPUT -p tcp --sport http -j ACCEPT
+	iptables -A INPUT -p tcp --dport http -j ACCEPT
 
 ### Relacionar paquetes con conexiones
 
@@ -148,7 +147,7 @@ Con esta configuración podremos hacer reglas con un aspecto similar a este:
 
 Para poder indicar rangos de puertos en una regla no es necesario activar nada, con separarlos por `:` es suficiente. Por ejemplo:
 
-	iptables -A INPUT -p tcp --sport 500:550 -j ACCEPT
+	iptables -A INPUT -p tcp --dport 500:550 -j ACCEPT
 
 En cambio, para poder indicar una lista de puertos no correlativos tenemos que añadir una nueva opción:
 
@@ -161,12 +160,26 @@ En cambio, para poder indicar una lista de puertos no correlativos tenemos que a
 
 Con esta configuración podremos hacer reglas con un aspecto similar a este:
 
-	iptables -A INPUT -p tcp -m multiport --sport http,https -j ACCEPT
+	iptables -A INPUT -p tcp -m multiport --dport http,https -j ACCEPT
 
 __NOTA:__ Con esta sintaxis es en algunos servidores algunos puertos aletorios a veces no se abren (comprobado con nmap), pero en cambio con esta otra sintaxis sí van:
 
 	iptables -A INPUT -p tcp --match multiport --dports http,https -m state --state NEW -j ACCEPT
 
+### Comentarios en las reglas
+
+Para poder añadir comentarios a las reglas tenemos que añadir una nueva opción:
+
+	[*] Networking support --->
+		Networking options --->
+			[*] Network packet filtering framework (Netfilter) --->
+				[*] Advanced netfilter configuration
+				Core Netfilter Configuration --->
+					<M> "comment" match support
+
+Con esta configuración podremos hacer reglas con un aspecto similar a este:
+
+	iptables -A INPUT -p tcp --dport http -j ACCEPT -m comment --comment "Allow access to web sever"
 
 ### Dejar constancia de los paquetes en el syslog
 
