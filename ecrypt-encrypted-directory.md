@@ -53,3 +53,7 @@ Lets get it back by mounting again the directory. When asked, enter again the sa
 
 You don't have to always use the same passphrase/cipher options. If every time you mount the directory you use a different passphrase/cipher options the new content will be encryped with the new options, allowing you to have different files encryped with different options/passphrase in the same directory. This could be usefill for having a publicly shared directory where different data is encrypted by different users, and their keys.
 
+If you don't want to be prompted for the signature, you can provide it as part of the mount command
+
+	sudo mount -t ecryptfs .private .private -o ecryptfs_fnek_sig=xxx,ecryptfs_sig=xxx
+
